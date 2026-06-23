@@ -1165,7 +1165,7 @@ class ToggleRow extends StatelessWidget {
           SizedBox(
             height: 28, width: 48,
             child: Switch(
-        initialValue: value,
+        value: value,
               onChanged: onChanged,
               activeTrackColor: AppColors.coral.withValues(alpha: 0.5),
               inactiveTrackColor: AppColors.textMuted.withValues(alpha: 0.2),
