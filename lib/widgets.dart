@@ -1114,7 +1114,7 @@ class StyledDropdown extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
       child: DropdownButtonFormField<String>(
-        initialValue: value,
+        value: value,
         items: items,
         onChanged: onChanged,
         dropdownColor: AppColors.surfaceAlt,
@@ -1165,7 +1165,7 @@ class ToggleRow extends StatelessWidget {
           SizedBox(
             height: 28, width: 48,
             child: Switch(
-              value: value,
+        initialValue: value,
               onChanged: onChanged,
               activeTrackColor: AppColors.coral.withValues(alpha: 0.5),
               inactiveTrackColor: AppColors.textMuted.withValues(alpha: 0.2),
