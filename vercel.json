@@ -1,0 +1,9 @@
+{
+  "framework": null,
+  "installCommand": "curl -fsSL https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.29.2-stable.tar.xz | tar xJ -C /usr/local && export PATH=\"/usr/local/flutter/bin:$PATH\" && flutter config --enable-web",
+  "buildCommand": "export PATH=\"/usr/local/flutter/bin:$PATH\" && flutter pub get && flutter build web --release",
+  "outputDirectory": "build/web",
+  "git": {
+    "LFS": false
+  }
+}
