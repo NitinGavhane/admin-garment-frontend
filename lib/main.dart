@@ -8,18 +8,18 @@ import 'services/api_service.dart';
 import 'services/admin_service.dart';
 
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  final apiService = ApiService();
-  final adminService = AdminService(apiService);
-  final authProvider = AdminAuthProvider(adminService, apiService);
-  final themeProvider = ThemeProvider();
-
-  apiService.onUnauthorized = () {
-    authProvider.logout();
-  };
-
   runZonedGuarded(() {
+    WidgetsFlutterBinding.ensureInitialized();
+
+    final apiService = ApiService();
+    final adminService = AdminService(apiService);
+    final authProvider = AdminAuthProvider(adminService, apiService);
+    final themeProvider = ThemeProvider();
+
+    apiService.onUnauthorized = () {
+      authProvider.logout();
+    };
+
     runApp(
       MultiProvider(
         providers: [
