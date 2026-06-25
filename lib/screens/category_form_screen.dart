@@ -81,7 +81,7 @@ class _CategoryFormScreenState extends State<CategoryFormScreen> {
     if (mounted) setState(() => _loading = false);
   }
 
-  String? _resolveGender() {
+  String _resolveGender() {
     if (_gender != null) return _gender;
     if (_parentId != null) {
       final parent = _allCats.where((c) => c.id == _parentId).firstOrNull;
@@ -90,18 +90,18 @@ class _CategoryFormScreenState extends State<CategoryFormScreen> {
       if (parentName != null && AdminCategory.mainCategoryNames.map((n) => n.toLowerCase()).contains(parentName)) {
         return parentName;
       }
-      return null;
+      return 'unisex';
     }
     final name = _nc.text.trim().toLowerCase();
     if (AdminCategory.mainCategoryNames.map((n) => n.toLowerCase()).contains(name)) {
       return name;
     }
-    return null;
+    return 'unisex';
   }
 
   @override void dispose() { _nc.dispose(); _dc.dispose(); _ic.dispose(); super.dispose(); }
 
-Future<void> _save() async {
+  Future<void> _save() async {
     if (!_fk.currentState!.validate()) return;
     setState(() => _saving = true);
     final resolvedGender = _resolveGender();
@@ -113,7 +113,7 @@ Future<void> _save() async {
           if (_dc.text.trim().isNotEmpty) 'description': _dc.text.trim(),
           if (_ic.text.trim().isNotEmpty) 'image_url': _ic.text.trim(),
           'is_active': _active,
-          if (resolvedGender != null) 'gender': resolvedGender,
+          'gender': resolvedGender,
           if (_parentId != null) 'parent_id': _parentId,
         });
       } else {
@@ -125,10 +125,13 @@ Future<void> _save() async {
               : categoryName.toLowerCase().replaceAll(' ', '-'),
           if (_dc.text.trim().isNotEmpty) 'description': _dc.text.trim(),
           if (_ic.text.trim().isNotEmpty) 'image_url': _ic.text.trim(),
-          if (resolvedGender != null) 'gender': resolvedGender,
+          'gender': resolvedGender,
           if (_parentId != null) 'parent_id': _parentId,
         });
-        if (_parentId == null && AdminCategory.mainCategoryNames.contains(categoryName)) {
+        final isMain = AdminCategory.mainCategoryNames.any(
+          (n) => n.toLowerCase() == categoryName.toLowerCase(),
+        );
+        if (_parentId == null && isMain) {
           final gender = categoryName.toLowerCase();
           await _admin.createCategory({'name': 'All', 'slug': '$gender-all', 'gender': gender, 'parent_id': newCat.id});
           await _admin.createCategory({'name': categoryName, 'slug': '$gender-$gender', 'gender': gender, 'parent_id': newCat.id});
@@ -220,13 +223,10 @@ Future<void> _save() async {
                 StyledDropdown(
                   label: 'Gender',
                   value: _gender,
-                  items: [
-                    DropdownMenuItem<String>(value: null, child: Text('None', style: TextStyle(color: AppColors.textMuted))),
-                    ...AdminCategory.genderOptions.map((g) => DropdownMenuItem<String>(
-                      value: g,
-                      child: Text(g[0].toUpperCase() + g.substring(1), style: TextStyle(color: AppColors.textPrimary)),
-                    )),
-                  ],
+                  items: AdminCategory.genderOptions.map((g) => DropdownMenuItem<String>(
+                    value: g,
+                    child: Text(g[0].toUpperCase() + g.substring(1), style: TextStyle(color: AppColors.textPrimary)),
+                  )).toList(),
                   onChanged: (v) => setState(() => _gender = v),
                 ),
                 Row(children: [
