@@ -50,7 +50,7 @@ class AdminService {
     if (gender != null) params['gender'] = gender;
 
     final response = await _api.get(
-      ApiConfig.products,
+      ApiConfig.adminProducts,
       queryParams: params.isNotEmpty ? params : null,
     );
     final List<dynamic> data = response.data is List
@@ -62,7 +62,7 @@ class AdminService {
   }
 
   Future<AdminProduct> getProduct(String id) async {
-    final response = await _api.get('${ApiConfig.products}/$id');
+    final response = await _api.get(ApiConfig.adminProduct(id));
     return AdminProduct.fromJson(response.data);
   }
 
