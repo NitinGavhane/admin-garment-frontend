@@ -82,10 +82,10 @@ class _CategoryFormScreenState extends State<CategoryFormScreen> {
   }
 
   String _resolveGender() {
-    if (_gender != null) return _gender;
+    if (_gender != null) return _gender!;
     if (_parentId != null) {
       final parent = _allCats.where((c) => c.id == _parentId).firstOrNull;
-      if (parent?.gender != null) return parent!.gender;
+      if (parent?.gender != null) return parent!.gender!;
       final parentName = parent?.name.toLowerCase();
       if (parentName != null && AdminCategory.mainCategoryNames.map((n) => n.toLowerCase()).contains(parentName)) {
         return parentName;
