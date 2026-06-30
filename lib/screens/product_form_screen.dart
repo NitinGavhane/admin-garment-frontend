@@ -48,7 +48,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
   Future<void> _loadCats() async {
     try {
       final c = await _admin.getCategories();
-      if (mounted) setState(() => _cats = c.map((x) => {'id': x.id, 'name': x.name, 'parent_id': x.parentId}).toList());
+      if (mounted) setState(() => _cats = c.map((x) => {'id': x.id, 'name': x.name, 'parent_id': x.parentId, 'gender': x.gender}).toList());
     } catch (_) {}
   }
 
@@ -77,6 +77,41 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
       }
     } catch (_) {}
     if (mounted) setState(() => _loading = false);
+  }
+
+  /// All categories as dropdown items, grouped under their parent. We never
+  /// hide categories based on the selected gender — doing so could leave the
+  /// dropdown empty and make it impossible to set a category (so products
+  /// could not be created at all).
+  List<DropdownMenuItem<String>> _categoryItems() {
+    final parents = _cats.where((c) => c['parent_id'] == null).toList();
+    final items = <DropdownMenuItem<String>>[];
+    for (final p in parents) {
+      items.add(DropdownMenuItem<String>(
+        value: p['id'] as String?,
+        child: Text(p['name'] as String? ?? '', style: TextStyle(color: AppColors.textPrimary)),
+      ));
+      final subs = _cats.where((c) => c['parent_id'] == p['id']).toList();
+      for (final s in subs) {
+        items.add(DropdownMenuItem<String>(value: s['id'] as String?, child: Row(children: [
+          Icon(Icons.subdirectory_arrow_right, size: 16, color: AppColors.textMuted),
+          const SizedBox(width: 4),
+          Text(s['name'] as String? ?? '', style: TextStyle(color: AppColors.textSecondary)),
+        ])));
+      }
+    }
+    // Include any categories whose parent isn't in the list so a previously
+    // saved category is always selectable (avoids a "value not in items" crash).
+    final shownIds = items.map((e) => e.value).toSet();
+    for (final c in _cats) {
+      if (!shownIds.contains(c['id'])) {
+        items.add(DropdownMenuItem<String>(
+          value: c['id'] as String?,
+          child: Text(c['name'] as String? ?? '', style: TextStyle(color: AppColors.textPrimary)),
+        ));
+      }
+    }
+    return items;
   }
 
   void _addImageUrl() {
@@ -143,6 +178,10 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
 
   Future<void> _save() async {
     if (!_formKey.currentState!.validate()) return;
+    if (_catId == null || _catId!.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please select a category')));
+      return;
+    }
     setState(() => _saving = true);
     final d = <String, dynamic>{
       'title': _titleCtrl.text.trim(), 'sku': _skuCtrl.text.trim(),
@@ -327,28 +366,16 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                             StyledInput(controller: _descCtrl, label: 'Description', maxLines: 3),
                             StyledInput(controller: _brandCtrl, label: 'Brand'),
                             StyledDropdown(
-                              label: 'Category', value: _catId,
-                              items: () {
-                                final parents = _cats.where((c) => c['parent_id'] == null).toList();
-                                final items = <DropdownMenuItem<String>>[];
-                                for (final p in parents) {
-                                  if (_gender != null && _gender != 'unisex') {
-                                    final expected = _gender![0].toUpperCase() + _gender!.substring(1);
-                                    if (p['name'] != expected) continue;
-                                  }
-                                  items.add(DropdownMenuItem<String>(value: p['id'] as String?, child: Text(p['name'] as String? ?? '', style: TextStyle(color: AppColors.textPrimary))));
-                                  final subs = _cats.where((c) => c['parent_id'] == p['id']).toList();
-                                  for (final s in subs) {
-                                    items.add(DropdownMenuItem<String>(value: s['id'] as String?, child: Row(children: [
-                                      Icon(Icons.subdirectory_arrow_right, size: 16, color: AppColors.textMuted),
-                                      const SizedBox(width: 4),
-                                      Text(s['name'] as String? ?? '', style: TextStyle(color: AppColors.textSecondary)),
-                                    ])));
-                                  }
-                                }
-                                return items;
-                              }(),
-                              onChanged: (v) => setState(() => _catId = v),
+                              label: 'Category *', value: _catId,
+                              items: _categoryItems(),
+                              onChanged: (v) => setState(() {
+                                _catId = v;
+                                // Keep the product's gender in sync with the chosen
+                                // category so it lands under the right gender tab.
+                                final cat = _cats.where((c) => c['id'] == v).firstOrNull;
+                                final g = (cat?['gender'] as String?)?.toLowerCase();
+                                if (g != null && AdminCategory.genderOptions.contains(g)) _gender = g;
+                              }),
                             ),
                             const SizedBox(height: 4),
                             StyledDropdown(

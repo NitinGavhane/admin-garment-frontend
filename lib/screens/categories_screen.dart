@@ -45,18 +45,22 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   List<AdminCategory> get _otherParents =>
       _parents.where((c) => !AdminCategory.mainCategoryNames.any((n) => n.toLowerCase() == c.name.toLowerCase()) && _genderFor(c).isEmpty).toList();
 
+  static const _specificGenders = ['men', 'women', 'kids'];
+
   String _genderFor(AdminCategory cat) {
-    if (cat.gender != null) return cat.gender!.toLowerCase();
+    final own = cat.gender?.toLowerCase() ?? '';
+    if (_specificGenders.contains(own)) return own;
     if (cat.parentId != null) {
       final parent = _categories.where((c) => c.id == cat.parentId).firstOrNull;
       if (parent != null) {
-        if (parent.gender != null) return parent.gender!.toLowerCase();
+        final pg = parent.gender?.toLowerCase() ?? '';
+        if (_specificGenders.contains(pg)) return pg;
         if (AdminCategory.mainCategoryNames.any((n) => n.toLowerCase() == parent.name.toLowerCase())) {
           return parent.name.toLowerCase();
         }
       }
     }
-    return '';
+    return own;
   }
 
   List<AdminCategory> _categoriesForGender(String gender) {

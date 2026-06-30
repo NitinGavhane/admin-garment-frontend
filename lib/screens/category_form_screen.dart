@@ -81,22 +81,32 @@ class _CategoryFormScreenState extends State<CategoryFormScreen> {
     if (mounted) setState(() => _loading = false);
   }
 
+  static const _specificGenders = ['men', 'women', 'kids'];
+
+  /// The effective gender for a category given its parent, resolved the same
+  /// way the backend does: an explicitly chosen real gender wins, otherwise we
+  /// inherit it from the parent (by the parent's gender or its main-category
+  /// name), otherwise the category's own name, otherwise unisex.
+  String _genderFromParent(String? parentId) {
+    if (parentId == null) return '';
+    final parent = _allCats.where((c) => c.id == parentId).firstOrNull;
+    if (parent == null) return '';
+    final pg = parent.gender?.toLowerCase();
+    if (pg != null && _specificGenders.contains(pg)) return pg;
+    final pn = parent.name.trim().toLowerCase();
+    if (_specificGenders.contains(pn)) return pn;
+    return '';
+  }
+
   String _resolveGender() {
-    if (_gender != null) return _gender!;
-    if (_parentId != null) {
-      final parent = _allCats.where((c) => c.id == _parentId).firstOrNull;
-      if (parent?.gender != null) return parent!.gender!;
-      final parentName = parent?.name.toLowerCase();
-      if (parentName != null && AdminCategory.mainCategoryNames.map((n) => n.toLowerCase()).contains(parentName)) {
-        return parentName;
-      }
-      return 'unisex';
+    if (_gender != null && _specificGenders.contains(_gender!.toLowerCase())) {
+      return _gender!.toLowerCase();
     }
+    final fromParent = _genderFromParent(_parentId);
+    if (fromParent.isNotEmpty) return fromParent;
     final name = _nc.text.trim().toLowerCase();
-    if (AdminCategory.mainCategoryNames.map((n) => n.toLowerCase()).contains(name)) {
-      return name;
-    }
-    return 'unisex';
+    if (_specificGenders.contains(name)) return name;
+    return _gender ?? 'unisex';
   }
 
   @override void dispose() { _nc.dispose(); _dc.dispose(); _ic.dispose(); super.dispose(); }
@@ -213,10 +223,8 @@ class _CategoryFormScreenState extends State<CategoryFormScreen> {
                   onChanged: (v) {
                     setState(() {
                       _parentId = v;
-                      if (v != null) {
-                        final parent = _allCats.where((c) => c.id == v).firstOrNull;
-                        if (parent?.gender != null) _gender = parent!.gender;
-                      }
+                      final inherited = _genderFromParent(v);
+                      if (inherited.isNotEmpty) _gender = inherited;
                     });
                   },
                 ),
