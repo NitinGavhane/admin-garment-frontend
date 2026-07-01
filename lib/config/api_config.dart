@@ -1,5 +1,5 @@
 class ApiConfig {
-  static const String baseUrl = 'https://backend-1u38kak5s-gavhanenitin911gmailcoms-projects.vercel.app';
+  static const String baseUrl = 'https://backend-nine-orpin-39.vercel.app';
   static const String apiPrefix = '/api/v1';
   static const Duration timeout = Duration(seconds: 30);
 
