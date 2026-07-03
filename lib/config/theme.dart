@@ -44,12 +44,14 @@ class AppColors {
   static Color get overlay => _isDark ? _darkOverlay : _lightOverlay;
   static Color get shimmer => _isDark ? _darkShimmer : _lightShimmer;
 
-  static const Color coral = Color(0xFFEF4444);
-  static const Color coral80 = Color(0xFFF26969);
-  static const Color coral40 = Color(0xFFF9B4B4);
-  static const Color gold = Color(0xFFD4A853);
-  static const Color gold80 = Color(0xFFDDBB75);
-  static const Color gold40 = Color(0xFFEEDDB8);
+  // ── Dristi Fashions brand (royal blue + gold, from the logo) ──────────────
+  // `coral` is the primary brand accent (branding, active states, labels).
+  static const Color coral = Color(0xFF1A2A80);   // royal blue
+  static const Color coral80 = Color(0xFF243AA0); // brighter royal
+  static const Color coral40 = Color(0xFFB9C0E0); // light royal
+  static const Color gold = Color(0xFFC9A227);
+  static const Color gold80 = Color(0xFFD9AF4E);
+  static const Color gold40 = Color(0xFFEAD9A0);
   static const Color success = Color(0xFF16A34A);
   static const Color success80 = Color(0xFF45B56E);
   static const Color success40 = Color(0xFFA2DAB7);
@@ -59,23 +61,25 @@ class AppColors {
   static const Color info = Color(0xFF0EA5E9);
   static const Color info80 = Color(0xFF3EB7ED);
   static const Color info40 = Color(0xFF9FDBF6);
-  static const Color purple = Color(0xFF7C3AED);
-  static const Color purple80 = Color(0xFF9661F1);
-  static const Color purple40 = Color(0xFFCBB0F8);
+  // `purple` was a secondary accent (stat cards) — remapped to royal blue.
+  static const Color purple = Color(0xFF243AA0);
+  static const Color purple80 = Color(0xFF3A4FB0);
+  static const Color purple40 = Color(0xFFA6AED6);
   static const Color teal = Color(0xFF0D9488);
   static const Color teal80 = Color(0xFF3DA9A0);
   static const Color teal40 = Color(0xFF9ED4CF);
   static const Color warning = Color(0xFFF59E0B);
-  static const Color btnColor = Color(0xFF2563EB);
-  static const Color btnColor80 = Color(0xFF5183EF);
-  static const Color btnColor40 = Color(0xFFA8C1F7);
-  static const Color btnBorder = Color(0xFF1E40AF);
+  // `btnColor` is the primary action (buttons) — gold, with dark text/icons.
+  static const Color btnColor = Color(0xFFC9A227);
+  static const Color btnColor80 = Color(0xFFD9AF4E);
+  static const Color btnColor40 = Color(0xFFEAD9A0);
+  static const Color btnBorder = Color(0xFFA8841C);
 
   static List<Color> get coralGradient => [coral, coral80];
   static List<Color> get goldGradient => [gold, gold80];
   static List<Color> get successGradient => [success, success80];
   static List<Color> get errorGradient => [error, error80];
-  static List<Color> get bluePurpleGradient => [btnColor, purple];
+  static List<Color> get bluePurpleGradient => [const Color(0xFF1A2A80), const Color(0xFF243AA0)];
   static List<Color> get darkGradient => [surface, surfaceAlt];
   static List<Color> get bgGradient => _isDark
       ? [bg, const Color(0xFF0A1120)]
@@ -150,7 +154,7 @@ class AppColors {
   );
 
   static Decoration get cornerAccent => BoxDecoration(
-    gradient: LinearGradient(colors: [btnColor, purple], begin: Alignment.topLeft, end: Alignment.bottomRight),
+    gradient: const LinearGradient(colors: [Color(0xFF1A2A80), Color(0xFF243AA0)], begin: Alignment.topLeft, end: Alignment.bottomRight),
     borderRadius: const BorderRadius.only(topLeft: Radius.circular(10), bottomRight: Radius.circular(10)),
   );
 

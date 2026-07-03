@@ -234,8 +234,8 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                           Wrap(spacing: 4, runSpacing: 4, children: [
                                             if (p.featured) Tag(text: 'Featured', color: AppColors.gold, filled: true),
                                             if (p.gender != null) Tag(text: p.gender![0].toUpperCase() + p.gender!.substring(1), color: AppColors.coral),
-                                            if (p.isReplaceable) const Tag(text: 'Replace', color: AppColors.info),
-                                            if (p.isReturnable) const Tag(text: 'Return', color: AppColors.info),
+                                            if (p.isReplaceable) const Tag(text: 'Replace', color: AppColors.coral),
+                                            if (p.isReturnable) const Tag(text: 'Return', color: AppColors.coral),
                                             if (!p.isActive) const Tag(text: 'Inactive', color: AppColors.error, filled: true),
                                             if (p.categoryName != null) Tag(text: p.categoryName!, color: AppColors.textMuted),
                                             Tag(text: 'Stock: ${p.stock}', color: p.stock > 5 ? AppColors.success : AppColors.error),

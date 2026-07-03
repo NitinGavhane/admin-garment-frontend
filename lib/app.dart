@@ -14,6 +14,8 @@ import 'screens/categories_screen.dart';
 import 'screens/category_form_screen.dart';
 import 'screens/coupons_screen.dart';
 import 'screens/coupon_form_screen.dart';
+import 'screens/banners_screen.dart';
+import 'screens/banner_form_screen.dart';
 
 class AdminApp extends StatelessWidget {
   const AdminApp({super.key});
@@ -77,6 +79,22 @@ class AdminApp extends StatelessWidget {
             ),
           ),
           themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
+          // Responsive: on wide screens (tablet/desktop) the whole app is
+          // centered and capped so content never stretches awkwardly; on phones
+          // it fills the screen. The side gutters use the app background.
+          builder: (context, child) {
+            final w = MediaQuery.of(context).size.width;
+            if (w <= 900 || child == null) return child ?? const SizedBox.shrink();
+            return ColoredBox(
+              color: AppColors.bgAlt,
+              child: Center(
+                child: SizedBox(
+                  width: 900,
+                  child: child,
+                ),
+              ),
+            );
+          },
           home: const _SplashGate(),
           routes: {
             '/login': (_) => const LoginScreen(),
@@ -90,6 +108,8 @@ class AdminApp extends StatelessWidget {
             '/category-form': (_) => const CategoryFormScreen(),
             '/coupons': (_) => const CouponsScreen(),
             '/coupon-form': (_) => const CouponFormScreen(),
+            '/banners': (_) => const BannersScreen(),
+            '/banner-form': (_) => const BannerFormScreen(),
           },
         );
       },
@@ -166,28 +186,29 @@ class _SplashGateState extends State<_SplashGate>
               mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
-                  width: 96,
-                  height: 96,
+                  width: 110,
+                  height: 110,
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(colors: AppColors.coralGradient),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(24),
+                    border: Border.all(color: AppColors.gold.withValues(alpha: 0.5), width: 1.5),
                     boxShadow: AppColors.shadowGlow(AppColors.coral),
                   ),
-                  child: const Center(
-                    child: Text('A', style: TextStyle(color: Colors.white, fontSize: 40, fontWeight: FontWeight.w900)),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(23),
+                    child: Image.asset('assets/logo.jpg', fit: BoxFit.cover),
                   ),
                 ),
                 const SizedBox(height: 24),
                 ShaderMask(
-                  shaderCallback: (bounds) => LinearGradient(
-                    colors: [AppColors.textPrimary, AppColors.coral],
+                  shaderCallback: (bounds) => const LinearGradient(
+                    colors: [Color(0xFF243AA0), Color(0xFF1A2A80)],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                   ).createShader(bounds),
-                  child: const Text('ADMIN', style: TextStyle(color: Colors.white, fontSize: 40, fontWeight: FontWeight.w900, letterSpacing: 12)),
+                  child: const Text('DRISTI FASHIONS', style: TextStyle(color: Colors.white, fontSize: 28, fontWeight: FontWeight.w900, letterSpacing: 4)),
                 ),
                 const SizedBox(height: 8),
-                Text('GARMENT STORE', style: TextStyle(color: AppColors.textMuted, fontSize: 11, letterSpacing: 8, fontWeight: FontWeight.w600)),
+                Text('ADMIN PANEL', style: TextStyle(color: AppColors.gold, fontSize: 11, letterSpacing: 8, fontWeight: FontWeight.w700)),
                 const SizedBox(height: 48),
                 SizedBox(
                   width: 24, height: 24,

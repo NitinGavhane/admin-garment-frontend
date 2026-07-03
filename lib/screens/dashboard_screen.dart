@@ -27,18 +27,15 @@ class _StatCard extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: AppColors.purple.withValues(alpha: 0.2), width: 1),
-          boxShadow: AppColors.shadowSm,
+          border: Border.all(color: AppColors.gold.withValues(alpha: 0.4), width: 1),
+          boxShadow: AppColors.shadowMd,
         ),
         child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(12)),
             gradient: LinearGradient(
-              colors: [
-                AppColors.error40,
-                AppColors.purple40,
-                Colors.white,
-              ],
+              // Royal blue from the logo, gold accents.
+              colors: [Color(0xFF243AA0), Color(0xFF1A2A80), Color(0xFF10195E)],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
@@ -53,15 +50,15 @@ class _StatCard extends StatelessWidget {
                     width: 36, height: 36,
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [AppColors.btnColor, AppColors.btnColor80],
+                        colors: [AppColors.gold, AppColors.gold80],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
                       border: Border.all(color: AppColors.btnBorder, width: 1),
                       borderRadius: BorderRadius.circular(8),
-                      boxShadow: AppColors.shadowGlow(AppColors.btnColor),
+                      boxShadow: AppColors.shadowGlow(AppColors.gold),
                     ),
-                    child: Icon(icon, color: Colors.black, size: 18),
+                    child: Icon(icon, color: const Color(0xFF10195E), size: 18),
                   ),
                 ],
               ),
@@ -69,7 +66,7 @@ class _StatCard extends StatelessWidget {
               Text(
                 value,
                 style: const TextStyle(
-                  color: Colors.black,
+                  color: Colors.white,
                   fontSize: 26,
                   fontWeight: FontWeight.w900,
                   letterSpacing: 0.5,
@@ -78,8 +75,8 @@ class _StatCard extends StatelessWidget {
               const SizedBox(height: 4),
               Text(
                 label.toUpperCase(),
-                style: const TextStyle(
-                  color: Colors.black,
+                style: TextStyle(
+                  color: AppColors.gold80,
                   fontSize: 9,
                   letterSpacing: 1.5,
                   fontWeight: FontWeight.w700,

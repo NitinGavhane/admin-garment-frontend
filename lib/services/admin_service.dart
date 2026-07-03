@@ -5,6 +5,7 @@ import '../models/product.dart';
 import '../models/category.dart';
 import '../models/order.dart';
 import '../models/coupon.dart';
+import '../models/banner.dart';
 import 'api_service.dart';
 
 class AdminService {
@@ -181,6 +182,36 @@ class AdminService {
 
   Future<void> deleteCoupon(String id) async {
     await _api.delete(ApiConfig.adminCoupon(id));
+  }
+
+  // Banners
+  Future<List<AdminBanner>> getBanners() async {
+    final response = await _api.get(ApiConfig.adminBanners);
+    final List<dynamic> data = response.data is List
+        ? response.data
+        : (response.data['banners'] ?? response.data['data'] ?? []);
+    return data
+        .map((e) => AdminBanner.fromJson(e as Map<String, dynamic>))
+        .toList();
+  }
+
+  Future<AdminBanner> getBanner(String id) async {
+    final response = await _api.get(ApiConfig.adminBanner(id));
+    return AdminBanner.fromJson(response.data);
+  }
+
+  Future<AdminBanner> createBanner(Map<String, dynamic> data) async {
+    final response = await _api.post(ApiConfig.adminBanners, data: data);
+    return AdminBanner.fromJson(response.data);
+  }
+
+  Future<AdminBanner> updateBanner(String id, Map<String, dynamic> data) async {
+    final response = await _api.put(ApiConfig.adminBanner(id), data: data);
+    return AdminBanner.fromJson(response.data);
+  }
+
+  Future<void> deleteBanner(String id) async {
+    await _api.delete(ApiConfig.adminBanner(id));
   }
 
   Future<String> uploadImage(String filePath) async {

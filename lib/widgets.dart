@@ -472,25 +472,28 @@ class FashionNavDrawer extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    width: 52, height: 52,
+                    width: 56, height: 56,
                     decoration: BoxDecoration(
-                      gradient: LinearGradient(colors: AppColors.coralGradient),
                       borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: AppColors.gold.withValues(alpha: 0.5), width: 1.2),
                       boxShadow: AppColors.shadowGlow(AppColors.coral),
                     ),
-                    child: const Center(child: Text('A', style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.w900))),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(11),
+                      child: Image.asset('assets/logo.jpg', fit: BoxFit.cover),
+                    ),
                   ),
-                  const SizedBox(height: 20),
-                  Text('ADMIN', style: TextStyle(color: AppColors.textPrimary, fontSize: 22, fontWeight: FontWeight.w900, letterSpacing: 6)),
+                  const SizedBox(height: 18),
+                  Text('DRISTI FASHIONS', style: TextStyle(color: AppColors.textPrimary, fontSize: 17, fontWeight: FontWeight.w900, letterSpacing: 2)),
                   const SizedBox(height: 4),
                   Row(
                     children: [
                       Container(width: 20, height: 2, decoration: BoxDecoration(
-                        gradient: LinearGradient(colors: AppColors.coralGradient),
+                        gradient: LinearGradient(colors: AppColors.goldGradient),
                         borderRadius: BorderRadius.circular(1),
                       )),
                       const SizedBox(width: 8),
-                      Text('MANAGE STORE', style: TextStyle(color: AppColors.textMuted, fontSize: 9, letterSpacing: 4, fontWeight: FontWeight.w600)),
+                      Text('ADMIN PANEL', style: TextStyle(color: AppColors.gold, fontSize: 9, letterSpacing: 4, fontWeight: FontWeight.w700)),
                     ],
                   ),
                 ],
@@ -505,6 +508,7 @@ class FashionNavDrawer extends StatelessWidget {
                   _navItem(Icons.inventory_2, 'Products', '/products', context),
                   _navItem(Icons.receipt_long, 'Orders', '/orders', context),
                   _navItem(Icons.category, 'Categories', '/categories', context),
+                  _navItem(Icons.view_carousel, 'Banners', '/banners', context),
                   _navItem(Icons.card_giftcard, 'Coupons', '/coupons', context),
                 ],
               ),

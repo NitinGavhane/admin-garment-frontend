@@ -14,6 +14,8 @@ class ApiConfig {
   static String adminCategory(String id) => '$apiPrefix/admin/categories/$id';
   static const String adminCoupons = '$apiPrefix/admin/coupons';
   static String adminCoupon(String id) => '$apiPrefix/admin/coupons/$id';
+  static const String adminBanners = '$apiPrefix/admin/banners';
+  static String adminBanner(String id) => '$apiPrefix/admin/banners/$id';
 
   // Public endpoints (used for admin list/detail views)
   static const String products = '$apiPrefix/products';

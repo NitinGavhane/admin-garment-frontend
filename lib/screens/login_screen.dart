@@ -49,32 +49,39 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Center(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(24),
-              child: Column(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 420),
+                child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
-                    width: 80, height: 80,
+                    width: 96, height: 96,
                     decoration: BoxDecoration(
-                      gradient: LinearGradient(colors: AppColors.coralGradient),
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(color: AppColors.gold.withValues(alpha: 0.5), width: 1.5),
                       boxShadow: [
                         ...AppColors.shadowGlow(AppColors.coral),
                         BoxShadow(color: AppColors.coral.withValues(alpha: 0.15), blurRadius: 40, offset: const Offset(0, 8)),
                       ],
                     ),
-                    child: const Center(child: Text('A', style: TextStyle(color: Colors.white, fontSize: 32, fontWeight: FontWeight.w900))),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(19),
+                      child: Image.asset('assets/logo.jpg', fit: BoxFit.cover),
+                    ),
                   ),
-                  const SizedBox(height: 28),
+                  const SizedBox(height: 24),
                   ShaderMask(
-                    shaderCallback: (bounds) => LinearGradient(
-                      colors: [AppColors.textPrimary, AppColors.coral],
+                    shaderCallback: (bounds) => const LinearGradient(
+                      colors: [Color(0xFF243AA0), Color(0xFF1A2A80)],
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                     ).createShader(bounds),
-                    child: const Text('ADMIN', style: TextStyle(color: Colors.white, fontSize: 36, fontWeight: FontWeight.w900, letterSpacing: 10)),
+                    child: const Text('DRISTI FASHIONS',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: Colors.white, fontSize: 26, fontWeight: FontWeight.w900, letterSpacing: 4)),
                   ),
                   const SizedBox(height: 8),
-                  Text('GARMENT STORE', style: TextStyle(color: AppColors.textMuted, fontSize: 10, letterSpacing: 8, fontWeight: FontWeight.w600)),
+                  Text('ADMIN PANEL', style: TextStyle(color: AppColors.gold, fontSize: 11, letterSpacing: 8, fontWeight: FontWeight.w700)),
                   const SizedBox(height: 56),
                   Container(
                     padding: const EdgeInsets.all(28),
@@ -220,6 +227,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                 ],
+              ),
               ),
             ),
           ),
