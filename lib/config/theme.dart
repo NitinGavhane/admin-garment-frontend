@@ -49,6 +49,7 @@ class AppColors {
   static const Color coral = Color(0xFF1A2A80);   // royal blue
   static const Color coral80 = Color(0xFF243AA0); // brighter royal
   static const Color coral40 = Color(0xFFB9C0E0); // light royal
+  static const Color coralDark = Color(0xFF10195E); // deep royal (gradient tail / icons)
   static const Color gold = Color(0xFFC9A227);
   static const Color gold80 = Color(0xFFD9AF4E);
   static const Color gold40 = Color(0xFFEAD9A0);

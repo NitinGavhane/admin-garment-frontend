@@ -201,7 +201,7 @@ class _SplashGateState extends State<_SplashGate>
                 const SizedBox(height: 24),
                 ShaderMask(
                   shaderCallback: (bounds) => const LinearGradient(
-                    colors: [Color(0xFF243AA0), Color(0xFF1A2A80)],
+                    colors: [AppColors.coral80, AppColors.coral],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                   ).createShader(bounds),

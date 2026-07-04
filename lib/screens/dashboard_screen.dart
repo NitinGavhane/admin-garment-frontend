@@ -35,7 +35,7 @@ class _StatCard extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(12)),
             gradient: LinearGradient(
               // Royal blue from the logo, gold accents.
-              colors: [Color(0xFF243AA0), Color(0xFF1A2A80), Color(0xFF10195E)],
+              colors: [AppColors.coral80, AppColors.coral, AppColors.coralDark],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
@@ -58,7 +58,7 @@ class _StatCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8),
                       boxShadow: AppColors.shadowGlow(AppColors.gold),
                     ),
-                    child: Icon(icon, color: const Color(0xFF10195E), size: 18),
+                    child: Icon(icon, color: AppColors.coralDark, size: 18),
                   ),
                 ],
               ),
