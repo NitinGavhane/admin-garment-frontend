@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../config/theme.dart';
 import '../providers/auth_provider.dart';
+import '../widgets.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -85,17 +86,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 56),
                   Container(
                     padding: const EdgeInsets.all(28),
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [AppColors.surface, AppColors.surfaceAlt],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                      border: Border.all(color: AppColors.borderLight, width: 1),
-                      borderRadius: BorderRadius.circular(16),
+                    decoration: AppColors.premiumCardDeco(radius: 18).copyWith(
                       boxShadow: [
                         ...AppColors.shadowLg,
-                        BoxShadow(color: AppColors.coral.withValues(alpha: 0.04), blurRadius: 60, offset: const Offset(0, 0)),
+                        BoxShadow(color: AppColors.gold.withValues(alpha: 0.06), blurRadius: 40, offset: const Offset(0, 10)),
+                        BoxShadow(color: AppColors.coral.withValues(alpha: 0.05), blurRadius: 60, offset: const Offset(0, 0)),
                       ],
                     ),
                     child: Column(
@@ -190,41 +185,34 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ]),
                                   )
                                 : const SizedBox.shrink()),
-                        const SizedBox(height: 24),
+                        const SizedBox(height: 26),
                         Consumer<AdminAuthProvider>(builder: (_, a, __) =>
-                            SizedBox(
-                              width: double.infinity,
-                              height: 52,
-                              child: ElevatedButton(
-                                onPressed: a.isLoading ? null : _login,
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.transparent,
-                                  foregroundColor: Colors.black,
-                                  shadowColor: Colors.transparent,
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                                  elevation: 0,
-                                ).copyWith(
-                                  backgroundColor: WidgetStateProperty.resolveWith((states) => Colors.transparent),
-                                ),
-                                child: Ink(
-                                  decoration: BoxDecoration(
-                                    gradient: LinearGradient(colors: [AppColors.btnColor, AppColors.btnColor80]),
-                                    border: Border.all(color: AppColors.btnBorder, width: 1),
-                                    borderRadius: BorderRadius.circular(8),
-                                    boxShadow: AppColors.shadowGlow(AppColors.btnColor),
-                                  ),
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                    padding: const EdgeInsets.symmetric(vertical: 14),
-                                    child: a.isLoading
-                                        ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.black))
-                                        : const Text('SIGN IN', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800, letterSpacing: 5)),
-                                  ),
-                                ),
-                              ),
+                            FashionButton(
+                              label: 'Sign In',
+                              icon: Icons.login_rounded,
+                              loading: a.isLoading,
+                              onPressed: a.isLoading ? null : _login,
                             )),
                       ],
                     ),
+                  ),
+                  const SizedBox(height: 28),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(width: 28, height: 1, decoration: AppColors.goldHairline),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        child: Icon(Icons.verified_user_outlined, color: AppColors.gold.withValues(alpha: 0.8), size: 13),
+                      ),
+                      Text('SECURED ADMIN ACCESS',
+                          style: TextStyle(color: AppColors.textMuted, fontSize: 8.5, letterSpacing: 3, fontWeight: FontWeight.w700)),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        child: Container(width: 4, height: 4, decoration: BoxDecoration(color: AppColors.gold.withValues(alpha: 0.6), shape: BoxShape.circle)),
+                      ),
+                      Container(width: 28, height: 1, decoration: AppColors.goldHairline),
+                    ],
                   ),
                 ],
               ),

@@ -26,60 +26,87 @@ class _StatCard extends StatelessWidget {
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: AppColors.gold.withValues(alpha: 0.4), width: 1),
-          boxShadow: AppColors.shadowMd,
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: AppColors.gold.withValues(alpha: 0.45), width: 1),
+          boxShadow: [
+            ...AppColors.shadowMd,
+            BoxShadow(color: AppColors.coral.withValues(alpha: 0.22), blurRadius: 20, offset: const Offset(0, 8)),
+          ],
         ),
-        child: Container(
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(12)),
-            gradient: LinearGradient(
-              // Royal blue from the logo, gold accents.
-              colors: [AppColors.coral80, AppColors.coral, AppColors.coralDark],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-          ),
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(14),
+          child: Stack(
             children: [
-              Row(
-                children: [
-                  Container(
-                    width: 36, height: 36,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [AppColors.gold, AppColors.gold80],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                      border: Border.all(color: AppColors.btnBorder, width: 1),
-                      borderRadius: BorderRadius.circular(8),
-                      boxShadow: AppColors.shadowGlow(AppColors.gold),
+              Positioned.fill(
+                child: DecoratedBox(
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      // Royal blue from the logo, gold accents.
+                      colors: AppColors.royalMetallic,
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
                     ),
-                    child: Icon(icon, color: AppColors.coralDark, size: 18),
                   ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              Text(
-                value,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 26,
-                  fontWeight: FontWeight.w900,
-                  letterSpacing: 0.5,
                 ),
               ),
-              const SizedBox(height: 4),
-              Text(
-                label.toUpperCase(),
-                style: TextStyle(
-                  color: AppColors.gold80,
-                  fontSize: 9,
-                  letterSpacing: 1.5,
-                  fontWeight: FontWeight.w700,
+              // Subtle diagonal sheen across the plate
+              Positioned(
+                top: -20, right: -10, width: 90, height: 90,
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    gradient: RadialGradient(
+                      colors: [AppColors.gold.withValues(alpha: 0.16), Colors.transparent],
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          width: 38, height: 38,
+                          decoration: AppColors.premiumGoldDeco(radius: 10),
+                          child: Icon(icon, color: AppColors.coralDark, size: 18),
+                        ),
+                        const Spacer(),
+                        Icon(Icons.north_east_rounded, color: AppColors.gold.withValues(alpha: 0.55), size: 15),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      value,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 27,
+                        fontWeight: FontWeight.w900,
+                        letterSpacing: 0.5,
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    Row(
+                      children: [
+                        Container(width: 14, height: 2, decoration: BoxDecoration(
+                          gradient: LinearGradient(colors: AppColors.goldMetallic),
+                          borderRadius: BorderRadius.circular(1),
+                        )),
+                        const SizedBox(width: 7),
+                        Text(
+                          label.toUpperCase(),
+                          style: TextStyle(
+                            color: AppColors.gold40,
+                            fontSize: 9,
+                            letterSpacing: 1.8,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -115,13 +142,38 @@ class _DashboardScreenState extends State<DashboardScreen> {
     if (mounted) setState(() => _loading = false);
   }
 
+  Widget _buildStatGrid(BuildContext context) {
+    final stats = [
+      _StatCard(label: 'Total Users', value: '${_stats?.totalUsers ?? 0}', accent: AppColors.purple, icon: Icons.people_outline, onTap: () => Navigator.pushNamed(context, '/users')),
+      _StatCard(label: 'Total Products', value: '${_stats?.totalProducts ?? 0}', accent: AppColors.purple, icon: Icons.inventory_2_outlined, onTap: () => Navigator.pushNamed(context, '/products')),
+      _StatCard(label: 'Total Orders', value: '${_stats?.totalOrders ?? 0}', accent: AppColors.purple, icon: Icons.receipt_long_outlined, onTap: () => Navigator.pushNamed(context, '/orders')),
+      _StatCard(label: 'Revenue', value: '₹${(_stats?.totalRevenue ?? 0).toStringAsFixed(0)}', accent: AppColors.purple, icon: Icons.trending_up, onTap: () => Navigator.pushNamed(context, '/orders')),
+      _StatCard(label: 'Pending Orders', value: '${_stats?.pendingOrders ?? 0}', accent: AppColors.purple, icon: Icons.schedule, onTap: () => Navigator.pushNamed(context, '/orders')),
+    ];
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          const gap = 12.0;
+          final cols = Responsive.compactColumns(constraints.maxWidth);
+          final tileW = (constraints.maxWidth - gap * (cols - 1)) / cols;
+          return Wrap(
+            spacing: gap,
+            runSpacing: gap,
+            children: stats.map((s) => SizedBox(width: tileW, child: s)).toList(),
+          );
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bg,
       drawer: const FashionNavDrawer(currentRoute: '/dashboard'),
       body: _loading
-          ? const Center(child: CircularProgressIndicator(color: AppColors.coral))
+          ? const BrandLoader(label: 'Loading')
           : RefreshIndicator(
               color: AppColors.coral,
               backgroundColor: AppColors.surface,
@@ -141,43 +193,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           end: Alignment.bottomRight,
                         ),
                         borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: AppColors.borderLight, width: 1),
+                        border: Border.all(color: AppColors.gold.withValues(alpha: 0.4), width: 1),
                       ),
-                      child: const Icon(Icons.refresh, color: Colors.black, size: 16),
+                      child: Icon(Icons.refresh, color: AppColors.gold, size: 16),
                     ),
                   )),
                   const SizedBox(height: 20),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Row(
-                      children: [
-                        Expanded(child: _StatCard(label: 'Total Users', value: '${_stats?.totalUsers ?? 0}', accent: AppColors.purple, icon: Icons.people_outline, onTap: () => Navigator.pushNamed(context, '/users'))),
-                        const SizedBox(width: 10),
-                        Expanded(child: _StatCard(label: 'Total Products', value: '${_stats?.totalProducts ?? 0}', accent: AppColors.purple, icon: Icons.inventory_2_outlined, onTap: () => Navigator.pushNamed(context, '/products'))),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Row(
-                      children: [
-                        Expanded(child: _StatCard(label: 'Total Orders', value: '${_stats?.totalOrders ?? 0}', accent: AppColors.purple, icon: Icons.receipt_long_outlined, onTap: () => Navigator.pushNamed(context, '/orders'))),
-                        const SizedBox(width: 10),
-                        Expanded(child: _StatCard(label: 'Revenue', value: '₹${(_stats?.totalRevenue ?? 0).toStringAsFixed(0)}', accent: AppColors.purple, icon: Icons.trending_up, onTap: () => Navigator.pushNamed(context, '/orders'))),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Row(
-                      children: [
-                        Expanded(child: _StatCard(label: 'Pending Orders', value: '${_stats?.pendingOrders ?? 0}', accent: AppColors.purple, icon: Icons.schedule, onTap: () => Navigator.pushNamed(context, '/orders'))),
-                        const Expanded(child: SizedBox.shrink()),
-                      ],
-                    ),
-                  ),
+                  _buildStatGrid(context),
                   const SizedBox(height: 28),
                   const SectionLabel(title: 'Quick Actions'),
                   const SizedBox(height: 12),

@@ -148,7 +148,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
               setState(() => _images.add(_ImageItem(url: url, isPrimary: _images.isEmpty)));
             }
             Navigator.pop(ctx);
-          }, child: Container(padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8), decoration: BoxDecoration(gradient: LinearGradient(colors: [AppColors.btnColor, AppColors.btnColor80]), border: Border.all(color: AppColors.btnBorder, width: 1), borderRadius: BorderRadius.circular(6)), child: const Text('ADD', style: TextStyle(color: Colors.black, letterSpacing: 2, fontSize: 10)))),
+          }, child: Container(padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8), decoration: AppColors.premiumGoldDeco(radius: 6), child: Text('ADD', style: TextStyle(color: AppColors.coralDark, letterSpacing: 2, fontSize: 10)))),
         ],
       ),
     );
@@ -223,7 +223,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
     return Scaffold(
       backgroundColor: AppColors.bg,
       body: _loading
-          ? const Center(child: CircularProgressIndicator(color: AppColors.coral))
+          ? const BrandLoader(label: 'Loading')
           : Column(
               children: [
                 BrandHeader(title: _editId != null ? 'Edit Product' : 'New Product'),
@@ -315,8 +315,8 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                                           onTap: () => setState(() => _images.removeAt(i)),
                                             child: Container(
                                               width: 22, height: 22,
-                                              decoration: BoxDecoration(gradient: LinearGradient(colors: [AppColors.btnColor, AppColors.btnColor80], begin: Alignment.topLeft, end: Alignment.bottomRight), border: Border.all(color: AppColors.btnBorder, width: 1), borderRadius: BorderRadius.circular(4)),
-                                              child: const Icon(Icons.close, color: Colors.black, size: 14),
+                                              decoration: AppColors.premiumGoldDeco(radius: 4),
+                                              child: Icon(Icons.close, color: AppColors.coralDark, size: 14),
                                             ),
                                         ),
                                       ),
@@ -330,8 +330,8 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                                             }),
                                               child: Container(
                                                 width: 22, height: 22,
-                                                decoration: BoxDecoration(gradient: LinearGradient(colors: [AppColors.btnColor, AppColors.btnColor80], begin: Alignment.topLeft, end: Alignment.bottomRight), border: Border.all(color: AppColors.btnBorder, width: 1), borderRadius: BorderRadius.circular(4)),
-                                                child: const Icon(Icons.star_border, color: Colors.black, size: 14),
+                                                decoration: AppColors.premiumGoldDeco(radius: 4),
+                                                child: Icon(Icons.star_border, color: AppColors.coralDark, size: 14),
                                               ),
                                           ),
                                         ),
@@ -346,16 +346,11 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                                 onTap: _addImageUrl,
                                 borderRadius: BorderRadius.circular(8),
                                 child: Ink(
-                                  decoration: BoxDecoration(
-                                    gradient: LinearGradient(colors: [AppColors.btnColor, AppColors.btnColor80], begin: Alignment.topLeft, end: Alignment.bottomRight),
-                                    border: Border.all(color: AppColors.btnBorder, width: 1),
-                                    borderRadius: BorderRadius.circular(8),
-                                    boxShadow: AppColors.shadowGlow(AppColors.btnColor),
-                                  ),
+                                  decoration: AppColors.premiumGoldDeco(radius: 8),
                                   child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                                    const Icon(Icons.link, color: Colors.black, size: 18),
+                                    Icon(Icons.link, color: AppColors.coralDark, size: 18),
                                     const SizedBox(width: 8),
-                                    const Text('ADD IMAGE URL', style: TextStyle(color: Colors.black, fontSize: 10, letterSpacing: 2, fontWeight: FontWeight.w700)),
+                                    Text('ADD IMAGE URL', style: TextStyle(color: AppColors.coralDark, fontSize: 10, letterSpacing: 2, fontWeight: FontWeight.w700)),
                                     ]),
                                   ),
                                 ),
@@ -430,13 +425,8 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                                       onTap: () => setState(() => _variants.removeAt(i)),
                                       child: Container(
                                         width: 36, height: 36,
-                                        decoration: BoxDecoration(
-                                          gradient: LinearGradient(colors: [AppColors.btnColor, AppColors.btnColor80], begin: Alignment.topLeft, end: Alignment.bottomRight),
-                                          border: Border.all(color: AppColors.btnBorder, width: 1),
-                                          borderRadius: BorderRadius.circular(8),
-                                          boxShadow: AppColors.shadowGlow(AppColors.btnColor),
-                                        ),
-                                        child: const Icon(Icons.close, color: Colors.black, size: 16),
+                                        decoration: AppColors.premiumGoldDeco(radius: 8),
+                                        child: Icon(Icons.close, color: AppColors.coralDark, size: 16),
                                       ),
                                     ),
                                   ]),
@@ -448,16 +438,11 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                                 onTap: () => setState(() => _variants.add(_V(sc: TextEditingController(), cc: TextEditingController(), stc: TextEditingController(text: '0'), pc: TextEditingController()))),
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                                  decoration: BoxDecoration(
-                                    gradient: LinearGradient(colors: [AppColors.btnColor, AppColors.btnColor80], begin: Alignment.topLeft, end: Alignment.bottomRight),
-                                    border: Border.all(color: AppColors.btnBorder, width: 1),
-                                    borderRadius: BorderRadius.circular(8),
-                                    boxShadow: AppColors.shadowGlow(AppColors.btnColor),
-                                  ),
-                                  child: const Row(mainAxisSize: MainAxisSize.min, children: [
-                                    Icon(Icons.add, color: Colors.black, size: 16),
-                                    SizedBox(width: 8),
-                                    Text('ADD VARIANT', style: TextStyle(color: Colors.black, fontSize: 10, letterSpacing: 2, fontWeight: FontWeight.w700)),
+                                  decoration: AppColors.premiumGoldDeco(radius: 8),
+                                  child: Row(mainAxisSize: MainAxisSize.min, children: [
+                                    Icon(Icons.add, color: AppColors.coralDark, size: 16),
+                                    const SizedBox(width: 8),
+                                    Text('ADD VARIANT', style: TextStyle(color: AppColors.coralDark, fontSize: 10, letterSpacing: 2, fontWeight: FontWeight.w700)),
                                   ]),
                                 ),
                               ),

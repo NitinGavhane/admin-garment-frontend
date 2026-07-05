@@ -56,7 +56,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
       body: Column(children: [
         Builder(builder: (ctx) => BrandHeader(title: 'Orders', subtitle: '${_orders.length} TOTAL', onMenuTap: () => Scaffold.of(ctx).openDrawer())),
         Expanded(child: _loading
-          ? const Center(child: CircularProgressIndicator(color: AppColors.coral))
+          ? const BrandLoader(label: 'Loading')
           : _orders.isEmpty
             ? const EmptyBox(icon: Icons.receipt_long_outlined, message: 'No orders')
             : RefreshIndicator(color: AppColors.coral, backgroundColor: AppColors.surface, onRefresh: _load, child: ListView.builder(
@@ -72,12 +72,12 @@ class _OrdersScreenState extends State<OrdersScreen> {
                       decoration: BoxDecoration(
                         gradient: LinearGradient(colors: [AppColors.surface, AppColors.surfaceAlt], begin: Alignment.topLeft, end: Alignment.bottomRight),
                         border: Border.all(color: AppColors.borderLight, width: 1),
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: AppColors.shadowSm,
+                        borderRadius: BorderRadius.circular(14),
+                        boxShadow: AppColors.shadowMd,
                       ),
                       child: Container(
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(14),
                           gradient: LinearGradient(colors: [Colors.white.withValues(alpha: 0.03), Colors.transparent], begin: Alignment.topLeft, end: Alignment.bottomRight),
                         ),
                         padding: const EdgeInsets.all(16),

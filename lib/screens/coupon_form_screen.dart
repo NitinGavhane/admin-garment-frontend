@@ -71,7 +71,7 @@ class _CouponFormScreenState extends State<CouponFormScreen> {
     return Scaffold(
       backgroundColor: AppColors.bg,
       body: _loading
-        ? const Center(child: CircularProgressIndicator(color: AppColors.coral))
+        ? const BrandLoader(label: 'Loading')
         : Column(children: [
             BrandHeader(title: _editId != null ? 'Edit Coupon' : 'New Coupon'),
             Expanded(child: SingleChildScrollView(padding: const EdgeInsets.all(16), child: Form(key: _fk, child: Column(children: [

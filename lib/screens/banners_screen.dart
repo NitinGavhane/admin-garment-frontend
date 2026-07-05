@@ -52,7 +52,7 @@ class _BannersScreenState extends State<BannersScreen> {
         content: Text('Remove this banner?', style: TextStyle(color: AppColors.textSecondary)),
         actions: [
           TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text('CANCEL', style: TextStyle(color: AppColors.btnColor, letterSpacing: 2, fontSize: 11))),
-          TextButton(onPressed: () => Navigator.pop(ctx, true), child: Container(padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8), decoration: BoxDecoration(gradient: LinearGradient(colors: [AppColors.btnColor, AppColors.btnColor80]), border: Border.all(color: AppColors.btnBorder, width: 1), borderRadius: BorderRadius.circular(6)), child: const Text('DELETE', style: TextStyle(color: Colors.black, letterSpacing: 2, fontSize: 10)))),
+          TextButton(onPressed: () => Navigator.pop(ctx, true), child: Container(padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8), decoration: BoxDecoration(gradient: LinearGradient(colors: [AppColors.error, AppColors.error80], begin: Alignment.topCenter, end: Alignment.bottomCenter), border: Border.all(color: AppColors.error, width: 1), borderRadius: BorderRadius.circular(6), boxShadow: AppColors.shadowGlow(AppColors.error)), child: const Text('DELETE', style: TextStyle(color: Colors.white, letterSpacing: 2, fontSize: 10)))),
         ],
       ),
     );
@@ -78,14 +78,9 @@ class _BannersScreenState extends State<BannersScreen> {
       drawer: const FashionNavDrawer(currentRoute: '/banners'),
       floatingActionButton: Container(
         width: 52, height: 52,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(colors: [AppColors.btnColor, AppColors.btnColor80]),
-          border: Border.all(color: AppColors.btnBorder, width: 1),
-          borderRadius: BorderRadius.circular(14),
-          boxShadow: AppColors.shadowGlow(AppColors.btnColor),
-        ),
+        decoration: AppColors.premiumGoldDeco(radius: 14),
         child: IconButton(
-          icon: const Icon(Icons.add, color: Colors.black),
+          icon: Icon(Icons.add, color: AppColors.coralDark),
           onPressed: () => _navigate('/banner-form'),
         ),
       ),
@@ -96,7 +91,7 @@ class _BannersScreenState extends State<BannersScreen> {
           onMenuTap: () => Scaffold.of(ctx).openDrawer(),
         )),
         Expanded(child: _loading
-          ? const Center(child: CircularProgressIndicator(color: AppColors.coral))
+          ? const BrandLoader(label: 'Loading')
           : _banners.isEmpty
             ? const EmptyBox(icon: Icons.view_carousel_outlined, message: 'No banners yet — tap + to add one')
             : RefreshIndicator(
@@ -118,8 +113,8 @@ class _BannersScreenState extends State<BannersScreen> {
       decoration: BoxDecoration(
         gradient: LinearGradient(colors: [AppColors.surface, AppColors.surfaceAlt], begin: Alignment.topLeft, end: Alignment.bottomRight),
         border: Border.all(color: b.isActive ? AppColors.coral.withValues(alpha: 0.25) : AppColors.borderLight, width: 1),
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: AppColors.shadowSm,
+        borderRadius: BorderRadius.circular(14),
+        boxShadow: AppColors.shadowMd,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -161,13 +156,8 @@ class _BannersScreenState extends State<BannersScreen> {
                 onTap: () => _navigate('/banner-form', b.id),
                 child: Container(
                   width: 36, height: 36,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(colors: [AppColors.btnColor, AppColors.btnColor80], begin: Alignment.topLeft, end: Alignment.bottomRight),
-                    border: Border.all(color: AppColors.btnBorder, width: 1),
-                    borderRadius: BorderRadius.circular(8),
-                    boxShadow: AppColors.shadowGlow(AppColors.btnColor),
-                  ),
-                  child: const Icon(Icons.edit_outlined, color: Colors.black, size: 14),
+                  decoration: AppColors.premiumGoldDeco(radius: 8),
+                  child: Icon(Icons.edit_outlined, color: AppColors.coralDark, size: 14),
                 ),
               ),
               const SizedBox(width: 8),
@@ -176,12 +166,12 @@ class _BannersScreenState extends State<BannersScreen> {
                 child: Container(
                   width: 36, height: 36,
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(colors: [AppColors.btnColor, AppColors.btnColor80], begin: Alignment.topLeft, end: Alignment.bottomRight),
-                    border: Border.all(color: AppColors.btnBorder, width: 1),
+                    gradient: LinearGradient(colors: [AppColors.error, AppColors.error80], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+                    border: Border.all(color: AppColors.error, width: 1),
                     borderRadius: BorderRadius.circular(8),
-                    boxShadow: AppColors.shadowGlow(AppColors.btnColor),
+                    boxShadow: AppColors.shadowGlow(AppColors.error),
                   ),
-                  child: const Icon(Icons.delete_outlined, color: Colors.black, size: 14),
+                  child: const Icon(Icons.delete_outlined, color: Colors.white, size: 14),
                 ),
               ),
             ]),

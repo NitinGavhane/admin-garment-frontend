@@ -64,9 +64,9 @@ class BrandHeader extends StatelessWidget {
                           title.toUpperCase(),
                           style: const TextStyle(
                             color: Colors.white,
-                            fontSize: 26,
-                            fontWeight: FontWeight.w900,
-                            letterSpacing: 6,
+                            fontSize: 25,
+                            fontWeight: FontWeight.w800,
+                            letterSpacing: 3.5,
                             height: 1,
                           ),
                         ),
@@ -103,18 +103,8 @@ class BrandHeader extends StatelessWidget {
             ),
           ),
           Container(
-            height: 1,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  AppColors.coral.withValues(alpha: 0.4),
-                  AppColors.borderLight,
-                  AppColors.coral.withValues(alpha: 0.1),
-                ],
-                begin: Alignment.centerLeft,
-                end: Alignment.centerRight,
-              ),
-            ),
+            height: 1.5,
+            decoration: AppColors.goldHairline,
           ),
         ],
       ),
@@ -325,26 +315,36 @@ class Tag extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
       decoration: BoxDecoration(
-        color: filled ? color.withValues(alpha: 0.2) : Colors.transparent,
+        color: filled ? color.withValues(alpha: 0.14) : color.withValues(alpha: 0.04),
         border: Border.all(
-          color: filled ? Colors.transparent : color.withValues(alpha: 0.5),
+          color: color.withValues(alpha: filled ? 0.35 : 0.4),
           width: 1,
         ),
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: BorderRadius.circular(6),
         boxShadow: filled ? [
-          BoxShadow(color: color.withValues(alpha: 0.15), blurRadius: 4, offset: const Offset(0, 1)),
+          BoxShadow(color: color.withValues(alpha: 0.12), blurRadius: 4, offset: const Offset(0, 1)),
         ] : null,
       ),
-      child: Text(
-        text.toUpperCase(),
-        style: TextStyle(
-          color: filled ? color : color,
-          fontSize: 9,
-          fontWeight: FontWeight.w800,
-          letterSpacing: 1.5,
-        ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: 5, height: 5,
+            decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+          ),
+          const SizedBox(width: 6),
+          Text(
+            text.toUpperCase(),
+            style: TextStyle(
+              color: color,
+              fontSize: 9,
+              fontWeight: FontWeight.w800,
+              letterSpacing: 1.3,
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -359,14 +359,21 @@ class ActionGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Wrap(
-        spacing: 10, runSpacing: 10,
-        children: items.map((item) {
-          return GestureDetector(
-            onTap: item.onTap,
-            child: Container(
-              width: (MediaQuery.of(context).size.width - 42) / 2,
-              decoration: BoxDecoration(
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          const gap = 12.0;
+          // Base tile sizing on the ACTUAL available width, not the device
+          // width — correct inside the capped desktop shell.
+          final cols = Responsive.compactColumns(constraints.maxWidth);
+          final tileW = (constraints.maxWidth - gap * (cols - 1)) / cols;
+          return Wrap(
+            spacing: gap, runSpacing: gap,
+            children: items.map((item) {
+              return GestureDetector(
+                onTap: item.onTap,
+                child: Container(
+                  width: tileW,
+                  decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [AppColors.surface, AppColors.surfaceAlt],
                   begin: Alignment.topLeft,
@@ -390,17 +397,9 @@ class ActionGrid extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      width: 40, height: 40,
-                      decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [AppColors.btnColor, AppColors.btnColor80],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                      borderRadius: BorderRadius.circular(8),
-                      boxShadow: AppColors.shadowGlow(AppColors.btnColor),
-                      ),
-                      child: Icon(item.icon, color: Colors.black, size: 20),
+                      width: 44, height: 44,
+                      decoration: AppColors.premiumGoldDeco(radius: 10),
+                      child: Icon(item.icon, color: AppColors.coralDark, size: 20),
                     ),
                     const SizedBox(height: 16),
                     Text(
@@ -416,8 +415,10 @@ class ActionGrid extends StatelessWidget {
                 ),
               ),
             ),
+              );
+            }).toList(),
           );
-        }).toList(),
+        },
       ),
     );
   }
@@ -525,29 +526,29 @@ class FashionNavDrawer extends StatelessWidget {
                     onTap: () => tp.toggle(),
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: dark
-                              ? [AppColors.btnColor, AppColors.btnColor80]
-                              : [AppColors.purple40, AppColors.surfaceAlt],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                        border: Border.all(color: AppColors.btnBorder, width: 1),
-                        borderRadius: BorderRadius.circular(8),
-                        boxShadow: dark ? AppColors.shadowGlow(AppColors.btnColor) : AppColors.shadowSm,
-                      ),
+                      decoration: dark
+                          ? AppColors.premiumGoldDeco(radius: 10)
+                          : BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [AppColors.purple40, AppColors.surfaceAlt],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                              border: Border.all(color: AppColors.btnBorder, width: 1),
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: AppColors.shadowSm,
+                            ),
                       child: Row(
                         children: [
                           Container(
                             width: 32, height: 32,
                             decoration: BoxDecoration(
-                              color: (dark ? AppColors.btnColor : AppColors.purple).withValues(alpha: 0.15),
+                              color: AppColors.coralDark.withValues(alpha: 0.16),
                               borderRadius: BorderRadius.circular(6),
                             ),
                             child: Icon(
                               dark ? Icons.dark_mode : Icons.light_mode,
-                              color: Colors.black,
+                              color: AppColors.coralDark,
                               size: 16,
                             ),
                           ),
@@ -555,10 +556,10 @@ class FashionNavDrawer extends StatelessWidget {
                           Text(
                             dark ? 'DARK MODE' : 'LIGHT MODE',
                             style: TextStyle(
-                              color: Colors.black,
+                              color: AppColors.coralDark,
                               fontSize: 11,
-                              fontWeight: FontWeight.w700,
-                              letterSpacing: 2,
+                              fontWeight: FontWeight.w800,
+                              letterSpacing: 2.5,
                             ),
                           ),
                         ],
@@ -575,28 +576,19 @@ class FashionNavDrawer extends StatelessWidget {
                 onTap: () => _logout(context),
                 child: Container(
                   padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [AppColors.btnColor, AppColors.btnColor80],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    border: Border.all(color: AppColors.btnBorder, width: 1),
-                    borderRadius: BorderRadius.circular(8),
-                    boxShadow: AppColors.shadowGlow(AppColors.btnColor),
-                  ),
+                  decoration: AppColors.premiumGoldDeco(radius: 10),
                   child: Row(
                     children: [
                       Container(
                         width: 32, height: 32,
                         decoration: BoxDecoration(
-                          color: Colors.black.withValues(alpha: 0.2),
+                          color: AppColors.coralDark.withValues(alpha: 0.16),
                           borderRadius: BorderRadius.circular(6),
                         ),
-                        child: const Icon(Icons.logout, color: Colors.black, size: 16),
+                        child: Icon(Icons.logout, color: AppColors.coralDark, size: 16),
                       ),
                       const SizedBox(width: 12),
-                      const Text('SIGN OUT', style: TextStyle(color: Colors.black, fontSize: 11, fontWeight: FontWeight.w700, letterSpacing: 2)),
+                      Text('SIGN OUT', style: TextStyle(color: AppColors.coralDark, fontSize: 11, fontWeight: FontWeight.w800, letterSpacing: 2.5)),
                     ],
                   ),
                 ),
@@ -652,13 +644,9 @@ class FashionNavDrawer extends StatelessWidget {
               if (context.mounted) Navigator.pushReplacementNamed(context, '/login');
             },
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(colors: [AppColors.btnColor, AppColors.btnColor80]),
-                border: Border.all(color: AppColors.btnBorder, width: 1),
-                borderRadius: BorderRadius.circular(6),
-              ),
-              child: const Text('SIGN OUT', style: TextStyle(color: Colors.black, letterSpacing: 1, fontSize: 10, fontWeight: FontWeight.w700)),
+              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
+              decoration: AppColors.premiumGoldDeco(radius: 7),
+              child: Text('SIGN OUT', style: TextStyle(color: AppColors.coralDark, letterSpacing: 1.5, fontSize: 10, fontWeight: FontWeight.w800)),
             ),
           ),
         ],
@@ -668,43 +656,58 @@ class FashionNavDrawer extends StatelessWidget {
 
   Widget _navItem(IconData icon, String label, String route, BuildContext ctx) {
     final active = currentRoute == route;
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 3),
-      decoration: BoxDecoration(
-        gradient: active
-            ? LinearGradient(colors: [AppColors.btnColor40, Colors.white], begin: Alignment.topLeft, end: Alignment.bottomRight)
-            : null,
-        borderRadius: BorderRadius.circular(8),
-        border: active
-            ? Border.all(color: AppColors.btnBorder, width: 1)
-            : null,
-      ),
-      child: ListTile(
-        dense: true,
-        leading: Container(
-          width: 36, height: 36,
-          decoration: BoxDecoration(
-            gradient: active
-            ? LinearGradient(colors: [AppColors.btnColor, AppColors.btnColor80], begin: Alignment.topLeft, end: Alignment.bottomRight)
-            : LinearGradient(colors: AppColors.cardGradient, begin: Alignment.topLeft, end: Alignment.bottomRight),
-        borderRadius: BorderRadius.circular(8),
-        boxShadow: active ? AppColors.shadowGlow(AppColors.btnColor) : null,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(10),
+          onTap: () {
+            Navigator.pop(ctx);
+            if (route != currentRoute) Navigator.pushReplacementNamed(ctx, route);
+          },
+          child: Container(
+            padding: const EdgeInsets.fromLTRB(8, 8, 12, 8),
+            decoration: BoxDecoration(
+              color: active ? AppColors.coral.withValues(alpha: 0.08) : Colors.transparent,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Row(
+              children: [
+                // Gold indicator bar marks the active item.
+                Container(
+                  width: 3, height: 22,
+                  decoration: BoxDecoration(
+                    gradient: active
+                        ? const LinearGradient(colors: AppColors.goldMetallic, begin: Alignment.topCenter, end: Alignment.bottomCenter)
+                        : null,
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Container(
+                  width: 34, height: 34,
+                  decoration: BoxDecoration(
+                    color: active ? AppColors.coral.withValues(alpha: 0.12) : AppColors.bgAlt,
+                    borderRadius: BorderRadius.circular(9),
+                    border: Border.all(color: active ? AppColors.coral.withValues(alpha: 0.20) : AppColors.borderLight, width: 1),
+                  ),
+                  child: Icon(icon, color: active ? AppColors.coral : AppColors.textMuted, size: 17),
+                ),
+                const SizedBox(width: 12),
+                Text(
+                  label,
+                  style: TextStyle(
+                    color: active ? AppColors.coral : AppColors.textSecondary,
+                    fontSize: 13,
+                    fontWeight: active ? FontWeight.w700 : FontWeight.w600,
+                    letterSpacing: 0.2,
+                  ),
+                ),
+              ],
+            ),
           ),
-          child: Icon(icon, color: active ? Colors.black : AppColors.textMuted, size: 18),
         ),
-        title: Text(
-          label.toUpperCase(),
-          style: TextStyle(
-            color: active ? AppColors.btnColor : AppColors.textSecondary,
-            fontSize: 11,
-            fontWeight: FontWeight.w700,
-            letterSpacing: 2.5,
-          ),
-        ),
-        onTap: () {
-          Navigator.pop(ctx);
-          if (route != currentRoute) Navigator.pushReplacementNamed(ctx, route);
-        },
       ),
     );
   }
@@ -737,22 +740,71 @@ class EmptyBox extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
-                width: 64, height: 64,
+                width: 72, height: 72,
                 decoration: BoxDecoration(
-                  color: AppColors.textMuted.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(12),
+                  gradient: LinearGradient(
+                    colors: [AppColors.coral.withValues(alpha: 0.12), AppColors.coral.withValues(alpha: 0.04)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: AppColors.gold.withValues(alpha: 0.35), width: 1),
                 ),
-                child: Icon(icon, color: AppColors.textMuted, size: 28),
+                child: Icon(icon, color: AppColors.coral, size: 30),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 20),
               Text(
                 message.toUpperCase(),
                 textAlign: TextAlign.center,
-                style: TextStyle(color: AppColors.textSecondary, fontSize: 11, letterSpacing: 2.5, fontWeight: FontWeight.w600),
+                style: TextStyle(color: AppColors.textSecondary, fontSize: 11.5, letterSpacing: 2.5, fontWeight: FontWeight.w700),
               ),
+              const SizedBox(height: 14),
+              Container(width: 40, height: 2, decoration: AppColors.goldHairline),
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// Branded loading indicator — a gold ring over a soft royal-blue halo with an
+/// optional caption. Reads as intentional and premium versus a bare spinner.
+class BrandLoader extends StatelessWidget {
+  final String? label;
+  const BrandLoader({super.key, this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: 56, height: 56,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              gradient: RadialGradient(
+                colors: [AppColors.coral.withValues(alpha: 0.14), Colors.transparent],
+              ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(12),
+              child: CircularProgressIndicator(
+                strokeWidth: 2.6,
+                valueColor: AlwaysStoppedAnimation(AppColors.gold),
+                backgroundColor: AppColors.coral.withValues(alpha: 0.12),
+              ),
+            ),
+          ),
+          if (label != null) ...[
+            const SizedBox(height: 16),
+            Text(
+              label!.toUpperCase(),
+              style: TextStyle(color: AppColors.textMuted, fontSize: 10, letterSpacing: 3, fontWeight: FontWeight.w700),
+            ),
+          ],
+        ],
       ),
     );
   }
@@ -805,8 +857,8 @@ class SectionLabel extends StatelessWidget {
             style: TextStyle(
               color: AppColors.textSecondary,
               fontSize: 11,
-              letterSpacing: 4,
-              fontWeight: FontWeight.w800,
+              letterSpacing: 1.5,
+              fontWeight: FontWeight.w700,
             ),
           ),
           const Spacer(),
@@ -854,18 +906,18 @@ class SearchInput extends StatelessWidget {
           filled: true,
           fillColor: AppColors.surface,
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(12),
             borderSide: BorderSide(color: AppColors.borderLight, width: 1),
           ),
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(12),
             borderSide: BorderSide(color: AppColors.borderLight, width: 1),
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-            borderSide: BorderSide(color: AppColors.coral, width: 1),
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide(color: AppColors.coral, width: 1.6),
           ),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
         ),
       ),
     );
@@ -887,12 +939,17 @@ extension ButtonVariantColors on ButtonVariant {
   }
 }
 
-class FashionButton extends StatelessWidget {
+/// A polished, tactile metallic-gold action button. A top sheen highlight and
+/// warm layered glow give it an "expensive gold plate" feel. When [color] is
+/// supplied the button renders in that tone (still with the sheen treatment),
+/// otherwise it uses the premium gold surface.
+class FashionButton extends StatefulWidget {
   final String label;
   final VoidCallback? onPressed;
   final bool loading;
   final ButtonVariant variant;
   final Color? color;
+  final IconData? icon;
 
   const FashionButton({
     super.key,
@@ -901,41 +958,81 @@ class FashionButton extends StatelessWidget {
     this.loading = false,
     this.variant = ButtonVariant.primary,
     this.color,
+    this.icon,
   });
 
   @override
+  State<FashionButton> createState() => _FashionButtonState();
+}
+
+class _FashionButtonState extends State<FashionButton> {
+  bool _pressed = false;
+
+  @override
   Widget build(BuildContext context) {
-    final colors = color != null
-        ? [color!, Color.lerp(color!, Colors.white, 0.2)!]
-        : variant.gradient;
-    final base = color ?? variant.base;
-    return SizedBox(
-      width: double.infinity,
-      height: 52,
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.transparent,
-          foregroundColor: Colors.black,
-          shadowColor: Colors.transparent,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          elevation: 0,
-        ).copyWith(
-          backgroundColor: WidgetStateProperty.resolveWith((states) => Colors.transparent),
-        ),
-        child: Ink(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(colors: colors, begin: Alignment.topLeft, end: Alignment.bottomRight),
-            border: Border.all(color: AppColors.btnBorder, width: 1),
-            borderRadius: BorderRadius.circular(8),
-            boxShadow: AppColors.shadowGlow(base),
-          ),
-          child: Container(
-            alignment: Alignment.center,
-            padding: const EdgeInsets.symmetric(vertical: 14),
-            child: loading
-                ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.black))
-                : Text(label.toUpperCase(), style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w800, letterSpacing: 3.5)),
+    final enabled = widget.onPressed != null && !widget.loading;
+    final custom = widget.color;
+    final onColor = custom == null ? AppColors.coralDark : Colors.white;
+
+    final BoxDecoration deco = custom == null
+        ? AppColors.premiumGoldDeco(radius: 12)
+        : BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color.lerp(custom, Colors.white, 0.22)!, custom, Color.lerp(custom, Colors.black, 0.18)!],
+              stops: const [0.0, 0.55, 1.0],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: Color.lerp(custom, Colors.black, 0.25)!, width: 1),
+            boxShadow: AppColors.shadowGlow(custom),
+          );
+
+    return GestureDetector(
+      onTapDown: enabled ? (_) => setState(() => _pressed = true) : null,
+      onTapUp: enabled ? (_) => setState(() => _pressed = false) : null,
+      onTapCancel: enabled ? () => setState(() => _pressed = false) : null,
+      onTap: enabled ? widget.onPressed : null,
+      child: AnimatedScale(
+        scale: _pressed ? 0.97 : 1.0,
+        duration: const Duration(milliseconds: 120),
+        curve: Curves.easeOut,
+        child: AnimatedOpacity(
+          opacity: enabled ? 1.0 : 0.55,
+          duration: const Duration(milliseconds: 150),
+          child: SizedBox(
+            width: double.infinity,
+            height: 54,
+            child: Stack(
+              children: [
+                // Metallic plate
+                Positioned.fill(child: DecoratedBox(decoration: deco)),
+                // Top sheen — light catching the metal edge
+                Positioned(
+                  top: 1, left: 1, right: 1,
+                  height: 24,
+                  child: DecoratedBox(decoration: AppColors.goldSheen(radius: 11)),
+                ),
+                // Label / spinner
+                Center(
+                  child: widget.loading
+                      ? SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: onColor))
+                      : Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            if (widget.icon != null) ...[
+                              Icon(widget.icon, size: 17, color: onColor),
+                              const SizedBox(width: 10),
+                            ],
+                            Text(
+                              widget.label.toUpperCase(),
+                              style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w800, letterSpacing: 3.5, color: onColor),
+                            ),
+                          ],
+                        ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -1019,8 +1116,8 @@ class FormSection extends StatelessWidget {
                 style: TextStyle(
                   color: AppColors.textSecondary,
                   fontSize: 11,
-                  letterSpacing: 3.5,
-                  fontWeight: FontWeight.w800,
+                  letterSpacing: 1.5,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
             ],
@@ -1051,6 +1148,7 @@ class StyledInput extends StatelessWidget {
   final bool number;
   final int? maxLines;
   final String? hint;
+  final IconData? icon;
   final String? Function(String?)? validator;
 
   const StyledInput({
@@ -1060,6 +1158,7 @@ class StyledInput extends StatelessWidget {
     this.number = false,
     this.maxLines,
     this.hint,
+    this.icon,
     this.validator,
   });
 
@@ -1072,27 +1171,48 @@ class StyledInput extends StatelessWidget {
         maxLines: maxLines ?? 1,
         keyboardType: number ? TextInputType.number : TextInputType.text,
         validator: validator,
-        style: TextStyle(color: AppColors.textPrimary, fontSize: 13),
+        cursorColor: AppColors.coral,
+        style: TextStyle(color: AppColors.textPrimary, fontSize: 13, fontWeight: FontWeight.w600),
         decoration: InputDecoration(
           labelText: label,
           hintText: hint,
-          labelStyle: TextStyle(color: AppColors.textMuted, fontSize: 11, letterSpacing: 1),
+          labelStyle: TextStyle(color: AppColors.textMuted, fontSize: 11, letterSpacing: 1.2, fontWeight: FontWeight.w600),
+          floatingLabelStyle: TextStyle(color: AppColors.coral, fontSize: 12, letterSpacing: 1.2, fontWeight: FontWeight.w700),
           hintStyle: TextStyle(color: AppColors.textMuted, fontSize: 11),
+          prefixIcon: icon == null ? null : Container(
+            margin: const EdgeInsets.fromLTRB(10, 8, 10, 8),
+            width: 34,
+            decoration: BoxDecoration(
+              color: AppColors.coral.withValues(alpha: 0.08),
+              borderRadius: BorderRadius.circular(7),
+            ),
+            child: Icon(icon, color: AppColors.coral, size: 16),
+          ),
+          prefixIconConstraints: const BoxConstraints(minWidth: 44, minHeight: 44),
           filled: true,
           fillColor: AppColors.bgAlt,
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(6),
+            borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide(color: AppColors.border, width: 1),
           ),
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(6),
+            borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide(color: AppColors.border, width: 1),
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(6),
-            borderSide: BorderSide(color: AppColors.coral, width: 1),
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: AppColors.coral, width: 1.6),
           ),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: AppColors.error, width: 1),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: AppColors.error, width: 1.6),
+          ),
+          errorStyle: TextStyle(color: AppColors.error, fontSize: 10.5, fontWeight: FontWeight.w600),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
         ),
       ),
     );
@@ -1122,25 +1242,28 @@ class StyledDropdown extends StatelessWidget {
         items: items,
         onChanged: onChanged,
         dropdownColor: AppColors.surfaceAlt,
-        style: TextStyle(color: AppColors.textPrimary, fontSize: 13),
+        borderRadius: BorderRadius.circular(12),
+        icon: Icon(Icons.keyboard_arrow_down_rounded, color: AppColors.coral, size: 22),
+        style: TextStyle(color: AppColors.textPrimary, fontSize: 13, fontWeight: FontWeight.w600),
         decoration: InputDecoration(
           labelText: label,
-          labelStyle: TextStyle(color: AppColors.textMuted, fontSize: 11, letterSpacing: 1),
+          labelStyle: TextStyle(color: AppColors.textMuted, fontSize: 11, letterSpacing: 1.2, fontWeight: FontWeight.w600),
+          floatingLabelStyle: TextStyle(color: AppColors.coral, fontSize: 12, letterSpacing: 1.2, fontWeight: FontWeight.w700),
           filled: true,
           fillColor: AppColors.bgAlt,
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(6),
+            borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide(color: AppColors.border, width: 1),
           ),
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(6),
+            borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide(color: AppColors.border, width: 1),
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(6),
-            borderSide: BorderSide(color: AppColors.coral, width: 1),
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: AppColors.coral, width: 1.6),
           ),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
         ),
       ),
     );
@@ -1159,9 +1282,10 @@ class ToggleRow extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: value ? AppColors.coral.withValues(alpha: 0.06) : AppColors.bgAlt,
-        borderRadius: BorderRadius.circular(6),
-        border: Border.all(color: value ? AppColors.coral.withValues(alpha: 0.2) : AppColors.border, width: 1),
+        color: value ? AppColors.coral.withValues(alpha: 0.08) : AppColors.bgAlt,
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: value ? AppColors.coral.withValues(alpha: 0.35) : AppColors.border, width: 1),
+        boxShadow: value ? [BoxShadow(color: AppColors.coral.withValues(alpha: 0.08), blurRadius: 6, offset: const Offset(0, 2))] : null,
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,

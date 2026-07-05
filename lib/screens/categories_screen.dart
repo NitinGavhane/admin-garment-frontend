@@ -95,7 +95,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         actions: [
           TextButton(onPressed: () => Navigator.pop(ctx, false), child: Container(padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8), decoration: BoxDecoration(gradient: LinearGradient(colors: [AppColors.btnColor40, AppColors.surface], begin: Alignment.topLeft, end: Alignment.bottomRight), border: Border.all(color: AppColors.btnBorder, width: 1), borderRadius: BorderRadius.circular(6), boxShadow: AppColors.shadowSm), child: Text('CANCEL', style: TextStyle(color: AppColors.btnColor, letterSpacing: 2, fontSize: 10)))),
           const SizedBox(width: 8),
-          TextButton(onPressed: () => Navigator.pop(ctx, true), child: Container(padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8), decoration: BoxDecoration(gradient: LinearGradient(colors: [AppColors.btnColor, AppColors.btnColor80]), border: Border.all(color: AppColors.btnBorder, width: 1), borderRadius: BorderRadius.circular(6)), child: const Text('DELETE', style: TextStyle(color: Colors.black, letterSpacing: 2, fontSize: 10)))),
+          TextButton(onPressed: () => Navigator.pop(ctx, true), child: Container(padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8), decoration: BoxDecoration(gradient: LinearGradient(colors: [AppColors.error, AppColors.error80], begin: Alignment.topCenter, end: Alignment.bottomCenter), border: Border.all(color: AppColors.error, width: 1), borderRadius: BorderRadius.circular(6), boxShadow: AppColors.shadowGlow(AppColors.error)), child: const Text('DELETE', style: TextStyle(color: Colors.white, letterSpacing: 2, fontSize: 10)))),
         ],
       ),
     );
@@ -124,24 +124,20 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         },
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 8),
-          decoration: BoxDecoration(
-            gradient: active
-                ? LinearGradient(colors: [AppColors.btnColor, AppColors.btnColor80], begin: Alignment.topLeft, end: Alignment.bottomRight)
-                : null,
-            color: active ? null : AppColors.surfaceAlt,
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(
-              color: active ? AppColors.btnBorder : AppColors.borderLight,
-              width: 1,
-            ),
-          ),
+          decoration: active
+              ? AppColors.premiumGoldDeco(radius: 8)
+              : BoxDecoration(
+                  color: AppColors.surfaceAlt,
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: AppColors.borderLight, width: 1),
+                ),
           child: Text(
             label,
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: active ? Colors.black : AppColors.textSecondary,
+              color: active ? AppColors.coralDark : AppColors.textSecondary,
               fontSize: 12,
-              fontWeight: FontWeight.w700,
+              fontWeight: active ? FontWeight.w800 : FontWeight.w700,
               letterSpacing: 1,
             ),
           ),
@@ -157,14 +153,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       drawer: const FashionNavDrawer(currentRoute: '/categories'),
       floatingActionButton: Container(
         width: 52, height: 52,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(colors: [AppColors.btnColor, AppColors.btnColor80]),
-          border: Border.all(color: AppColors.btnBorder, width: 1),
-          borderRadius: BorderRadius.circular(14),
-          boxShadow: AppColors.shadowGlow(AppColors.btnColor),
-        ),
+        decoration: AppColors.premiumGoldDeco(radius: 14),
         child: IconButton(
-          icon: const Icon(Icons.add, color: Colors.black),
+          icon: Icon(Icons.add, color: AppColors.coralDark),
           onPressed: () => _navigate('/category-form'),
         ),
       ),
@@ -188,7 +179,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         ),
         const SizedBox(height: 12),
         Expanded(child: _loading
-          ? const Center(child: CircularProgressIndicator(color: AppColors.coral))
+          ? const BrandLoader(label: 'Loading')
           : _categories.isEmpty
             ? const EmptyBox(icon: Icons.category_outlined, message: 'No categories')
             : RefreshIndicator(
@@ -249,12 +240,12 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       decoration: BoxDecoration(
         gradient: LinearGradient(colors: [AppColors.surface, AppColors.surfaceAlt], begin: Alignment.topLeft, end: Alignment.bottomRight),
         border: Border.all(color: isParent ? AppColors.coral.withValues(alpha: 0.25) : AppColors.borderLight, width: 1),
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: AppColors.shadowSm,
+        borderRadius: BorderRadius.circular(14),
+        boxShadow: AppColors.shadowMd,
       ),
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(14),
           gradient: LinearGradient(colors: [Colors.white.withValues(alpha: 0.03), Colors.transparent], begin: Alignment.topLeft, end: Alignment.bottomRight),
         ),
         padding: const EdgeInsets.all(16),
@@ -314,13 +305,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
               onTap: () => _navigate('/category-form', cat.id),
               child: Container(
                 width: 36, height: 36,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: [AppColors.btnColor, AppColors.btnColor80], begin: Alignment.topLeft, end: Alignment.bottomRight),
-                  border: Border.all(color: AppColors.btnBorder, width: 1),
-                  borderRadius: BorderRadius.circular(8),
-                  boxShadow: AppColors.shadowGlow(AppColors.btnColor),
-                ),
-                child: const Icon(Icons.edit_outlined, color: Colors.black, size: 14),
+                decoration: AppColors.premiumGoldDeco(radius: 8),
+                child: Icon(Icons.edit_outlined, color: AppColors.coralDark, size: 14),
               ),
             ),
             const SizedBox(height: 6),
@@ -329,12 +315,12 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
               child: Container(
                 width: 36, height: 36,
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: [AppColors.btnColor, AppColors.btnColor80], begin: Alignment.topLeft, end: Alignment.bottomRight),
-                  border: Border.all(color: AppColors.btnBorder, width: 1),
+                  gradient: LinearGradient(colors: [AppColors.error, AppColors.error80], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+                  border: Border.all(color: AppColors.error, width: 1),
                   borderRadius: BorderRadius.circular(8),
-                  boxShadow: AppColors.shadowGlow(AppColors.btnColor),
+                  boxShadow: AppColors.shadowGlow(AppColors.error),
                 ),
-                child: const Icon(Icons.delete_outlined, color: Colors.black, size: 14),
+                child: const Icon(Icons.delete_outlined, color: Colors.white, size: 14),
               ),
             ),
           ]),

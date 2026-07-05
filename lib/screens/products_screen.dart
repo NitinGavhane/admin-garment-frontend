@@ -65,9 +65,9 @@ class _ProductsScreenState extends State<ProductsScreen> {
         ]),
         content: Text('Remove "$title"?', style: TextStyle(color: AppColors.textSecondary)),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx, false), child: Container(padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8), decoration: BoxDecoration(gradient: LinearGradient(colors: [AppColors.btnColor40, AppColors.surface], begin: Alignment.topLeft, end: Alignment.bottomRight), border: Border.all(color: AppColors.btnBorder, width: 1), borderRadius: BorderRadius.circular(6), boxShadow: AppColors.shadowSm), child: Text('CANCEL', style: TextStyle(color: AppColors.btnColor, letterSpacing: 2, fontSize: 10)))),
+          TextButton(onPressed: () => Navigator.pop(ctx, false), child: Container(padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 9), decoration: BoxDecoration(color: AppColors.surfaceAlt, border: Border.all(color: AppColors.borderLight, width: 1), borderRadius: BorderRadius.circular(7)), child: Text('CANCEL', style: TextStyle(color: AppColors.textSecondary, letterSpacing: 2, fontSize: 10, fontWeight: FontWeight.w800)))),
           const SizedBox(width: 8),
-          TextButton(onPressed: () => Navigator.pop(ctx, true), child: Container(padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8), decoration: BoxDecoration(gradient: LinearGradient(colors: [AppColors.btnColor, AppColors.btnColor80]), border: Border.all(color: AppColors.btnBorder, width: 1), borderRadius: BorderRadius.circular(6)), child: const Text('DELETE', style: TextStyle(color: Colors.black, letterSpacing: 2, fontSize: 10)))),
+          TextButton(onPressed: () => Navigator.pop(ctx, true), child: Container(padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 9), decoration: BoxDecoration(gradient: LinearGradient(colors: [AppColors.error, AppColors.error80], begin: Alignment.topCenter, end: Alignment.bottomCenter), border: Border.all(color: AppColors.error, width: 1), borderRadius: BorderRadius.circular(7), boxShadow: AppColors.shadowGlow(AppColors.error)), child: const Text('DELETE', style: TextStyle(color: Colors.white, letterSpacing: 2, fontSize: 10, fontWeight: FontWeight.w800)))),
         ],
       ),
     );
@@ -85,25 +85,21 @@ class _ProductsScreenState extends State<ProductsScreen> {
           _load();
         },
         child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 8),
-          decoration: BoxDecoration(
-            gradient: active
-                ? LinearGradient(colors: [AppColors.btnColor, AppColors.btnColor80], begin: Alignment.topLeft, end: Alignment.bottomRight)
-                : null,
-            color: active ? null : AppColors.surfaceAlt,
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(
-              color: active ? AppColors.btnBorder : AppColors.borderLight,
-              width: 1,
-            ),
-          ),
+          padding: const EdgeInsets.symmetric(vertical: 9),
+          decoration: active
+              ? AppColors.premiumGoldDeco(radius: 9)
+              : BoxDecoration(
+                  color: AppColors.surfaceAlt,
+                  borderRadius: BorderRadius.circular(9),
+                  border: Border.all(color: AppColors.borderLight, width: 1),
+                ),
           child: Text(
             label,
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: active ? Colors.black : AppColors.textSecondary,
+              color: active ? AppColors.coralDark : AppColors.textSecondary,
               fontSize: 12,
-              fontWeight: FontWeight.w700,
+              fontWeight: active ? FontWeight.w800 : FontWeight.w700,
               letterSpacing: 1,
             ),
           ),
@@ -118,14 +114,9 @@ class _ProductsScreenState extends State<ProductsScreen> {
       backgroundColor: AppColors.bg,
       drawer: const FashionNavDrawer(currentRoute: '/products'),
       floatingActionButton: Container(
-        width: 52, height: 52,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(colors: [AppColors.btnColor, AppColors.btnColor80]),
-            border: Border.all(color: AppColors.btnBorder, width: 1),
-            borderRadius: BorderRadius.circular(14),
-            boxShadow: AppColors.shadowGlow(AppColors.btnColor),
-          ),
-          child: IconButton(icon: const Icon(Icons.add, color: Colors.black), onPressed: () => Navigator.pushNamed(context, '/product-form').then((_) => _load())),
+        width: 56, height: 56,
+          decoration: AppColors.premiumGoldDeco(radius: 16),
+          child: IconButton(icon: Icon(Icons.add, color: AppColors.coralDark, size: 26), onPressed: () => Navigator.pushNamed(context, '/product-form').then((_) => _load())),
       ),
       body: Column(
         children: [
@@ -157,7 +148,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
           const SizedBox(height: 12),
           Expanded(
             child: _loading
-                ? const Center(child: CircularProgressIndicator(color: AppColors.coral))
+                ? const BrandLoader(label: 'Loading')
                 : _filtered.isEmpty
                     ? const EmptyBox(icon: Icons.inventory_2_outlined, message: 'No products yet')
                     : RefreshIndicator(
@@ -174,12 +165,12 @@ class _ProductsScreenState extends State<ProductsScreen> {
                               decoration: BoxDecoration(
                                 gradient: LinearGradient(colors: [AppColors.surface, AppColors.surfaceAlt], begin: Alignment.topLeft, end: Alignment.bottomRight),
                                 border: Border.all(color: AppColors.borderLight, width: 1),
-                                borderRadius: BorderRadius.circular(12),
-                                boxShadow: AppColors.shadowSm,
+                                borderRadius: BorderRadius.circular(14),
+                                boxShadow: AppColors.shadowMd,
                               ),
                               child: Container(
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12),
+                                  borderRadius: BorderRadius.circular(14),
                                   gradient: LinearGradient(colors: [Colors.white.withValues(alpha: 0.03), Colors.transparent], begin: Alignment.topLeft, end: Alignment.bottomRight),
                                 ),
                                 padding: const EdgeInsets.all(16),
@@ -250,13 +241,8 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                           onTap: () => Navigator.pushNamed(context, '/product-form', arguments: p.id).then((_) => _load()),
                                           child: Container(
                                             width: 38, height: 38,
-                                            decoration: BoxDecoration(
-                                              gradient: LinearGradient(colors: [AppColors.btnColor, AppColors.btnColor80], begin: Alignment.topLeft, end: Alignment.bottomRight),
-                                              border: Border.all(color: AppColors.btnBorder, width: 1),
-                                              borderRadius: BorderRadius.circular(8),
-                                              boxShadow: AppColors.shadowGlow(AppColors.btnColor),
-                                            ),
-                                            child: const Icon(Icons.edit_outlined, color: Colors.black, size: 16),
+                                            decoration: AppColors.premiumGoldDeco(radius: 8),
+                                            child: Icon(Icons.edit_outlined, color: AppColors.coralDark, size: 16),
                                           ),
                                         ),
                                         const SizedBox(height: 6),
@@ -265,12 +251,12 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                           child: Container(
                                             width: 38, height: 38,
                                             decoration: BoxDecoration(
-                                              gradient: LinearGradient(colors: [AppColors.btnColor, AppColors.btnColor80], begin: Alignment.topLeft, end: Alignment.bottomRight),
-                                              border: Border.all(color: AppColors.btnBorder, width: 1),
+                                              gradient: LinearGradient(colors: [AppColors.error, AppColors.error80], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+                                              border: Border.all(color: AppColors.error, width: 1),
                                               borderRadius: BorderRadius.circular(8),
-                                              boxShadow: AppColors.shadowGlow(AppColors.btnColor),
+                                              boxShadow: AppColors.shadowGlow(AppColors.error),
                                             ),
-                                            child: const Icon(Icons.delete_outlined, color: Colors.black, size: 16),
+                                            child: const Icon(Icons.delete_outline, color: Colors.white, size: 16),
                                           ),
                                         ),
                                       ],

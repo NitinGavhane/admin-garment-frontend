@@ -1,22 +1,62 @@
 import 'package:flutter/material.dart';
 
+/// Central responsive helper — breakpoints and derived layout values so every
+/// screen sizes consistently from phones up to large desktops.
+class Responsive {
+  // Breakpoints (logical px).
+  static const double phone = 600;
+  static const double tablet = 1024;
+
+  // Max width the app content is allowed to occupy on very wide screens; keeps
+  // an admin panel readable instead of stretching edge-to-edge on a monitor.
+  static const double maxContentWidth = 1080;
+
+  static bool isPhone(BuildContext c) => MediaQuery.of(c).size.width < phone;
+  static bool isTablet(BuildContext c) {
+    final w = MediaQuery.of(c).size.width;
+    return w >= phone && w < tablet;
+  }
+  static bool isDesktop(BuildContext c) => MediaQuery.of(c).size.width >= tablet;
+
+  /// Number of columns for card grids given an available width.
+  static int gridColumns(double w) {
+    if (w >= 1240) return 5;
+    if (w >= tablet) return 4;
+    if (w >= phone) return 3;
+    if (w >= 420) return 2;
+    return 1;
+  }
+
+  /// Column count tuned for compact stat/quick-action tiles.
+  static int compactColumns(double w) {
+    if (w >= tablet) return 4;
+    if (w >= phone) return 3;
+    return 2;
+  }
+
+  /// Horizontal page padding that grows a little on larger canvases.
+  static double pagePadding(double w) => w >= phone ? 24 : 16;
+}
+
 class AppColors {
   static bool _isDark = false;
   static bool get isDark => _isDark;
   static void setDark(bool v) { _isDark = v; }
 
-  static const Color _lightBg = Color(0xFFF0F4F8);
-  static const Color _lightBgAlt = Color(0xFFE2E8F0);
-  static const Color _lightSurface = Color(0xFFFFFFFF);
-  static const Color _lightSurfaceAlt = Color(0xFFF8FAFC);
+  // Haze-inspired clean light palette: neutral near-white canvas, pure-white
+  // cards, soft hairline borders, and a calm neutral text ramp.
+  static const Color _lightBg = Color(0xFFF6F7F9);         // airy neutral canvas
+  static const Color _lightBgAlt = Color(0xFFF1F3F6);      // input fills / gutters
+  static const Color _lightSurface = Color(0xFFFFFFFF);    // cards
+  static const Color _lightSurfaceAlt = Color(0xFFFBFCFD); // near-white (flatter gradients)
   static const Color _lightSurfaceRaised = Color(0xFFFFFFFF);
-  static const Color _lightBorder = Color(0xFFCBD5E1);
-  static const Color _lightBorderLight = Color(0xFFE2E8F0);
-  static const Color _lightTextPrimary = Color(0xFF0F172A);
-  static const Color _lightTextSecondary = Color(0xFF475569);
-  static const Color _lightTextMuted = Color(0xFF94A3B8);
-  static const Color _lightOverlay = Color(0x30000000);
-  static const Color _lightShimmer = Color(0xFFE2E8F0);
+  static const Color _lightBorder = Color(0xFFE2E5EA);     // visible hairline
+  static const Color _lightBorderLight = Color(0xFFEDEFF2);// subtle hairline
+  static const Color _lightTextPrimary = Color(0xFF111827);// neutral-900
+  static const Color _lightTextSecondary = Color(0xFF4B5563);// neutral-600
+  static const Color _lightTextMuted = Color(0xFF9CA3AF);  // neutral-400
+  static const Color _lightOverlay = Color(0x26000000);
+  static const Color _lightShimmer = Color(0xFFEDEFF2);
 
   static const Color _darkBg = Color(0xFF0F172A);
   static const Color _darkBgAlt = Color(0xFF1E293B);
@@ -53,6 +93,12 @@ class AppColors {
   static const Color gold = Color(0xFFC9A227);
   static const Color gold80 = Color(0xFFD9AF4E);
   static const Color gold40 = Color(0xFFEAD9A0);
+  // Metallic gold stops — used to simulate brushed/polished gold on premium
+  // surfaces (buttons, accents). Ordered light → deep for top-lit gradients.
+  static const Color goldHighlight = Color(0xFFF7E9B0); // champagne sheen
+  static const Color goldLight = Color(0xFFE4C86A);
+  static const Color goldDeep = Color(0xFFA07A17);
+  static const Color goldShadow = Color(0xFF7C5E12);
   static const Color success = Color(0xFF16A34A);
   static const Color success80 = Color(0xFF45B56E);
   static const Color success40 = Color(0xFFA2DAB7);
@@ -78,32 +124,43 @@ class AppColors {
 
   static List<Color> get coralGradient => [coral, coral80];
   static List<Color> get goldGradient => [gold, gold80];
+  // Polished metallic gold — top-lit, for premium buttons and highlights.
+  static const List<Color> goldMetallic = [goldLight, gold, goldDeep];
+  // Deep royal-blue metallic gradient for premium dark surfaces.
+  static const List<Color> royalMetallic = [Color(0xFF2A3C9E), Color(0xFF1A2A80), Color(0xFF0E1656)];
   static List<Color> get successGradient => [success, success80];
   static List<Color> get errorGradient => [error, error80];
   static List<Color> get bluePurpleGradient => [const Color(0xFF1A2A80), const Color(0xFF243AA0)];
   static List<Color> get darkGradient => [surface, surfaceAlt];
   static List<Color> get bgGradient => _isDark
       ? [bg, const Color(0xFF0A1120)]
-      : [bg, const Color(0xFFE2E8F0)];
+      : [bg, const Color(0xFFEDEFF3)];
   static List<Color> get cardGradient => [surface, surfaceRaised];
   static List<Color> get navGradient => _isDark
       ? [const Color(0xFF1E293B), const Color(0xFF0F172A)]
-      : [const Color(0xFFDBE4F0), const Color(0xFFC8D4E4)];
+      : [const Color(0xFFFFFFFF), const Color(0xFFF4F5F8)];
 
+  // Soft, minimal elevation (Haze/shadcn-style) — barely-there in light mode.
   static List<BoxShadow> get shadowSm => [
-    BoxShadow(color: (_isDark ? Colors.white : Colors.black).withValues(alpha: _isDark ? 0.06 : 0.08), blurRadius: 4, offset: const Offset(0, 2)),
+    BoxShadow(color: (_isDark ? Colors.white : Colors.black).withValues(alpha: _isDark ? 0.05 : 0.04), blurRadius: 3, offset: const Offset(0, 1)),
   ];
   static List<BoxShadow> get shadowMd => [
-    BoxShadow(color: (_isDark ? Colors.white : Colors.black).withValues(alpha: _isDark ? 0.08 : 0.1), blurRadius: 8, offset: const Offset(0, 4)),
-    BoxShadow(color: (_isDark ? Colors.white : Colors.black).withValues(alpha: _isDark ? 0.04 : 0.06), blurRadius: 16, offset: const Offset(0, 2)),
+    BoxShadow(color: (_isDark ? Colors.white : Colors.black).withValues(alpha: _isDark ? 0.07 : 0.06), blurRadius: 8, offset: const Offset(0, 3)),
+    BoxShadow(color: (_isDark ? Colors.white : Colors.black).withValues(alpha: _isDark ? 0.03 : 0.035), blurRadius: 16, offset: const Offset(0, 1)),
   ];
   static List<BoxShadow> get shadowLg => [
-    BoxShadow(color: (_isDark ? Colors.white : Colors.black).withValues(alpha: _isDark ? 0.1 : 0.12), blurRadius: 16, offset: const Offset(0, 6)),
-    BoxShadow(color: (_isDark ? Colors.white : Colors.black).withValues(alpha: _isDark ? 0.04 : 0.06), blurRadius: 32, offset: const Offset(0, 4)),
+    BoxShadow(color: (_isDark ? Colors.white : Colors.black).withValues(alpha: _isDark ? 0.09 : 0.08), blurRadius: 16, offset: const Offset(0, 6)),
+    BoxShadow(color: (_isDark ? Colors.white : Colors.black).withValues(alpha: _isDark ? 0.04 : 0.05), blurRadius: 32, offset: const Offset(0, 4)),
   ];
   static List<BoxShadow> shadowGlow(Color c) => [
     BoxShadow(color: c.withValues(alpha: 0.2), blurRadius: 12, offset: const Offset(0, 4)),
     BoxShadow(color: c.withValues(alpha: 0.1), blurRadius: 28, offset: const Offset(0, 8)),
+  ];
+  // Warm, layered glow for gold surfaces — richer and softer than shadowGlow.
+  static List<BoxShadow> get shadowGold => [
+    BoxShadow(color: gold.withValues(alpha: 0.35), blurRadius: 14, offset: const Offset(0, 5)),
+    BoxShadow(color: goldDeep.withValues(alpha: 0.18), blurRadius: 30, offset: const Offset(0, 12)),
+    BoxShadow(color: (_isDark ? Colors.black : goldShadow).withValues(alpha: 0.12), blurRadius: 2, offset: const Offset(0, 1)),
   ];
   static List<BoxShadow> get shadowInset => [
     BoxShadow(color: (_isDark ? Colors.white : Colors.black).withValues(alpha: _isDark ? 0.04 : 0.06), blurRadius: 2, offset: const Offset(0, 1)),
@@ -169,5 +226,60 @@ class AppColors {
       bottom: BorderSide(color: borderLight, width: 1),
     ),
     boxShadow: shadowSm,
+  );
+
+  // ── Premium building blocks ───────────────────────────────────────────────
+  // Polished metallic-gold surface for primary actions. `radius` lets callers
+  // match pills, buttons, and chips. Top-lit gradient + warm glow read as a
+  // solid, expensive gold plate rather than a flat fill.
+  static BoxDecoration premiumGoldDeco({double radius = 10}) => BoxDecoration(
+    gradient: const LinearGradient(
+      colors: goldMetallic,
+      stops: [0.0, 0.55, 1.0],
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+    ),
+    borderRadius: BorderRadius.circular(radius),
+    border: Border.all(color: goldDeep, width: 1),
+    boxShadow: shadowGold,
+  );
+
+  // Thin top sheen — a highlight line where light catches the metal edge.
+  // Layer this above a gold surface with a Positioned/DecoratedBox.
+  static BoxDecoration goldSheen({double radius = 10}) => BoxDecoration(
+    borderRadius: BorderRadius.circular(radius),
+    gradient: LinearGradient(
+      colors: [goldHighlight.withValues(alpha: 0.9), Colors.white.withValues(alpha: 0.0)],
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+      stops: const [0.0, 0.5],
+    ),
+  );
+
+  // Premium card: soft surface gradient with a hairline gold-tinted border and
+  // a whisper of gold glow. Used for luxury content containers.
+  static BoxDecoration premiumCardDeco({double radius = 14}) => BoxDecoration(
+    gradient: LinearGradient(colors: cardGradient, begin: Alignment.topLeft, end: Alignment.bottomRight),
+    borderRadius: BorderRadius.circular(radius),
+    border: Border.all(color: gold.withValues(alpha: _isDark ? 0.28 : 0.35), width: 1),
+    boxShadow: [
+      ...shadowMd,
+      BoxShadow(color: gold.withValues(alpha: 0.06), blurRadius: 24, offset: const Offset(0, 8)),
+    ],
+  );
+
+  // A 1px horizontal gold rule that fades at both ends — a refined divider.
+  static BoxDecoration get goldHairline => BoxDecoration(
+    gradient: LinearGradient(
+      colors: [
+        gold.withValues(alpha: 0.0),
+        gold.withValues(alpha: 0.6),
+        goldHighlight.withValues(alpha: 0.9),
+        gold.withValues(alpha: 0.6),
+        gold.withValues(alpha: 0.0),
+      ],
+      begin: Alignment.centerLeft,
+      end: Alignment.centerRight,
+    ),
   );
 }

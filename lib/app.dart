@@ -40,11 +40,37 @@ class AdminApp extends StatelessWidget {
             snackBarTheme: SnackBarThemeData(
               backgroundColor: AppColors.surfaceAlt,
               behavior: SnackBarBehavior.floating,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              elevation: 8,
+              actionTextColor: AppColors.gold,
+              contentTextStyle: TextStyle(color: AppColors.textPrimary, fontSize: 13, fontWeight: FontWeight.w600, letterSpacing: 0.3),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+                side: BorderSide(color: AppColors.gold.withValues(alpha: 0.3), width: 1),
+              ),
             ),
+            textSelectionTheme: TextSelectionThemeData(
+              cursorColor: AppColors.coral,
+              selectionColor: AppColors.coral.withValues(alpha: 0.22),
+              selectionHandleColor: AppColors.coral,
+            ),
+            progressIndicatorTheme: const ProgressIndicatorThemeData(color: AppColors.coral),
+            iconTheme: IconThemeData(color: AppColors.textSecondary),
+            tooltipTheme: TooltipThemeData(
+              decoration: BoxDecoration(
+                color: AppColors.surfaceRaised,
+                borderRadius: BorderRadius.circular(6),
+                border: Border.all(color: AppColors.gold.withValues(alpha: 0.3), width: 1),
+              ),
+              textStyle: TextStyle(color: AppColors.textPrimary, fontSize: 11, fontWeight: FontWeight.w600),
+            ),
+            dividerTheme: DividerThemeData(color: AppColors.borderLight, thickness: 1),
             dialogTheme: DialogThemeData(
               backgroundColor: AppColors.surface,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              elevation: 16,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+                side: BorderSide(color: AppColors.gold.withValues(alpha: 0.28), width: 1),
+              ),
             ),
             pageTransitionsTheme: PageTransitionsTheme(
               builders: {
@@ -65,11 +91,37 @@ class AdminApp extends StatelessWidget {
             snackBarTheme: SnackBarThemeData(
               backgroundColor: AppColors.surfaceAlt,
               behavior: SnackBarBehavior.floating,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              elevation: 8,
+              actionTextColor: AppColors.gold,
+              contentTextStyle: TextStyle(color: AppColors.textPrimary, fontSize: 13, fontWeight: FontWeight.w600, letterSpacing: 0.3),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+                side: BorderSide(color: AppColors.gold.withValues(alpha: 0.3), width: 1),
+              ),
             ),
+            textSelectionTheme: TextSelectionThemeData(
+              cursorColor: AppColors.coral,
+              selectionColor: AppColors.coral.withValues(alpha: 0.22),
+              selectionHandleColor: AppColors.coral,
+            ),
+            progressIndicatorTheme: const ProgressIndicatorThemeData(color: AppColors.coral),
+            iconTheme: IconThemeData(color: AppColors.textSecondary),
+            tooltipTheme: TooltipThemeData(
+              decoration: BoxDecoration(
+                color: AppColors.surfaceRaised,
+                borderRadius: BorderRadius.circular(6),
+                border: Border.all(color: AppColors.gold.withValues(alpha: 0.3), width: 1),
+              ),
+              textStyle: TextStyle(color: AppColors.textPrimary, fontSize: 11, fontWeight: FontWeight.w600),
+            ),
+            dividerTheme: DividerThemeData(color: AppColors.borderLight, thickness: 1),
             dialogTheme: DialogThemeData(
               backgroundColor: AppColors.surface,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              elevation: 16,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+                side: BorderSide(color: AppColors.gold.withValues(alpha: 0.28), width: 1),
+              ),
             ),
             pageTransitionsTheme: PageTransitionsTheme(
               builders: {
@@ -81,15 +133,34 @@ class AdminApp extends StatelessWidget {
           themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
           // Responsive: on wide screens (tablet/desktop) the whole app is
           // centered and capped so content never stretches awkwardly; on phones
-          // it fills the screen. The side gutters use the app background.
+          // it fills the screen. The side gutters use a soft themed gradient.
           builder: (context, child) {
             final w = MediaQuery.of(context).size.width;
-            if (w <= 900 || child == null) return child ?? const SizedBox.shrink();
-            return ColoredBox(
-              color: AppColors.bgAlt,
+            if (w <= Responsive.maxContentWidth || child == null) {
+              return child ?? const SizedBox.shrink();
+            }
+            return DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: AppColors.bgGradient,
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                ),
+              ),
               child: Center(
-                child: SizedBox(
-                  width: 900,
+                child: Container(
+                  width: Responsive.maxContentWidth,
+                  decoration: BoxDecoration(
+                    color: AppColors.bg,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.18),
+                        blurRadius: 40,
+                        offset: const Offset(0, 0),
+                      ),
+                    ],
+                  ),
+                  clipBehavior: Clip.hardEdge,
                   child: child,
                 ),
               ),

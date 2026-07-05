@@ -57,7 +57,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
     return Scaffold(
       backgroundColor: AppColors.bg,
       body: _loading
-        ? const Center(child: CircularProgressIndicator(color: AppColors.coral))
+        ? const BrandLoader(label: 'Loading')
         : _order == null
           ? const EmptyBox(icon: Icons.search_off, message: 'Not found')
           : Column(children: [
@@ -125,18 +125,18 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                     onTap: curr ? null : () => _upd(s),
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                      decoration: BoxDecoration(
-                        gradient: curr
-                            ? LinearGradient(colors: [AppColors.btnColor, AppColors.btnColor80], begin: Alignment.topLeft, end: Alignment.bottomRight)
-                            : LinearGradient(colors: [AppColors.btnColor40, Colors.white], begin: Alignment.topLeft, end: Alignment.bottomRight),
-                        border: Border.all(color: AppColors.btnBorder, width: 1),
-                        borderRadius: BorderRadius.circular(8),
-                        boxShadow: curr ? AppColors.shadowGlow(AppColors.btnColor) : AppColors.shadowSm,
-                      ),
+                      decoration: curr
+                          ? AppColors.premiumGoldDeco(radius: 8)
+                          : BoxDecoration(
+                              gradient: LinearGradient(colors: [AppColors.btnColor40, Colors.white], begin: Alignment.topLeft, end: Alignment.bottomRight),
+                              border: Border.all(color: AppColors.btnBorder, width: 1),
+                              borderRadius: BorderRadius.circular(8),
+                              boxShadow: AppColors.shadowSm,
+                            ),
                       child: Text(_sd(s), style: TextStyle(
-                        color: curr ? Colors.black : AppColors.btnColor,
+                        color: curr ? AppColors.coralDark : AppColors.btnColor,
                         fontSize: 10,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: curr ? FontWeight.w800 : FontWeight.w700,
                         letterSpacing: 1.5,
                       )),
                     ),

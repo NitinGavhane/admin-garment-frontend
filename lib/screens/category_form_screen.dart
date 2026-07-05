@@ -171,7 +171,7 @@ class _CategoryFormScreenState extends State<CategoryFormScreen> {
     return Scaffold(
       backgroundColor: AppColors.bg,
       body: _loading
-        ? const Center(child: CircularProgressIndicator(color: AppColors.coral))
+        ? const BrandLoader(label: 'Loading')
         : Column(children: [
             BrandHeader(title: _editId != null ? 'Edit Category' : 'New Category'),
             Expanded(child: SingleChildScrollView(padding: const EdgeInsets.all(16), child: Form(key: _fk, child: Column(children: [
@@ -208,8 +208,8 @@ class _CategoryFormScreenState extends State<CategoryFormScreen> {
                             onTap: () => _ic.clear(),
                               child: Container(
                                 width: 28, height: 28,
-                                decoration: BoxDecoration(gradient: LinearGradient(colors: [AppColors.btnColor, AppColors.btnColor80], begin: Alignment.topLeft, end: Alignment.bottomRight), border: Border.all(color: AppColors.btnBorder, width: 1), borderRadius: BorderRadius.circular(6)),
-                                child: const Icon(Icons.close, color: Colors.black, size: 16),
+                                decoration: AppColors.premiumGoldDeco(radius: 6),
+                                child: Icon(Icons.close, color: AppColors.coralDark, size: 16),
                             ),
                           ),
                         ),

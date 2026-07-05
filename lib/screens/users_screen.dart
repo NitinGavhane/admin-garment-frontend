@@ -55,7 +55,7 @@ class _UsersScreenState extends State<UsersScreen> {
           const SizedBox(height: 12),
           Expanded(
             child: _loading
-                ? const Center(child: CircularProgressIndicator(color: AppColors.coral))
+                ? const BrandLoader(label: 'Loading')
                 : _filtered.isEmpty
                     ? const EmptyBox(icon: Icons.people_outline, message: 'No users found')
                     : RefreshIndicator(
@@ -72,31 +72,31 @@ class _UsersScreenState extends State<UsersScreen> {
                               decoration: BoxDecoration(
                                 gradient: LinearGradient(colors: [AppColors.surface, AppColors.surfaceAlt], begin: Alignment.topLeft, end: Alignment.bottomRight),
                                 border: Border.all(color: AppColors.borderLight, width: 1),
-                                borderRadius: BorderRadius.circular(12),
-                                boxShadow: AppColors.shadowSm,
+                                borderRadius: BorderRadius.circular(14),
+                                boxShadow: AppColors.shadowMd,
                               ),
                               child: Container(
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12),
+                                  borderRadius: BorderRadius.circular(14),
                                   gradient: LinearGradient(colors: [Colors.white.withValues(alpha: 0.03), Colors.transparent], begin: Alignment.topLeft, end: Alignment.bottomRight),
                                 ),
                                 padding: const EdgeInsets.all(16),
                                 child: Row(
                                   children: [
                                     Container(
-                                      width: 46, height: 46,
-                                      decoration: BoxDecoration(
-                                        color: u.role == 'admin' ? AppColors.gold.withValues(alpha: 0.15) : AppColors.coral.withValues(alpha: 0.1),
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                          color: u.role == 'admin' ? AppColors.gold.withValues(alpha: 0.3) : AppColors.coral.withValues(alpha: 0.2),
-                                          width: 1,
-                                        ),
-                                      ),
+                                      width: 48, height: 48,
+                                      decoration: u.role == 'admin'
+                                          ? AppColors.premiumGoldDeco(radius: 12)
+                                          : BoxDecoration(
+                                              gradient: LinearGradient(colors: AppColors.royalMetallic, begin: Alignment.topLeft, end: Alignment.bottomRight),
+                                              borderRadius: BorderRadius.circular(12),
+                                              border: Border.all(color: AppColors.coral.withValues(alpha: 0.4), width: 1),
+                                              boxShadow: AppColors.shadowSm,
+                                            ),
                                       child: Center(
-                                        child: Text(u.fullName[0].toUpperCase(),
-                                            style: const TextStyle(
-                                              color: Colors.black,
+                                        child: Text(u.fullName.isNotEmpty ? u.fullName[0].toUpperCase() : '?',
+                                            style: TextStyle(
+                                              color: u.role == 'admin' ? AppColors.coralDark : Colors.white,
                                               fontWeight: FontWeight.w900,
                                               fontSize: 18,
                                             )),
@@ -107,16 +107,16 @@ class _UsersScreenState extends State<UsersScreen> {
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Text(u.fullName, style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: 14), overflow: TextOverflow.ellipsis),
+                                          Text(u.fullName, style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.w700, fontSize: 14), overflow: TextOverflow.ellipsis),
                                           const SizedBox(height: 2),
-                                          Text(u.email, style: const TextStyle(color: Colors.black, fontSize: 12)),
-                                          const SizedBox(height: 2),
-                                          Text('P-${u.id.length > 6 ? u.id.substring(u.id.length - 6).toUpperCase() : u.id.toUpperCase()}', style: const TextStyle(color: Colors.black, fontSize: 10, fontWeight: FontWeight.w600)),
+                                          Text(u.email, style: TextStyle(color: AppColors.textSecondary, fontSize: 12), overflow: TextOverflow.ellipsis),
+                                          const SizedBox(height: 3),
+                                          Text('P-${u.id.length > 6 ? u.id.substring(u.id.length - 6).toUpperCase() : u.id.toUpperCase()}', style: TextStyle(color: AppColors.textMuted, fontSize: 10, fontWeight: FontWeight.w600, letterSpacing: 0.5)),
                                           const SizedBox(height: 8),
-                                          Wrap(spacing: 6, children: [
-                                            Tag(text: u.role, color: Colors.black),
-                                            Tag(text: u.isVerified ? 'Verified' : 'Unverified', color: Colors.black),
-                                            Tag(text: '₹${u.walletBalance.toStringAsFixed(0)}', color: Colors.black),
+                                          Wrap(spacing: 6, runSpacing: 6, children: [
+                                            Tag(text: u.role, color: u.role == 'admin' ? AppColors.gold : AppColors.coral, filled: true),
+                                            Tag(text: u.isVerified ? 'Verified' : 'Unverified', color: u.isVerified ? AppColors.success : AppColors.warning),
+                                            Tag(text: '₹${u.walletBalance.toStringAsFixed(0)}', color: AppColors.teal),
                                           ]),
                                         ],
                                       ),
