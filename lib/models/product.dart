@@ -45,6 +45,12 @@ class AdminProduct {
     this.images = const [],
   });
 
+  // GST breakup derived from the single total GST rate. Intra-state sales
+  // split the total equally into CGST + SGST; IGST equals the full total.
+  double get cgstPercentage => gstPercentage / 2;
+  double get sgstPercentage => gstPercentage / 2;
+  double get igstPercentage => gstPercentage;
+
   factory AdminProduct.fromJson(Map<String, dynamic> json) {
     return AdminProduct(
       id: json['id'] as String,

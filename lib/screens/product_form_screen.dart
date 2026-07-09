@@ -36,6 +36,16 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
   final List<_ImageItem> _images = [];
 
   @override
+  void initState() {
+    super.initState();
+    // Keep the live price + GST breakup preview in sync while typing.
+    void refresh() { if (mounted) setState(() {}); }
+    _priceCtrl.addListener(refresh);
+    _discountCtrl.addListener(refresh);
+    _gstCtrl.addListener(refresh);
+  }
+
+  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (_editId == null) {
@@ -176,6 +186,18 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
     );
   }
 
+  Widget _gstRow(String label, double percent, double amount) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text('$label  (${percent.toStringAsFixed(percent % 1 == 0 ? 0 : 2)}%)',
+            style: TextStyle(color: AppColors.textSecondary, fontSize: 13, fontWeight: FontWeight.w500)),
+        Text('₹${amount.toStringAsFixed(2)}',
+            style: TextStyle(color: AppColors.textPrimary, fontSize: 14, fontWeight: FontWeight.w600)),
+      ],
+    );
+  }
+
   Future<void> _save() async {
     if (!_formKey.currentState!.validate()) return;
     if (_catId == null || _catId!.isEmpty) {
@@ -271,8 +293,37 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                             Row(children: [
                               Expanded(child: StyledInput(controller: _stockCtrl, label: 'Stock', number: true)),
                               const SizedBox(width: 12),
-                              Expanded(child: StyledInput(controller: _gstCtrl, label: 'GST %', number: true)),
+                              Expanded(child: StyledInput(controller: _gstCtrl, label: 'Total GST %', number: true)),
                             ]),
+                            if ((double.tryParse(_gstCtrl.text.trim()) ?? 0) > 0) ...[
+                              Container(
+                                width: double.infinity,
+                                padding: const EdgeInsets.all(14),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(color: AppColors.btnColor.withValues(alpha: 0.3), width: 1),
+                                  color: AppColors.btnColor.withValues(alpha: 0.05),
+                                ),
+                                child: Builder(builder: (_) {
+                                  final gst = double.tryParse(_gstCtrl.text.trim()) ?? 0;
+                                  final half = gst / 2;
+                                  final base = (double.tryParse(_priceCtrl.text.trim()) ?? 0) -
+                                      (double.tryParse(_discountCtrl.text.trim()) ?? 0);
+                                  return Column(
+                                    children: [
+                                      _gstRow('CGST', half, base * half / 100),
+                                      const SizedBox(height: 6),
+                                      _gstRow('SGST', half, base * half / 100),
+                                      const SizedBox(height: 6),
+                                      _gstRow('IGST (inter-state)', gst, base * gst / 100),
+                                      Divider(height: 16, color: AppColors.borderLight),
+                                      _priceRow('Price incl. GST', base + base * gst / 100, bold: true, color: AppColors.success),
+                                    ],
+                                  );
+                                }),
+                              ),
+                              const SizedBox(height: 16),
+                            ],
                           ]),
                           const SizedBox(height: 16),
                           FormSection(title: 'Images', children: [
