@@ -22,7 +22,6 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
   final _priceCtrl = TextEditingController();
   final _discountCtrl = TextEditingController();
   final _stockCtrl = TextEditingController(text: '0');
-  final _gstCtrl = TextEditingController(text: '18');
   final _descCtrl = TextEditingController();
   final _brandCtrl = TextEditingController();
   final _urlCtrl = TextEditingController();
@@ -38,11 +37,10 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
   @override
   void initState() {
     super.initState();
-    // Keep the live price + GST breakup preview in sync while typing.
+    // Keep the live price preview in sync while typing.
     void refresh() { if (mounted) setState(() {}); }
     _priceCtrl.addListener(refresh);
     _discountCtrl.addListener(refresh);
-    _gstCtrl.addListener(refresh);
   }
 
   @override
@@ -70,7 +68,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
       _titleCtrl.text = p.title; _skuCtrl.text = p.sku;
       _priceCtrl.text = p.price.toString();
       if (p.discountPrice != null) _discountCtrl.text = (p.price - p.discountPrice!).toStringAsFixed(0);
-      _stockCtrl.text = p.stock.toString(); _gstCtrl.text = p.gstPercentage.toString();
+      _stockCtrl.text = p.stock.toString();
       _descCtrl.text = p.description ?? ''; _brandCtrl.text = p.brand ?? '';
       _featured = p.featured; _active = p.isActive; _replaceable = p.isReplaceable; _returnable = p.isReturnable; _catId = p.categoryId; _gender = p.gender;
       _images.clear();
@@ -166,7 +164,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
 
   @override void dispose() {
     _titleCtrl.dispose(); _skuCtrl.dispose(); _priceCtrl.dispose();
-    _discountCtrl.dispose(); _stockCtrl.dispose(); _gstCtrl.dispose();
+    _discountCtrl.dispose(); _stockCtrl.dispose();
     _descCtrl.dispose(); _brandCtrl.dispose(); _urlCtrl.dispose();
     for (final v in _variants) { v.sc.dispose(); v.cc.dispose(); v.stc.dispose(); v.pc.dispose(); }
     super.dispose();
@@ -186,18 +184,6 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
     );
   }
 
-  Widget _gstRow(String label, double percent, double amount) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text('$label  (${percent.toStringAsFixed(percent % 1 == 0 ? 0 : 2)}%)',
-            style: TextStyle(color: AppColors.textSecondary, fontSize: 13, fontWeight: FontWeight.w500)),
-        Text('₹${amount.toStringAsFixed(2)}',
-            style: TextStyle(color: AppColors.textPrimary, fontSize: 14, fontWeight: FontWeight.w600)),
-      ],
-    );
-  }
-
   Future<void> _save() async {
     if (!_formKey.currentState!.validate()) return;
     if (_catId == null || _catId!.isEmpty) {
@@ -209,7 +195,6 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
       'title': _titleCtrl.text.trim(), 'sku': _skuCtrl.text.trim(),
       'price': double.parse(_priceCtrl.text.trim()), 'category_id': _catId,
       'stock': int.tryParse(_stockCtrl.text.trim()) ?? 0,
-      'gst_percentage': double.tryParse(_gstCtrl.text.trim()) ?? 18,
       'featured': _featured, 'is_active': _active, 'is_replaceable': _replaceable, 'is_returnable': _returnable,
       'variants': _variants.map((v) => {
         'size': v.sc.text.trim().isEmpty ? null : v.sc.text.trim(),
@@ -292,38 +277,41 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                             ],
                             Row(children: [
                               Expanded(child: StyledInput(controller: _stockCtrl, label: 'Stock', number: true)),
-                              const SizedBox(width: 12),
-                              Expanded(child: StyledInput(controller: _gstCtrl, label: 'Total GST %', number: true)),
                             ]),
-                            if ((double.tryParse(_gstCtrl.text.trim()) ?? 0) > 0) ...[
-                              Container(
-                                width: double.infinity,
-                                padding: const EdgeInsets.all(14),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  border: Border.all(color: AppColors.btnColor.withValues(alpha: 0.3), width: 1),
-                                  color: AppColors.btnColor.withValues(alpha: 0.05),
-                                ),
-                                child: Builder(builder: (_) {
-                                  final gst = double.tryParse(_gstCtrl.text.trim()) ?? 0;
-                                  final half = gst / 2;
-                                  final base = (double.tryParse(_priceCtrl.text.trim()) ?? 0) -
-                                      (double.tryParse(_discountCtrl.text.trim()) ?? 0);
-                                  return Column(
-                                    children: [
-                                      _gstRow('CGST', half, base * half / 100),
-                                      const SizedBox(height: 6),
-                                      _gstRow('SGST', half, base * half / 100),
-                                      const SizedBox(height: 6),
-                                      _gstRow('IGST (inter-state)', gst, base * gst / 100),
-                                      Divider(height: 16, color: AppColors.borderLight),
-                                      _priceRow('Price incl. GST', base + base * gst / 100, bold: true, color: AppColors.success),
-                                    ],
-                                  );
-                                }),
+                            const SizedBox(height: 10),
+                            // GST is applied automatically at checkout based on the
+                            // customer's state — nothing to configure per product.
+                            Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.all(14),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(color: AppColors.btnColor.withValues(alpha: 0.3), width: 1),
+                                color: AppColors.btnColor.withValues(alpha: 0.05),
                               ),
-                              const SizedBox(height: 16),
-                            ],
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Icon(Icons.info_outline, size: 16, color: AppColors.btnColor),
+                                  const SizedBox(width: 10),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text('GST applied automatically',
+                                            style: TextStyle(color: AppColors.textPrimary, fontSize: 13, fontWeight: FontWeight.w700)),
+                                        const SizedBox(height: 4),
+                                        Text(
+                                          'Within West Bengal: CGST 9% + SGST 9%.\nOther states: IGST 18%.\nDecided from the customer’s delivery address.',
+                                          style: TextStyle(color: AppColors.textSecondary, fontSize: 12, height: 1.4),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 16),
                           ]),
                           const SizedBox(height: 16),
                           FormSection(title: 'Images', children: [

@@ -15,7 +15,6 @@ class AdminProduct {
   final String? description;
   final String? brand;
   final String? gender;
-  final double gstPercentage;
   final String? updatedBy;
   final DateTime? updatedAt;
   final List<AdminVariant> variants;
@@ -38,18 +37,11 @@ class AdminProduct {
     this.description,
     this.brand,
     this.gender,
-    this.gstPercentage = 18,
     this.updatedBy,
     this.updatedAt,
     this.variants = const [],
     this.images = const [],
   });
-
-  // GST breakup derived from the single total GST rate. Intra-state sales
-  // split the total equally into CGST + SGST; IGST equals the full total.
-  double get cgstPercentage => gstPercentage / 2;
-  double get sgstPercentage => gstPercentage / 2;
-  double get igstPercentage => gstPercentage;
 
   factory AdminProduct.fromJson(Map<String, dynamic> json) {
     return AdminProduct(
@@ -69,7 +61,6 @@ class AdminProduct {
       description: json['description'] as String?,
       brand: json['brand'] as String?,
       gender: json['gender'] as String?,
-      gstPercentage: (json['gst_percentage'] as num?)?.toDouble() ?? 18,
       updatedBy: json['updated_by'] as String?,
       updatedAt: json['updated_at'] != null ? DateTime.tryParse(json['updated_at'] as String) : null,
       variants: (json['variants'] as List<dynamic>?)
@@ -92,7 +83,6 @@ class AdminProduct {
       'sku': sku,
       'price': price,
       'discount_price': discountPrice,
-      'gst_percentage': gstPercentage,
       'stock': stock,
       'featured': featured,
       'is_active': isActive,
