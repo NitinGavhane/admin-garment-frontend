@@ -40,9 +40,8 @@ class _UsersScreenState extends State<UsersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.bg,
-      drawer: const FashionNavDrawer(currentRoute: '/users'),
+    return AdminScaffold(
+      currentRoute: '/users',
       body: Column(
         children: [
           Builder(builder: (ctx) => BrandHeader(

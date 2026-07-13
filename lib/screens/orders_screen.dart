@@ -50,9 +50,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.bg,
-      drawer: const FashionNavDrawer(currentRoute: '/orders'),
+    return AdminScaffold(
+      currentRoute: '/orders',
       body: Column(children: [
         Builder(builder: (ctx) => BrandHeader(title: 'Orders', subtitle: '${_orders.length} TOTAL', onMenuTap: () => Scaffold.of(ctx).openDrawer())),
         Expanded(child: _loading
@@ -97,9 +96,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                               Expanded(child: Text('#${o.orderNumber}', style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.w700, fontSize: 14, letterSpacing: 0.5), overflow: TextOverflow.ellipsis)),
                             ]),
                             const SizedBox(height: 4),
-                            ShaderMask(shaderCallback: (b) => LinearGradient(colors: [AppColors.coral, AppColors.coral80]).createShader(b),
-                              child: Text('₹${o.finalAmount.toStringAsFixed(2)}', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 16)),
-                            ),
+                            Text('₹${o.finalAmount.toStringAsFixed(2)}', style: const TextStyle(color: AppColors.coral, fontWeight: FontWeight.w900, fontSize: 16)),
                             const SizedBox(height: 8),
                             Wrap(spacing: 4, children: [
                               Tag(text: _sd(o.orderStatus), color: sc),

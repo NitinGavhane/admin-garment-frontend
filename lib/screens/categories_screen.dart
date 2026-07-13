@@ -148,9 +148,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.bg,
-      drawer: const FashionNavDrawer(currentRoute: '/categories'),
+    return AdminScaffold(
+      currentRoute: '/categories',
       floatingActionButton: Container(
         width: 52, height: 52,
         decoration: AppColors.premiumGoldDeco(radius: 14),

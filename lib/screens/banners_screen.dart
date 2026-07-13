@@ -73,9 +73,8 @@ class _BannersScreenState extends State<BannersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.bg,
-      drawer: const FashionNavDrawer(currentRoute: '/banners'),
+    return AdminScaffold(
+      currentRoute: '/banners',
       floatingActionButton: Container(
         width: 52, height: 52,
         decoration: AppColors.premiumGoldDeco(radius: 14),

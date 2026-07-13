@@ -169,9 +169,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.bg,
-      drawer: const FashionNavDrawer(currentRoute: '/dashboard'),
+    return AdminScaffold(
+      currentRoute: '/dashboard',
       body: _loading
           ? const BrandLoader(label: 'Loading')
           : RefreshIndicator(

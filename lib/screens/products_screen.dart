@@ -110,9 +110,8 @@ class _ProductsScreenState extends State<ProductsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.bg,
-      drawer: const FashionNavDrawer(currentRoute: '/products'),
+    return AdminScaffold(
+      currentRoute: '/products',
       floatingActionButton: Container(
         width: 56, height: 56,
           decoration: AppColors.premiumGoldDeco(radius: 16),
@@ -211,15 +210,11 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                           const SizedBox(height: 8),
                                           Row(children: [
                                             if (p.discountPrice != null) ...[
-                                              ShaderMask(shaderCallback: (b) => LinearGradient(colors: [AppColors.coral, AppColors.coral80]).createShader(b),
-                                                child: Text('₹${p.discountPrice!.toStringAsFixed(2)}', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 16)),
-                                              ),
+                                              Text('₹${p.discountPrice!.toStringAsFixed(2)}', style: const TextStyle(color: AppColors.coral, fontWeight: FontWeight.w900, fontSize: 16)),
                                               const SizedBox(width: 8),
                                               Text('₹${p.price.toStringAsFixed(2)}', style: TextStyle(color: AppColors.textMuted, fontSize: 12, decoration: TextDecoration.lineThrough)),
                                             ] else
-                                              ShaderMask(shaderCallback: (b) => LinearGradient(colors: [AppColors.coral, AppColors.coral80]).createShader(b),
-                                                child: Text('₹${p.price.toStringAsFixed(2)}', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 16)),
-                                              ),
+                                              Text('₹${p.price.toStringAsFixed(2)}', style: const TextStyle(color: AppColors.coral, fontWeight: FontWeight.w900, fontSize: 16)),
                                           ]),
                                           const SizedBox(height: 8),
                                           Wrap(spacing: 4, runSpacing: 4, children: [

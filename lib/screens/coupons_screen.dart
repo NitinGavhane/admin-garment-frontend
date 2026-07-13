@@ -42,9 +42,8 @@ class _CouponsScreenState extends State<CouponsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.bg,
-      drawer: const FashionNavDrawer(currentRoute: '/coupons'),
+    return AdminScaffold(
+      currentRoute: '/coupons',
       floatingActionButton: Container(
         width: 52, height: 52,
         decoration: AppColors.premiumGoldDeco(radius: 14),

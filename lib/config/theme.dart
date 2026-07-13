@@ -3,13 +3,16 @@ import 'package:flutter/material.dart';
 /// Central responsive helper — breakpoints and derived layout values so every
 /// screen sizes consistently from phones up to large desktops.
 class Responsive {
-  // Breakpoints (logical px).
+  // Breakpoints (logical px). The desktop breakpoint is 900 (not 1024) so the
+  // full desktop layout also engages for desktop browsers and mobile "Desktop
+  // site" mode (~980px), instead of falling back to the compact layout.
   static const double phone = 600;
-  static const double tablet = 1024;
+  static const double tablet = 900;
 
-  // Max width the app content is allowed to occupy on very wide screens; keeps
-  // an admin panel readable instead of stretching edge-to-edge on a monitor.
-  static const double maxContentWidth = 1080;
+  // Max width the app is allowed to occupy on very wide screens; keeps the
+  // admin panel readable instead of stretching edge-to-edge on a monitor.
+  // Sized for the desktop shell: 280px sidebar + ~1100px content.
+  static const double maxContentWidth = 1400;
 
   static bool isPhone(BuildContext c) => MediaQuery.of(c).size.width < phone;
   static bool isTablet(BuildContext c) {

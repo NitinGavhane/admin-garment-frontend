@@ -18,8 +18,38 @@ class BrandHeader extends StatelessWidget {
     this.onMenuTap,
   });
 
+  Widget _iconBox(IconData icon, VoidCallback onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 42, height: 42,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [AppColors.surfaceRaised, AppColors.surfaceAlt],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          border: Border.all(color: AppColors.borderLight, width: 1),
+          borderRadius: BorderRadius.circular(8),
+          boxShadow: AppColors.shadowSm,
+        ),
+        child: Icon(icon, color: AppColors.textSecondary, size: 18),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    // Leading affordance: the hamburger opens the drawer on compact layouts
+    // only — the desktop shell shows a permanent sidebar, so no menu button.
+    // Headers without a menu callback are pushed detail/form pages; they get
+    // a back arrow (previously they showed a dead menu icon and no way back).
+    Widget? leading;
+    if (onMenuTap != null) {
+      if (!Responsive.isDesktop(context)) leading = _iconBox(Icons.menu, onMenuTap!);
+    } else if (Navigator.of(context).canPop()) {
+      leading = _iconBox(Icons.arrow_back, () => Navigator.of(context).maybePop());
+    }
     return Container(
       padding: EdgeInsets.only(
         top: MediaQuery.of(context).padding.top + 12,
@@ -32,41 +62,27 @@ class BrandHeader extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
             child: Row(
               children: [
-                GestureDetector(
-                  onTap: onMenuTap,
-                  child: Container(
-                    width: 42, height: 42,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [AppColors.surfaceRaised, AppColors.surfaceAlt],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                      border: Border.all(color: AppColors.borderLight, width: 1),
-                      borderRadius: BorderRadius.circular(8),
-                      boxShadow: AppColors.shadowSm,
-                    ),
-                    child: Icon(Icons.menu, color: AppColors.textSecondary, size: 18),
-                  ),
-                ),
-                const SizedBox(width: 16),
+                if (leading != null) ...[
+                  leading,
+                  const SizedBox(width: 16),
+                ],
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      ShaderMask(
-                        shaderCallback: (bounds) => LinearGradient(
-                          colors: [AppColors.textPrimary, AppColors.coral],
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
-                        ).createShader(bounds),
+                      // Solid ink title (design system: flat, readable type;
+                      // gold hairline below carries the luxury accent). The
+                      // FittedBox keeps long titles on one line on phones.
+                      FittedBox(
+                        fit: BoxFit.scaleDown,
+                        alignment: Alignment.centerLeft,
                         child: Text(
                           title.toUpperCase(),
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 25,
+                          style: TextStyle(
+                            color: AppColors.textPrimary,
+                            fontSize: 24,
                             fontWeight: FontWeight.w800,
-                            letterSpacing: 3.5,
+                            letterSpacing: 3,
                             height: 1,
                           ),
                         ),
@@ -252,18 +268,13 @@ class StatTile extends StatelessWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            ShaderMask(
-                              shaderCallback: (bounds) => LinearGradient(
-                                colors: [accent, accent.withValues(alpha: 0.7)],
-                              ).createShader(bounds),
-                              child: Text(
-                                value,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 26,
-                                  fontWeight: FontWeight.w900,
-                                  letterSpacing: 1,
-                                ),
+                            Text(
+                              value,
+                              style: TextStyle(
+                                color: accent,
+                                fontSize: 26,
+                                fontWeight: FontWeight.w900,
+                                letterSpacing: 1,
                               ),
                             ),
                             const SizedBox(height: 2),
@@ -443,7 +454,65 @@ class FashionNavDrawer extends StatelessWidget {
     return Drawer(
       backgroundColor: AppColors.bg,
       width: 300,
-      child: Container(
+      child: AdminNavPanel(currentRoute: currentRoute, inDrawer: true),
+    );
+  }
+}
+
+/// Route-level scaffold. Compact layouts keep the hamburger + drawer; desktop
+/// (>= Responsive.tablet) shows a permanent sidebar so navigation is always
+/// visible — standard admin-panel ergonomics for the website.
+class AdminScaffold extends StatelessWidget {
+  final String currentRoute;
+  final Widget body;
+  final Widget? floatingActionButton;
+
+  const AdminScaffold({
+    super.key,
+    required this.currentRoute,
+    required this.body,
+    this.floatingActionButton,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    if (!Responsive.isDesktop(context)) {
+      return Scaffold(
+        backgroundColor: AppColors.bg,
+        drawer: FashionNavDrawer(currentRoute: currentRoute),
+        floatingActionButton: floatingActionButton,
+        body: body,
+      );
+    }
+    return Scaffold(
+      backgroundColor: AppColors.bg,
+      floatingActionButton: floatingActionButton,
+      body: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          SizedBox(
+            width: 280,
+            child: AdminNavPanel(currentRoute: currentRoute, inDrawer: false),
+          ),
+          Container(width: 1, color: AppColors.borderLight),
+          Expanded(child: body),
+        ],
+      ),
+    );
+  }
+}
+
+/// Shared navigation panel — rendered inside the mobile Drawer and as the
+/// persistent desktop sidebar.
+class AdminNavPanel extends StatelessWidget {
+  final String currentRoute;
+  final bool inDrawer;
+
+  const AdminNavPanel({super.key, required this.currentRoute, required this.inDrawer});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: AppColors.navGradient,
@@ -596,8 +665,7 @@ class FashionNavDrawer extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
+      );
   }
 
   void _logout(BuildContext context) {
@@ -663,7 +731,9 @@ class FashionNavDrawer extends StatelessWidget {
         child: InkWell(
           borderRadius: BorderRadius.circular(10),
           onTap: () {
-            Navigator.pop(ctx);
+            // Only the drawer overlay needs dismissing; the desktop sidebar
+            // stays in place across navigation.
+            if (inDrawer) Navigator.pop(ctx);
             if (route != currentRoute) Navigator.pushReplacementNamed(ctx, route);
           },
           child: Container(

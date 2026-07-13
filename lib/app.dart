@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'config/theme.dart';
 import 'providers/auth_provider.dart';
@@ -31,6 +32,9 @@ class AdminApp extends StatelessWidget {
           theme: ThemeData(
             brightness: Brightness.light,
             scaffoldBackgroundColor: AppColors.bg,
+            // Poppins is the design-system typeface (Design.md); explicit
+            // TextStyles without a fontFamily inherit it via DefaultTextStyle.
+            textTheme: GoogleFonts.poppinsTextTheme(ThemeData.light().textTheme),
             colorScheme: ColorScheme.light(
               primary: AppColors.coral,
               secondary: AppColors.gold,
@@ -82,6 +86,7 @@ class AdminApp extends StatelessWidget {
           darkTheme: ThemeData(
             brightness: Brightness.dark,
             scaffoldBackgroundColor: AppColors.bg,
+            textTheme: GoogleFonts.poppinsTextTheme(ThemeData.dark().textTheme),
             colorScheme: ColorScheme.dark(
               primary: AppColors.coral,
               secondary: AppColors.gold,
@@ -270,14 +275,7 @@ class _SplashGateState extends State<_SplashGate>
                   ),
                 ),
                 const SizedBox(height: 24),
-                ShaderMask(
-                  shaderCallback: (bounds) => const LinearGradient(
-                    colors: [AppColors.coral80, AppColors.coral],
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                  ).createShader(bounds),
-                  child: const Text('DRISTI FASHIONS', style: TextStyle(color: Colors.white, fontSize: 28, fontWeight: FontWeight.w900, letterSpacing: 4)),
-                ),
+                const Text('DRISTI FASHIONS', style: TextStyle(color: AppColors.coral, fontSize: 28, fontWeight: FontWeight.w900, letterSpacing: 4)),
                 const SizedBox(height: 8),
                 Text('ADMIN PANEL', style: TextStyle(color: AppColors.gold, fontSize: 11, letterSpacing: 8, fontWeight: FontWeight.w700)),
                 const SizedBox(height: 48),

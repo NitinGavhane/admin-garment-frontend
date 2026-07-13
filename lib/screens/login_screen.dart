@@ -12,8 +12,10 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _emailCtrl = TextEditingController(text: 'admin@garment.com');
-  final _passCtrl = TextEditingController(text: 'Admin@1234');
+  // Never pre-fill credentials — the deployed admin site is public, and a
+  // prefilled form hands out working admin access to anyone who opens it.
+  final _emailCtrl = TextEditingController();
+  final _passCtrl = TextEditingController();
   bool _obscure = true;
 
   @override
@@ -71,16 +73,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   const SizedBox(height: 24),
-                  ShaderMask(
-                    shaderCallback: (bounds) => const LinearGradient(
-                      colors: [AppColors.coral80, AppColors.coral],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                    ).createShader(bounds),
-                    child: const Text('DRISTI FASHIONS',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.white, fontSize: 26, fontWeight: FontWeight.w900, letterSpacing: 4)),
-                  ),
+                  const Text('DRISTI FASHIONS',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: AppColors.coral, fontSize: 26, fontWeight: FontWeight.w900, letterSpacing: 4)),
                   const SizedBox(height: 8),
                   Text('ADMIN PANEL', style: TextStyle(color: AppColors.gold, fontSize: 11, letterSpacing: 8, fontWeight: FontWeight.w700)),
                   const SizedBox(height: 56),
