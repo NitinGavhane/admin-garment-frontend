@@ -207,7 +207,7 @@ class _SplashGateState extends State<_SplashGate>
     super.initState();
     _ctrl = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1000),
+      duration: const Duration(milliseconds: 500),
     );
     _fade = CurvedAnimation(parent: _ctrl, curve: Curves.easeIn);
     _slide = Tween<Offset>(
@@ -222,7 +222,7 @@ class _SplashGateState extends State<_SplashGate>
     final auth = context.read<AdminAuthProvider>();
     await Future.wait([
       auth.checkAuth(),
-      Future.delayed(const Duration(milliseconds: 1200)),
+      Future.delayed(const Duration(milliseconds: 400)),
     ]);
     if (mounted) {
       await _ctrl.reverse();
