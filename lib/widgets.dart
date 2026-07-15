@@ -160,13 +160,13 @@ class FashionCard extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(color: AppColors.borderLight, width: 1),
         boxShadow: AppColors.shadowMd,
       ),
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(16),
           gradient: LinearGradient(
             colors: [
               Colors.white.withValues(alpha: 0.03),
@@ -227,13 +227,13 @@ class StatTile extends StatelessWidget {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(16),
           border: Border.all(color: AppColors.borderLight, width: 1),
           boxShadow: AppColors.shadowSm,
         ),
         child: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(16),
             gradient: LinearGradient(
               colors: [Colors.white.withValues(alpha: 0.03), Colors.transparent],
               begin: Alignment.topLeft,
@@ -254,8 +254,8 @@ class StatTile extends StatelessWidget {
                       end: Alignment.bottomCenter,
                     ),
                     borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(10),
-                      bottomLeft: Radius.circular(10),
+                      topLeft: Radius.circular(16),
+                      bottomLeft: Radius.circular(16),
                     ),
                   ),
                 ),
@@ -390,13 +390,13 @@ class ActionGrid extends StatelessWidget {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(16),
                 border: Border.all(color: AppColors.btnBorder, width: 1),
                 boxShadow: AppColors.shadowSm,
               ),
               child: Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(16),
                   gradient: LinearGradient(
                     colors: [Colors.white.withValues(alpha: 0.03), Colors.transparent],
                     begin: Alignment.topLeft,
@@ -737,38 +737,36 @@ class AdminNavPanel extends StatelessWidget {
             if (route != currentRoute) Navigator.pushReplacementNamed(ctx, route);
           },
           child: Container(
-            padding: const EdgeInsets.fromLTRB(8, 8, 12, 8),
+            padding: const EdgeInsets.fromLTRB(10, 8, 12, 8),
             decoration: BoxDecoration(
-              color: active ? AppColors.coral.withValues(alpha: 0.08) : Colors.transparent,
-              borderRadius: BorderRadius.circular(10),
+              // Lexron signature: the active item is a filled violet gradient
+              // pill with white content; inactive items are transparent.
+              gradient: active
+                  ? const LinearGradient(
+                      colors: [Color(0xFF9B7DF6), Color(0xFF7C4DEC)],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    )
+                  : null,
+              borderRadius: BorderRadius.circular(14),
+              boxShadow: active ? AppColors.shadowGlow(AppColors.coral) : null,
             ),
             child: Row(
               children: [
-                // Gold indicator bar marks the active item.
-                Container(
-                  width: 3, height: 22,
-                  decoration: BoxDecoration(
-                    gradient: active
-                        ? const LinearGradient(colors: AppColors.goldMetallic, begin: Alignment.topCenter, end: Alignment.bottomCenter)
-                        : null,
-                    borderRadius: BorderRadius.circular(2),
-                  ),
-                ),
-                const SizedBox(width: 10),
                 Container(
                   width: 34, height: 34,
                   decoration: BoxDecoration(
-                    color: active ? AppColors.coral.withValues(alpha: 0.12) : AppColors.bgAlt,
-                    borderRadius: BorderRadius.circular(9),
-                    border: Border.all(color: active ? AppColors.coral.withValues(alpha: 0.20) : AppColors.borderLight, width: 1),
+                    color: active ? Colors.white.withValues(alpha: 0.22) : AppColors.bgAlt,
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: active ? Colors.white.withValues(alpha: 0.30) : AppColors.borderLight, width: 1),
                   ),
-                  child: Icon(icon, color: active ? AppColors.coral : AppColors.textMuted, size: 17),
+                  child: Icon(icon, color: active ? Colors.white : AppColors.textMuted, size: 17),
                 ),
                 const SizedBox(width: 12),
                 Text(
                   label,
                   style: TextStyle(
-                    color: active ? AppColors.coral : AppColors.textSecondary,
+                    color: active ? Colors.white : AppColors.textSecondary,
                     fontSize: 13,
                     fontWeight: active ? FontWeight.w700 : FontWeight.w600,
                     letterSpacing: 0.2,
@@ -1202,7 +1200,7 @@ class FormSection extends StatelessWidget {
               end: Alignment.bottomRight,
             ),
             border: Border.all(color: AppColors.borderLight, width: 1),
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(16),
             boxShadow: AppColors.shadowMd,
           ),
           child: Column(children: children),

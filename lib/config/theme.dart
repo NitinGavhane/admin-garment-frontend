@@ -46,33 +46,33 @@ class AppColors {
   static bool get isDark => _isDark;
   static void setDark(bool v) { _isDark = v; }
 
-  // Haze-inspired clean light palette: neutral near-white canvas, pure-white
-  // cards, soft hairline borders, and a calm neutral text ramp.
-  static const Color _lightBg = Color(0xFFF6F7F9);         // airy neutral canvas
-  static const Color _lightBgAlt = Color(0xFFF1F3F6);      // input fills / gutters
+  // Lexron-inspired light palette: soft lavender canvas, pure-white cards,
+  // gentle violet-tinted hairlines, and a calm neutral text ramp.
+  static const Color _lightBg = Color(0xFFF3F0FC);         // airy lavender canvas
+  static const Color _lightBgAlt = Color(0xFFECE8F9);      // input fills / gutters (lilac)
   static const Color _lightSurface = Color(0xFFFFFFFF);    // cards
-  static const Color _lightSurfaceAlt = Color(0xFFFBFCFD); // near-white (flatter gradients)
+  static const Color _lightSurfaceAlt = Color(0xFFFBFAFE); // near-white lilac (flatter gradients)
   static const Color _lightSurfaceRaised = Color(0xFFFFFFFF);
-  static const Color _lightBorder = Color(0xFFE2E5EA);     // visible hairline
-  static const Color _lightBorderLight = Color(0xFFEDEFF2);// subtle hairline
-  static const Color _lightTextPrimary = Color(0xFF111827);// neutral-900
-  static const Color _lightTextSecondary = Color(0xFF4B5563);// neutral-600
-  static const Color _lightTextMuted = Color(0xFF9CA3AF);  // neutral-400
+  static const Color _lightBorder = Color(0xFFE5DFF6);     // visible lavender hairline
+  static const Color _lightBorderLight = Color(0xFFEFEBFA);// subtle lavender hairline
+  static const Color _lightTextPrimary = Color(0xFF1E1B33);// deep ink (violet-tinted)
+  static const Color _lightTextSecondary = Color(0xFF544F6B);// muted violet-grey
+  static const Color _lightTextMuted = Color(0xFF9B93B5);  // soft lilac-grey
   static const Color _lightOverlay = Color(0x26000000);
-  static const Color _lightShimmer = Color(0xFFEDEFF2);
+  static const Color _lightShimmer = Color(0xFFEDEAF8);
 
-  static const Color _darkBg = Color(0xFF0F172A);
-  static const Color _darkBgAlt = Color(0xFF1E293B);
-  static const Color _darkSurface = Color(0xFF1E293B);
-  static const Color _darkSurfaceAlt = Color(0xFF334155);
-  static const Color _darkSurfaceRaised = Color(0xFF475569);
-  static const Color _darkBorder = Color(0xFF475569);
-  static const Color _darkBorderLight = Color(0xFF334155);
-  static const Color _darkTextPrimary = Color(0xFFF1F5F9);
-  static const Color _darkTextSecondary = Color(0xFF94A3B8);
-  static const Color _darkTextMuted = Color(0xFF64748B);
+  static const Color _darkBg = Color(0xFF17132A);          // deep indigo-violet
+  static const Color _darkBgAlt = Color(0xFF221B3D);
+  static const Color _darkSurface = Color(0xFF221B3D);
+  static const Color _darkSurfaceAlt = Color(0xFF2E2650);
+  static const Color _darkSurfaceRaised = Color(0xFF3A3060);
+  static const Color _darkBorder = Color(0xFF3A3060);
+  static const Color _darkBorderLight = Color(0xFF2E2650);
+  static const Color _darkTextPrimary = Color(0xFFF3F0FC);
+  static const Color _darkTextSecondary = Color(0xFFB4A9D6);
+  static const Color _darkTextMuted = Color(0xFF7C709F);
   static const Color _darkOverlay = Color(0x40FFFFFF);
-  static const Color _darkShimmer = Color(0xFF334155);
+  static const Color _darkShimmer = Color(0xFF2E2650);
 
   static Color get bg => _isDark ? _darkBg : _lightBg;
   static Color get bgAlt => _isDark ? _darkBgAlt : _lightBgAlt;
@@ -87,61 +87,64 @@ class AppColors {
   static Color get overlay => _isDark ? _darkOverlay : _lightOverlay;
   static Color get shimmer => _isDark ? _darkShimmer : _lightShimmer;
 
-  // ── Dristi Fashions brand (royal blue + gold, from the logo) ──────────────
+  // ── Lexron violet brand palette ───────────────────────────────────────────
   // `coral` is the primary brand accent (branding, active states, labels).
-  static const Color coral = Color(0xFF1A2A80);   // royal blue
-  static const Color coral80 = Color(0xFF243AA0); // brighter royal
-  static const Color coral40 = Color(0xFFB9C0E0); // light royal
-  static const Color coralDark = Color(0xFF10195E); // deep royal (gradient tail / icons)
-  static const Color gold = Color(0xFFC9A227);
-  static const Color gold80 = Color(0xFFD9AF4E);
-  static const Color gold40 = Color(0xFFEAD9A0);
-  // Metallic gold stops — used to simulate brushed/polished gold on premium
-  // surfaces (buttons, accents). Ordered light → deep for top-lit gradients.
-  static const Color goldHighlight = Color(0xFFF7E9B0); // champagne sheen
-  static const Color goldLight = Color(0xFFE4C86A);
-  static const Color goldDeep = Color(0xFFA07A17);
-  static const Color goldShadow = Color(0xFF7C5E12);
+  // (Token names kept for a drop-in reskin; the values are now the violet set.)
+  static const Color coral = Color(0xFF8B5CF6);   // violet-500 (primary)
+  static const Color coral80 = Color(0xFFA78BFA); // violet-400
+  static const Color coral40 = Color(0xFFDDD6FE); // violet-200
+  static const Color coralDark = Color(0xFF6D28D9); // violet-700 (deep text / icons on light plates)
+  // `gold` is the secondary accent — recolored to a rich violet. Standalone
+  // uses (icons/labels on light surfaces) read as violet-600.
+  static const Color gold = Color(0xFF7C3AED);   // violet-600
+  static const Color gold80 = Color(0xFF8B5CF6); // violet-500
+  static const Color gold40 = Color(0xFFC4B5FD); // violet-300
+  // Soft lilac "plate" stops — used for premium button/pill surfaces. Kept
+  // light end-to-end so deep-violet `coralDark` text stays legible on them.
+  static const Color goldHighlight = Color(0xFFF5F3FF); // lilac sheen
+  static const Color goldLight = Color(0xFFEDE9FE);
+  static const Color goldDeep = Color(0xFFC4B5FD);
+  static const Color goldShadow = Color(0xFFA78BFA);
   static const Color success = Color(0xFF16A34A);
   static const Color success80 = Color(0xFF45B56E);
   static const Color success40 = Color(0xFFA2DAB7);
-  static const Color error = Color(0xFFDC2626);
-  static const Color error80 = Color(0xFFE35151);
-  static const Color error40 = Color(0xFFF1A8A8);
-  static const Color info = Color(0xFF0EA5E9);
-  static const Color info80 = Color(0xFF3EB7ED);
-  static const Color info40 = Color(0xFF9FDBF6);
-  // `purple` was a secondary accent (stat cards) — remapped to royal blue.
-  static const Color purple = Color(0xFF243AA0);
-  static const Color purple80 = Color(0xFF3A4FB0);
-  static const Color purple40 = Color(0xFFA6AED6);
+  static const Color error = Color(0xFFE11D48);
+  static const Color error80 = Color(0xFFEB5678);
+  static const Color error40 = Color(0xFFF5A3B6);
+  static const Color info = Color(0xFF6366F1);
+  static const Color info80 = Color(0xFF868BF5);
+  static const Color info40 = Color(0xFFC1C3FA);
+  // `purple` — secondary accent (stat tiles), the core Lexron violet.
+  static const Color purple = Color(0xFF8B5CF6);
+  static const Color purple80 = Color(0xFFA78BFA);
+  static const Color purple40 = Color(0xFFDDD6FE);
   static const Color teal = Color(0xFF0D9488);
   static const Color teal80 = Color(0xFF3DA9A0);
   static const Color teal40 = Color(0xFF9ED4CF);
   static const Color warning = Color(0xFFF59E0B);
-  // `btnColor` is the primary action (buttons) — gold, with dark text/icons.
-  static const Color btnColor = Color(0xFFC9A227);
-  static const Color btnColor80 = Color(0xFFD9AF4E);
-  static const Color btnColor40 = Color(0xFFEAD9A0);
-  static const Color btnBorder = Color(0xFFA8841C);
+  // `btnColor` — saturated violet action gradient with light lilac border.
+  static const Color btnColor = Color(0xFF8B5CF6);
+  static const Color btnColor80 = Color(0xFF7C3AED);
+  static const Color btnColor40 = Color(0xFFC4B5FD);
+  static const Color btnBorder = Color(0xFFD8CEF8);
 
   static List<Color> get coralGradient => [coral, coral80];
   static List<Color> get goldGradient => [gold, gold80];
-  // Polished metallic gold — top-lit, for premium buttons and highlights.
-  static const List<Color> goldMetallic = [goldLight, gold, goldDeep];
-  // Deep royal-blue metallic gradient for premium dark surfaces.
-  static const List<Color> royalMetallic = [Color(0xFF2A3C9E), Color(0xFF1A2A80), Color(0xFF0E1656)];
+  // Soft lilac plate — top-lit, for premium buttons and pills (violet-100→300).
+  static const List<Color> goldMetallic = [Color(0xFFEDE9FE), Color(0xFFDDD6FE), Color(0xFFC4B5FD)];
+  // Saturated violet gradient for premium/hero surfaces (stat cards) — white text.
+  static const List<Color> royalMetallic = [Color(0xFF8B5CF6), Color(0xFF7C3AED), Color(0xFF6D28D9)];
   static List<Color> get successGradient => [success, success80];
   static List<Color> get errorGradient => [error, error80];
-  static List<Color> get bluePurpleGradient => [const Color(0xFF1A2A80), const Color(0xFF243AA0)];
+  static List<Color> get bluePurpleGradient => [const Color(0xFF8B5CF6), const Color(0xFFA78BFA)];
   static List<Color> get darkGradient => [surface, surfaceAlt];
   static List<Color> get bgGradient => _isDark
-      ? [bg, const Color(0xFF0A1120)]
-      : [bg, const Color(0xFFEDEFF3)];
+      ? [bg, const Color(0xFF0F0B1E)]
+      : [bg, const Color(0xFFE7E0F8)];
   static List<Color> get cardGradient => [surface, surfaceRaised];
   static List<Color> get navGradient => _isDark
-      ? [const Color(0xFF1E293B), const Color(0xFF0F172A)]
-      : [const Color(0xFFFFFFFF), const Color(0xFFF4F5F8)];
+      ? [const Color(0xFF221B3D), const Color(0xFF17132A)]
+      : [const Color(0xFFFFFFFF), const Color(0xFFF6F3FD)];
 
   // Soft, minimal elevation (Haze/shadcn-style) — barely-there in light mode.
   static List<BoxShadow> get shadowSm => [
@@ -171,7 +174,7 @@ class AppColors {
 
   static BoxDecoration get cardDeco => BoxDecoration(
     gradient: LinearGradient(colors: cardGradient, begin: Alignment.topLeft, end: Alignment.bottomRight),
-    borderRadius: BorderRadius.circular(10),
+    borderRadius: BorderRadius.circular(16),
     border: Border.all(color: borderLight, width: 1),
     boxShadow: shadowMd,
   );
@@ -215,7 +218,7 @@ class AppColors {
   );
 
   static Decoration get cornerAccent => BoxDecoration(
-    gradient: const LinearGradient(colors: [Color(0xFF1A2A80), Color(0xFF243AA0)], begin: Alignment.topLeft, end: Alignment.bottomRight),
+    gradient: const LinearGradient(colors: [Color(0xFF8B5CF6), Color(0xFFA78BFA)], begin: Alignment.topLeft, end: Alignment.bottomRight),
     borderRadius: const BorderRadius.only(topLeft: Radius.circular(10), bottomRight: Radius.circular(10)),
   );
 
