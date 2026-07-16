@@ -145,7 +145,7 @@ class _BannerFormScreenState extends State<BannerFormScreen> {
                             child: Container(
                               width: 28, height: 28,
                               decoration: AppColors.premiumGoldDeco(radius: 6),
-                              child: Icon(Icons.close, color: AppColors.coralDark, size: 16),
+                              child: Icon(Icons.close, color: Colors.white, size: 16),
                             ),
                           )),
                         ]),

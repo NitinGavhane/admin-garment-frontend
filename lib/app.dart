@@ -32,9 +32,10 @@ class AdminApp extends StatelessWidget {
           theme: ThemeData(
             brightness: Brightness.light,
             scaffoldBackgroundColor: AppColors.bg,
-            // Poppins is the design-system typeface (Design.md); explicit
+            // Inter is the design-system body typeface (Dristi Fashions); explicit
             // TextStyles without a fontFamily inherit it via DefaultTextStyle.
-            textTheme: GoogleFonts.poppinsTextTheme(ThemeData.light().textTheme),
+            // Headings/labels opt into Montserrat via AppColors.heading(...).
+            textTheme: GoogleFonts.interTextTheme(ThemeData.light().textTheme),
             colorScheme: ColorScheme.light(
               primary: AppColors.coral,
               secondary: AppColors.gold,
@@ -45,11 +46,11 @@ class AdminApp extends StatelessWidget {
               backgroundColor: AppColors.surfaceAlt,
               behavior: SnackBarBehavior.floating,
               elevation: 8,
-              actionTextColor: AppColors.gold,
+              actionTextColor: AppColors.coral,
               contentTextStyle: TextStyle(color: AppColors.textPrimary, fontSize: 13, fontWeight: FontWeight.w600, letterSpacing: 0.3),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
-                side: BorderSide(color: AppColors.gold.withValues(alpha: 0.3), width: 1),
+                side: BorderSide(color: AppColors.coral.withValues(alpha: 0.25), width: 1),
               ),
             ),
             textSelectionTheme: TextSelectionThemeData(
@@ -63,7 +64,7 @@ class AdminApp extends StatelessWidget {
               decoration: BoxDecoration(
                 color: AppColors.surfaceRaised,
                 borderRadius: BorderRadius.circular(6),
-                border: Border.all(color: AppColors.gold.withValues(alpha: 0.3), width: 1),
+                border: Border.all(color: AppColors.coral.withValues(alpha: 0.25), width: 1),
               ),
               textStyle: TextStyle(color: AppColors.textPrimary, fontSize: 11, fontWeight: FontWeight.w600),
             ),
@@ -73,7 +74,7 @@ class AdminApp extends StatelessWidget {
               elevation: 16,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
-                side: BorderSide(color: AppColors.gold.withValues(alpha: 0.28), width: 1),
+                side: BorderSide(color: AppColors.coral.withValues(alpha: 0.22), width: 1),
               ),
             ),
             pageTransitionsTheme: PageTransitionsTheme(
@@ -86,7 +87,7 @@ class AdminApp extends StatelessWidget {
           darkTheme: ThemeData(
             brightness: Brightness.dark,
             scaffoldBackgroundColor: AppColors.bg,
-            textTheme: GoogleFonts.poppinsTextTheme(ThemeData.dark().textTheme),
+            textTheme: GoogleFonts.interTextTheme(ThemeData.dark().textTheme),
             colorScheme: ColorScheme.dark(
               primary: AppColors.coral,
               secondary: AppColors.gold,
@@ -97,11 +98,11 @@ class AdminApp extends StatelessWidget {
               backgroundColor: AppColors.surfaceAlt,
               behavior: SnackBarBehavior.floating,
               elevation: 8,
-              actionTextColor: AppColors.gold,
+              actionTextColor: AppColors.coral,
               contentTextStyle: TextStyle(color: AppColors.textPrimary, fontSize: 13, fontWeight: FontWeight.w600, letterSpacing: 0.3),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
-                side: BorderSide(color: AppColors.gold.withValues(alpha: 0.3), width: 1),
+                side: BorderSide(color: AppColors.coral.withValues(alpha: 0.25), width: 1),
               ),
             ),
             textSelectionTheme: TextSelectionThemeData(
@@ -115,7 +116,7 @@ class AdminApp extends StatelessWidget {
               decoration: BoxDecoration(
                 color: AppColors.surfaceRaised,
                 borderRadius: BorderRadius.circular(6),
-                border: Border.all(color: AppColors.gold.withValues(alpha: 0.3), width: 1),
+                border: Border.all(color: AppColors.coral.withValues(alpha: 0.25), width: 1),
               ),
               textStyle: TextStyle(color: AppColors.textPrimary, fontSize: 11, fontWeight: FontWeight.w600),
             ),
@@ -125,7 +126,7 @@ class AdminApp extends StatelessWidget {
               elevation: 16,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
-                side: BorderSide(color: AppColors.gold.withValues(alpha: 0.28), width: 1),
+                side: BorderSide(color: AppColors.coral.withValues(alpha: 0.22), width: 1),
               ),
             ),
             pageTransitionsTheme: PageTransitionsTheme(
@@ -266,7 +267,7 @@ class _SplashGateState extends State<_SplashGate>
                   height: 110,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(24),
-                    border: Border.all(color: AppColors.gold.withValues(alpha: 0.5), width: 1.5),
+                    border: Border.all(color: AppColors.coral.withValues(alpha: 0.4), width: 1.5),
                     boxShadow: AppColors.shadowGlow(AppColors.coral),
                   ),
                   child: ClipRRect(
@@ -275,9 +276,9 @@ class _SplashGateState extends State<_SplashGate>
                   ),
                 ),
                 const SizedBox(height: 24),
-                const Text('DRISTI FASHIONS', style: TextStyle(color: AppColors.coral, fontSize: 28, fontWeight: FontWeight.w900, letterSpacing: 4)),
+                Text('DRISTI FASHIONS', style: AppColors.heading(color: AppColors.coral, size: 28, weight: FontWeight.w900, letterSpacing: 4)),
                 const SizedBox(height: 8),
-                Text('ADMIN PANEL', style: TextStyle(color: AppColors.gold, fontSize: 11, letterSpacing: 8, fontWeight: FontWeight.w700)),
+                Text('ADMIN PANEL', style: AppColors.heading(color: AppColors.gold, size: 11, letterSpacing: 8, weight: FontWeight.w700)),
                 const SizedBox(height: 48),
                 SizedBox(
                   width: 24, height: 24,

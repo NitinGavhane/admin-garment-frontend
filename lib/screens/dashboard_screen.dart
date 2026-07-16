@@ -26,22 +26,21 @@ class _StatCard extends StatelessWidget {
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: AppColors.gold.withValues(alpha: 0.45), width: 1),
+          borderRadius: BorderRadius.circular(AppColors.rCard),
           boxShadow: [
             ...AppColors.shadowMd,
-            BoxShadow(color: AppColors.coral.withValues(alpha: 0.22), blurRadius: 20, offset: const Offset(0, 8)),
+            BoxShadow(color: AppColors.coral.withValues(alpha: 0.20), blurRadius: 20, offset: const Offset(0, 8)),
           ],
         ),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(AppColors.rCard),
           child: Stack(
             children: [
               Positioned.fill(
                 child: DecoratedBox(
                   decoration: const BoxDecoration(
                     gradient: LinearGradient(
-                      // Royal blue from the logo, gold accents.
+                      // Dristi violet hero plate — white content.
                       colors: AppColors.royalMetallic,
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
@@ -49,14 +48,14 @@ class _StatCard extends StatelessWidget {
                   ),
                 ),
               ),
-              // Subtle diagonal sheen across the plate
+              // Soft light sheen across the plate
               Positioned(
                 top: -20, right: -10, width: 90, height: 90,
                 child: DecoratedBox(
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     gradient: RadialGradient(
-                      colors: [AppColors.gold.withValues(alpha: 0.16), Colors.transparent],
+                      colors: [Colors.white.withValues(alpha: 0.14), Colors.transparent],
                     ),
                   ),
                 ),
@@ -70,20 +69,24 @@ class _StatCard extends StatelessWidget {
                       children: [
                         Container(
                           width: 38, height: 38,
-                          decoration: AppColors.premiumGoldDeco(radius: 10),
-                          child: Icon(icon, color: AppColors.coralDark, size: 18),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withValues(alpha: 0.18),
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(color: Colors.white.withValues(alpha: 0.28), width: 1),
+                          ),
+                          child: Icon(icon, color: Colors.white, size: 18),
                         ),
                         const Spacer(),
-                        Icon(Icons.north_east_rounded, color: AppColors.gold.withValues(alpha: 0.55), size: 15),
+                        Icon(Icons.north_east_rounded, color: Colors.white.withValues(alpha: 0.6), size: 15),
                       ],
                     ),
                     const SizedBox(height: 16),
                     Text(
                       value,
-                      style: const TextStyle(
+                      style: AppColors.heading(
                         color: Colors.white,
-                        fontSize: 27,
-                        fontWeight: FontWeight.w900,
+                        size: 27,
+                        weight: FontWeight.w900,
                         letterSpacing: 0.5,
                       ),
                     ),
@@ -91,17 +94,17 @@ class _StatCard extends StatelessWidget {
                     Row(
                       children: [
                         Container(width: 14, height: 2, decoration: BoxDecoration(
-                          gradient: LinearGradient(colors: AppColors.goldMetallic),
+                          color: Colors.white.withValues(alpha: 0.7),
                           borderRadius: BorderRadius.circular(1),
                         )),
                         const SizedBox(width: 7),
                         Text(
                           label.toUpperCase(),
-                          style: TextStyle(
-                            color: AppColors.gold40,
-                            fontSize: 9,
+                          style: AppColors.heading(
+                            color: Colors.white.withValues(alpha: 0.85),
+                            size: 9,
                             letterSpacing: 1.8,
-                            fontWeight: FontWeight.w700,
+                            weight: FontWeight.w700,
                           ),
                         ),
                       ],
@@ -192,9 +195,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           end: Alignment.bottomRight,
                         ),
                         borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: AppColors.gold.withValues(alpha: 0.4), width: 1),
+                        border: Border.all(color: AppColors.coral.withValues(alpha: 0.3), width: 1),
                       ),
-                      child: Icon(Icons.refresh, color: AppColors.gold, size: 16),
+                      child: Icon(Icons.refresh, color: AppColors.coral, size: 16),
                     ),
                   )),
                   const SizedBox(height: 20),

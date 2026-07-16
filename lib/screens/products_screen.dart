@@ -53,25 +53,8 @@ class _ProductsScreenState extends State<ProductsScreen> {
   }).toList();
 
   Future<void> _delete(String id, String title) async {
-    final ok = await showDialog<bool>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        backgroundColor: AppColors.surface,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        title: Row(children: [
-          Container(width: 28, height: 28, decoration: BoxDecoration(color: AppColors.error.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(6)), child: const Icon(Icons.delete_outlined, color: AppColors.error, size: 16)),
-          const SizedBox(width: 10),
-          const Text('DELETE', style: TextStyle(color: AppColors.coral, letterSpacing: 3, fontSize: 14, fontWeight: FontWeight.w800)),
-        ]),
-        content: Text('Remove "$title"?', style: TextStyle(color: AppColors.textSecondary)),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx, false), child: Container(padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 9), decoration: BoxDecoration(color: AppColors.surfaceAlt, border: Border.all(color: AppColors.borderLight, width: 1), borderRadius: BorderRadius.circular(7)), child: Text('CANCEL', style: TextStyle(color: AppColors.textSecondary, letterSpacing: 2, fontSize: 10, fontWeight: FontWeight.w800)))),
-          const SizedBox(width: 8),
-          TextButton(onPressed: () => Navigator.pop(ctx, true), child: Container(padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 9), decoration: BoxDecoration(gradient: LinearGradient(colors: [AppColors.error, AppColors.error80], begin: Alignment.topCenter, end: Alignment.bottomCenter), border: Border.all(color: AppColors.error, width: 1), borderRadius: BorderRadius.circular(7), boxShadow: AppColors.shadowGlow(AppColors.error)), child: const Text('DELETE', style: TextStyle(color: Colors.white, letterSpacing: 2, fontSize: 10, fontWeight: FontWeight.w800)))),
-        ],
-      ),
-    );
-    if (ok == true) {
+    final ok = await confirmDeleteDialog(context, message: 'Remove "$title"?');
+    if (ok) {
       try { await _admin.deleteProduct(id); _load(); } catch (_) {}
     }
   }
@@ -97,7 +80,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
             label,
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: active ? AppColors.coralDark : AppColors.textSecondary,
+              color: active ? Colors.white : AppColors.textSecondary,
               fontSize: 12,
               fontWeight: active ? FontWeight.w800 : FontWeight.w700,
               letterSpacing: 1,
@@ -115,7 +98,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
       floatingActionButton: Container(
         width: 56, height: 56,
           decoration: AppColors.premiumGoldDeco(radius: 16),
-          child: IconButton(icon: Icon(Icons.add, color: AppColors.coralDark, size: 26), onPressed: () => Navigator.pushNamed(context, '/product-form').then((_) => _load())),
+          child: IconButton(icon: Icon(Icons.add, color: Colors.white, size: 26), onPressed: () => Navigator.pushNamed(context, '/product-form').then((_) => _load())),
       ),
       body: Column(
         children: [
@@ -159,20 +142,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                           itemCount: _filtered.length,
                           itemBuilder: (_, i) {
                             final p = _filtered[i];
-                            return Container(
-                              margin: const EdgeInsets.only(bottom: 10),
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(colors: [AppColors.surface, AppColors.surfaceAlt], begin: Alignment.topLeft, end: Alignment.bottomRight),
-                                border: Border.all(color: AppColors.borderLight, width: 1),
-                                borderRadius: BorderRadius.circular(14),
-                                boxShadow: AppColors.shadowMd,
-                              ),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(14),
-                                  gradient: LinearGradient(colors: [Colors.white.withValues(alpha: 0.03), Colors.transparent], begin: Alignment.topLeft, end: Alignment.bottomRight),
-                                ),
-                                padding: const EdgeInsets.all(16),
+                            return ListCardShell(
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -237,7 +207,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                           child: Container(
                                             width: 38, height: 38,
                                             decoration: AppColors.premiumGoldDeco(radius: 8),
-                                            child: Icon(Icons.edit_outlined, color: AppColors.coralDark, size: 16),
+                                            child: Icon(Icons.edit_outlined, color: Colors.white, size: 16),
                                           ),
                                         ),
                                         const SizedBox(height: 6),
@@ -258,7 +228,6 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                     ),
                                   ],
                                 ),
-                              ),
                             );
                           },
                         ),

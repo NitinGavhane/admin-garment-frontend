@@ -61,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     width: 96, height: 96,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: AppColors.gold.withValues(alpha: 0.5), width: 1.5),
+                      border: Border.all(color: AppColors.coral.withValues(alpha: 0.4), width: 1.5),
                       boxShadow: [
                         ...AppColors.shadowGlow(AppColors.coral),
                         BoxShadow(color: AppColors.coral.withValues(alpha: 0.15), blurRadius: 40, offset: const Offset(0, 8)),
@@ -73,18 +73,18 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   const SizedBox(height: 24),
-                  const Text('DRISTI FASHIONS',
+                  Text('DRISTI FASHIONS',
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: AppColors.coral, fontSize: 26, fontWeight: FontWeight.w900, letterSpacing: 4)),
+                      style: AppColors.heading(color: AppColors.coral, size: 26, weight: FontWeight.w900, letterSpacing: 4)),
                   const SizedBox(height: 8),
-                  Text('ADMIN PANEL', style: TextStyle(color: AppColors.gold, fontSize: 11, letterSpacing: 8, fontWeight: FontWeight.w700)),
+                  Text('ADMIN PANEL', style: AppColors.heading(color: AppColors.gold, size: 11, letterSpacing: 8, weight: FontWeight.w700)),
                   const SizedBox(height: 56),
                   Container(
                     padding: const EdgeInsets.all(28),
-                    decoration: AppColors.premiumCardDeco(radius: 18).copyWith(
+                    decoration: AppColors.premiumCardDeco(radius: AppColors.rCardLg).copyWith(
                       boxShadow: [
                         ...AppColors.shadowLg,
-                        BoxShadow(color: AppColors.gold.withValues(alpha: 0.06), blurRadius: 40, offset: const Offset(0, 10)),
+                        BoxShadow(color: AppColors.coral.withValues(alpha: 0.06), blurRadius: 40, offset: const Offset(0, 10)),
                         BoxShadow(color: AppColors.coral.withValues(alpha: 0.05), blurRadius: 60, offset: const Offset(0, 0)),
                       ],
                     ),
@@ -95,7 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           style: TextStyle(color: AppColors.textPrimary, fontSize: 13),
                           decoration: InputDecoration(
                             labelText: 'EMAIL',
-                            labelStyle: TextStyle(color: AppColors.textMuted, fontSize: 10, letterSpacing: 2.5, fontWeight: FontWeight.w700),
+                            labelStyle: AppColors.heading(color: AppColors.textMuted, size: 10, letterSpacing: 2.5, weight: FontWeight.w700),
                             prefixIcon: Container(
                               margin: const EdgeInsets.all(10),
                               decoration: BoxDecoration(
@@ -127,7 +127,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           style: TextStyle(color: AppColors.textPrimary, fontSize: 13),
                           decoration: InputDecoration(
                             labelText: 'PASSWORD',
-                            labelStyle: TextStyle(color: AppColors.textMuted, fontSize: 10, letterSpacing: 2.5, fontWeight: FontWeight.w700),
+                            labelStyle: AppColors.heading(color: AppColors.textMuted, size: 10, letterSpacing: 2.5, weight: FontWeight.w700),
                             prefixIcon: Container(
                               margin: const EdgeInsets.all(10),
                               decoration: BoxDecoration(
@@ -198,13 +198,13 @@ class _LoginScreenState extends State<LoginScreen> {
                       Container(width: 28, height: 1, decoration: AppColors.goldHairline),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 12),
-                        child: Icon(Icons.verified_user_outlined, color: AppColors.gold.withValues(alpha: 0.8), size: 13),
+                        child: Icon(Icons.verified_user_outlined, color: AppColors.coral.withValues(alpha: 0.8), size: 13),
                       ),
                       Text('SECURED ADMIN ACCESS',
-                          style: TextStyle(color: AppColors.textMuted, fontSize: 8.5, letterSpacing: 3, fontWeight: FontWeight.w700)),
+                          style: AppColors.heading(color: AppColors.textMuted, size: 8.5, letterSpacing: 3, weight: FontWeight.w700)),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 12),
-                        child: Container(width: 4, height: 4, decoration: BoxDecoration(color: AppColors.gold.withValues(alpha: 0.6), shape: BoxShape.circle)),
+                        child: Container(width: 4, height: 4, decoration: BoxDecoration(color: AppColors.coral.withValues(alpha: 0.6), shape: BoxShape.circle)),
                       ),
                       Container(width: 28, height: 1, decoration: AppColors.goldHairline),
                     ],

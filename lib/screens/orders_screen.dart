@@ -64,23 +64,9 @@ class _OrdersScreenState extends State<OrdersScreen> {
                 itemBuilder: (_, i) {
                   final o = _orders[i];
                   final sc = _sc(o.orderStatus);
-                  return GestureDetector(
+                  return ListCardShell(
                     onTap: () => Navigator.pushNamed(context, '/order-detail', arguments: o.id),
-                    child: Container(
-                      margin: const EdgeInsets.only(bottom: 10),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(colors: [AppColors.surface, AppColors.surfaceAlt], begin: Alignment.topLeft, end: Alignment.bottomRight),
-                        border: Border.all(color: AppColors.borderLight, width: 1),
-                        borderRadius: BorderRadius.circular(14),
-                        boxShadow: AppColors.shadowMd,
-                      ),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(14),
-                          gradient: LinearGradient(colors: [Colors.white.withValues(alpha: 0.03), Colors.transparent], begin: Alignment.topLeft, end: Alignment.bottomRight),
-                        ),
-                        padding: const EdgeInsets.all(16),
-                        child: Row(children: [
+                      child: Row(children: [
                           Container(
                             width: 48, height: 48,
                             decoration: BoxDecoration(
@@ -113,8 +99,6 @@ class _OrdersScreenState extends State<OrdersScreen> {
                             child: Icon(Icons.chevron_right, color: sc.withValues(alpha: 0.5), size: 18),
                           ),
                         ]),
-                      ),
-                    ),
                   );
                 },
               )),

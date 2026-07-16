@@ -66,20 +66,8 @@ class _UsersScreenState extends State<UsersScreen> {
                           itemCount: _filtered.length,
                           itemBuilder: (_, i) {
                             final u = _filtered[i];
-                            return Container(
+                            return ListCardShell(
                               margin: const EdgeInsets.only(bottom: 8),
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(colors: [AppColors.surface, AppColors.surfaceAlt], begin: Alignment.topLeft, end: Alignment.bottomRight),
-                                border: Border.all(color: AppColors.borderLight, width: 1),
-                                borderRadius: BorderRadius.circular(14),
-                                boxShadow: AppColors.shadowMd,
-                              ),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(14),
-                                  gradient: LinearGradient(colors: [Colors.white.withValues(alpha: 0.03), Colors.transparent], begin: Alignment.topLeft, end: Alignment.bottomRight),
-                                ),
-                                padding: const EdgeInsets.all(16),
                                 child: Row(
                                   children: [
                                     Container(
@@ -95,7 +83,7 @@ class _UsersScreenState extends State<UsersScreen> {
                                       child: Center(
                                         child: Text(u.fullName.isNotEmpty ? u.fullName[0].toUpperCase() : '?',
                                             style: TextStyle(
-                                              color: u.role == 'admin' ? AppColors.coralDark : Colors.white,
+                                              color: u.role == 'admin' ? Colors.white : Colors.white,
                                               fontWeight: FontWeight.w900,
                                               fontSize: 18,
                                             )),
@@ -122,7 +110,6 @@ class _UsersScreenState extends State<UsersScreen> {
                                     ),
                                   ],
                                 ),
-                              ),
                             );
                           },
                         ),

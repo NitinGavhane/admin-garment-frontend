@@ -82,20 +82,9 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                 const SectionLabel(title: 'Items'),
                 const SizedBox(height: 8),
                 ...(_order!.items.map((item) {
-                  return Container(
+                  return ListCardShell(
                     margin: const EdgeInsets.only(bottom: 8),
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(colors: [AppColors.surface, AppColors.surfaceAlt], begin: Alignment.topLeft, end: Alignment.bottomRight),
-                      border: Border.all(color: AppColors.borderLight, width: 1),
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: AppColors.shadowSm,
-                    ),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        gradient: LinearGradient(colors: [Colors.white.withValues(alpha: 0.03), Colors.transparent], begin: Alignment.topLeft, end: Alignment.bottomRight),
-                      ),
-                      padding: const EdgeInsets.all(14),
+                    padding: const EdgeInsets.all(14),
                       child: Row(children: [
                         Container(width: 44, height: 44, decoration: BoxDecoration(color: AppColors.bgAlt, border: Border.all(color: AppColors.border), borderRadius: BorderRadius.circular(8)), child: Icon(Icons.shopping_bag_outlined, color: AppColors.textMuted, size: 20)),
                         const SizedBox(width: 14),
@@ -113,7 +102,6 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                           child: Text('?${(item.price * item.quantity).toStringAsFixed(2)}', style: TextStyle(color: AppColors.coral, fontWeight: FontWeight.w800, fontSize: 13)),
                         ),
                       ]),
-                    ),
                   );
                 })),
                 const SizedBox(height: 28),
@@ -134,7 +122,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                               boxShadow: AppColors.shadowSm,
                             ),
                       child: Text(_sd(s), style: TextStyle(
-                        color: curr ? AppColors.coralDark : AppColors.btnColor,
+                        color: curr ? Colors.white : AppColors.btnColor,
                         fontSize: 10,
                         fontWeight: curr ? FontWeight.w800 : FontWeight.w700,
                         letterSpacing: 1.5,

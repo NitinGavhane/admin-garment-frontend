@@ -24,21 +24,10 @@ class _CouponsScreenState extends State<CouponsScreen> {
     try { final c = await _admin.getCoupons(); if (mounted) setState(() { _coupons = c; _loading = false; }); } catch (_) { if (mounted) setState(() => _loading = false); }
   }
 
-  void _delete(String id, String code) => showDialog(context: context, builder: (ctx) => AlertDialog(
-    backgroundColor: AppColors.surface,
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-    title: Row(children: [
-      Container(width: 28, height: 28, decoration: BoxDecoration(color: AppColors.error.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(6)), child: const Icon(Icons.delete_outlined, color: AppColors.error, size: 16)),
-      const SizedBox(width: 10),
-      const Text('DELETE', style: TextStyle(color: AppColors.coral, letterSpacing: 3, fontSize: 14, fontWeight: FontWeight.w800)),
-    ]),
-    content: Text('Remove "$code"?', style: TextStyle(color: AppColors.textSecondary)),
-    actions: [
-      TextButton(onPressed: () => Navigator.pop(ctx, false), child: Container(padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8), decoration: BoxDecoration(gradient: LinearGradient(colors: [AppColors.btnColor40, AppColors.surface], begin: Alignment.topLeft, end: Alignment.bottomRight), border: Border.all(color: AppColors.btnBorder, width: 1), borderRadius: BorderRadius.circular(6), boxShadow: AppColors.shadowSm), child: Text('CANCEL', style: TextStyle(color: AppColors.btnColor, letterSpacing: 2, fontSize: 10)))),
-      const SizedBox(width: 8),
-      TextButton(onPressed: () { Navigator.pop(ctx, true); _admin.deleteCoupon(id); _load(); }, child: Container(padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8), decoration: BoxDecoration(gradient: LinearGradient(colors: [AppColors.error, AppColors.error80], begin: Alignment.topCenter, end: Alignment.bottomCenter), border: Border.all(color: AppColors.error, width: 1), borderRadius: BorderRadius.circular(6), boxShadow: AppColors.shadowGlow(AppColors.error)), child: const Text('DELETE', style: TextStyle(color: Colors.white, letterSpacing: 2, fontSize: 10)))),
-    ],
-  ));
+  Future<void> _delete(String id, String code) async {
+    final ok = await confirmDeleteDialog(context, message: 'Remove "$code"?');
+    if (ok) { await _admin.deleteCoupon(id); _load(); }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +36,7 @@ class _CouponsScreenState extends State<CouponsScreen> {
       floatingActionButton: Container(
         width: 52, height: 52,
         decoration: AppColors.premiumGoldDeco(radius: 14),
-        child: IconButton(icon: Icon(Icons.add, color: AppColors.coralDark), onPressed: () => Navigator.pushNamed(context, '/coupon-form').then((_) => _load())),
+        child: IconButton(icon: Icon(Icons.add, color: Colors.white), onPressed: () => Navigator.pushNamed(context, '/coupon-form').then((_) => _load())),
       ),
       body: Column(children: [
         Builder(builder: (ctx) => BrandHeader(title: 'Coupons', subtitle: '${_coupons.length} ACTIVE', onMenuTap: () => Scaffold.of(ctx).openDrawer())),
@@ -60,20 +49,7 @@ class _CouponsScreenState extends State<CouponsScreen> {
                 itemCount: _coupons.length,
                 itemBuilder: (_, i) {
                   final c = _coupons[i];
-                  return Container(
-                    margin: const EdgeInsets.only(bottom: 10),
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(colors: [AppColors.surface, AppColors.surfaceAlt], begin: Alignment.topLeft, end: Alignment.bottomRight),
-                      border: Border.all(color: AppColors.borderLight, width: 1),
-                      borderRadius: BorderRadius.circular(14),
-                      boxShadow: AppColors.shadowMd,
-                    ),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(14),
-                        gradient: LinearGradient(colors: [Colors.white.withValues(alpha: 0.03), Colors.transparent], begin: Alignment.topLeft, end: Alignment.bottomRight),
-                      ),
-                      padding: const EdgeInsets.all(16),
+                  return ListCardShell(
                       child: Row(children: [
                         Container(
                           width: 52, height: 52,
@@ -105,12 +81,11 @@ class _CouponsScreenState extends State<CouponsScreen> {
                           Text('Used ${c.usedCount}/${c.usageLimit}${!c.isActive ? ' · INACTIVE' : ''}', style: TextStyle(color: AppColors.textMuted, fontSize: 11)),
                         ])),
                         Column(children: [
-                          GestureDetector(onTap: () => Navigator.pushNamed(context, '/coupon-form', arguments: c.id).then((_) => _load()), child: Container(width: 36, height: 36, decoration: AppColors.premiumGoldDeco(radius: 8), child: Icon(Icons.edit_outlined, color: AppColors.coralDark, size: 14))),
+                          GestureDetector(onTap: () => Navigator.pushNamed(context, '/coupon-form', arguments: c.id).then((_) => _load()), child: Container(width: 36, height: 36, decoration: AppColors.premiumGoldDeco(radius: 8), child: Icon(Icons.edit_outlined, color: Colors.white, size: 14))),
                           const SizedBox(height: 6),
                           GestureDetector(onTap: () => _delete(c.id, c.code), child: Container(width: 36, height: 36, decoration: BoxDecoration(gradient: LinearGradient(colors: [AppColors.error, AppColors.error80], begin: Alignment.topCenter, end: Alignment.bottomCenter), border: Border.all(color: AppColors.error, width: 1), borderRadius: BorderRadius.circular(8), boxShadow: AppColors.shadowGlow(AppColors.error)), child: const Icon(Icons.delete_outlined, color: Colors.white, size: 14))),
                         ]),
                       ]),
-                    ),
                   );
                 },
               )),

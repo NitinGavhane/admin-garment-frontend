@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 /// Central responsive helper — breakpoints and derived layout values so every
 /// screen sizes consistently from phones up to large desktops.
@@ -46,18 +47,19 @@ class AppColors {
   static bool get isDark => _isDark;
   static void setDark(bool v) { _isDark = v; }
 
-  // Lexron-inspired light palette: soft lavender canvas, pure-white cards,
-  // gentle violet-tinted hairlines, and a calm neutral text ramp.
-  static const Color _lightBg = Color(0xFFF3F0FC);         // airy lavender canvas
-  static const Color _lightBgAlt = Color(0xFFECE8F9);      // input fills / gutters (lilac)
+  // ── Dristi Fashions light palette ──────────────────────────────────────────
+  // Airy lavender canvas, pure-white cards, hairline lilac borders, and a calm
+  // violet-tinted neutral text ramp (matches dristi-fashions.ai.studio).
+  static const Color _lightBg = Color(0xFFF6F3FC);         // airy lavender canvas
+  static const Color _lightBgAlt = Color(0xFFF3EBF8);      // input fills / tinted panels
   static const Color _lightSurface = Color(0xFFFFFFFF);    // cards
-  static const Color _lightSurfaceAlt = Color(0xFFFBFAFE); // near-white lilac (flatter gradients)
+  static const Color _lightSurfaceAlt = Color(0xFFFEF7FF); // near-white lilac (flatter gradients)
   static const Color _lightSurfaceRaised = Color(0xFFFFFFFF);
-  static const Color _lightBorder = Color(0xFFE5DFF6);     // visible lavender hairline
-  static const Color _lightBorderLight = Color(0xFFEFEBFA);// subtle lavender hairline
-  static const Color _lightTextPrimary = Color(0xFF1E1B33);// deep ink (violet-tinted)
-  static const Color _lightTextSecondary = Color(0xFF544F6B);// muted violet-grey
-  static const Color _lightTextMuted = Color(0xFF9B93B5);  // soft lilac-grey
+  static const Color _lightBorder = Color(0xFFCBC3D7);     // visible lilac hairline
+  static const Color _lightBorderLight = Color(0xFFE7E0ED);// subtle lilac hairline
+  static const Color _lightTextPrimary = Color(0xFF1D1A23);// deep ink
+  static const Color _lightTextSecondary = Color(0xFF494454);// muted slate
+  static const Color _lightTextMuted = Color(0xFF7B7486);  // soft lilac-grey
   static const Color _lightOverlay = Color(0x26000000);
   static const Color _lightShimmer = Color(0xFFEDEAF8);
 
@@ -87,56 +89,54 @@ class AppColors {
   static Color get overlay => _isDark ? _darkOverlay : _lightOverlay;
   static Color get shimmer => _isDark ? _darkShimmer : _lightShimmer;
 
-  // ── Lexron violet brand palette ───────────────────────────────────────────
-  // `coral` is the primary brand accent (branding, active states, labels).
-  // (Token names kept for a drop-in reskin; the values are now the violet set.)
-  static const Color coral = Color(0xFF8B5CF6);   // violet-500 (primary)
-  static const Color coral80 = Color(0xFFA78BFA); // violet-400
-  static const Color coral40 = Color(0xFFDDD6FE); // violet-200
-  static const Color coralDark = Color(0xFF6D28D9); // violet-700 (deep text / icons on light plates)
-  // `gold` is the secondary accent — recolored to a rich violet. Standalone
-  // uses (icons/labels on light surfaces) read as violet-600.
-  static const Color gold = Color(0xFF7C3AED);   // violet-600
-  static const Color gold80 = Color(0xFF8B5CF6); // violet-500
-  static const Color gold40 = Color(0xFFC4B5FD); // violet-300
-  // Soft lilac "plate" stops — used for premium button/pill surfaces. Kept
-  // light end-to-end so deep-violet `coralDark` text stays legible on them.
-  static const Color goldHighlight = Color(0xFFF5F3FF); // lilac sheen
-  static const Color goldLight = Color(0xFFEDE9FE);
-  static const Color goldDeep = Color(0xFFC4B5FD);
-  static const Color goldShadow = Color(0xFFA78BFA);
+  // ── Dristi violet brand palette ─────────────────────────────────────────────
+  // `coral` is the primary brand accent (branding, active states, buttons).
+  // (Token names kept for a drop-in reskin; the values are the Dristi violet set.)
+  static const Color coral = Color(0xFF6B38D4);   // primary violet
+  static const Color coral80 = Color(0xFF8455EF); // hover / lighter violet
+  static const Color coral40 = Color(0xFFCBB8F0); // soft violet
+  static const Color coralDark = Color(0xFF4C1D95); // deep violet (text/icons on light plates)
+  // `gold` is the secondary accent — a thin amber, used sparingly on badges.
+  static const Color gold = Color(0xFFA76500);   // amber
+  static const Color gold80 = Color(0xFFC67C1A); // lighter amber
+  static const Color gold40 = Color(0xFFFFDCBB); // soft amber fill
+  // Amber "plate" stops — flattened; kept for badge/pill surfaces.
+  static const Color goldHighlight = Color(0xFFFFF3E6); // amber sheen
+  static const Color goldLight = Color(0xFFFFE8CC);
+  static const Color goldDeep = Color(0xFF855000);
+  static const Color goldShadow = Color(0xFFC08A3A);
   static const Color success = Color(0xFF16A34A);
   static const Color success80 = Color(0xFF45B56E);
   static const Color success40 = Color(0xFFA2DAB7);
-  static const Color error = Color(0xFFE11D48);
-  static const Color error80 = Color(0xFFEB5678);
-  static const Color error40 = Color(0xFFF5A3B6);
-  static const Color info = Color(0xFF6366F1);
-  static const Color info80 = Color(0xFF868BF5);
+  static const Color error = Color(0xFFBA1A1A);
+  static const Color error80 = Color(0xFFD0322E);
+  static const Color error40 = Color(0xFFFFDAD6);
+  static const Color info = Color(0xFF8A4CFC);
+  static const Color info80 = Color(0xFFA78BFA);
   static const Color info40 = Color(0xFFC1C3FA);
-  // `purple` — secondary accent (stat tiles), the core Lexron violet.
-  static const Color purple = Color(0xFF8B5CF6);
+  // `purple` — secondary accent (stat tiles), the alt Dristi violet.
+  static const Color purple = Color(0xFF8A4CFC);
   static const Color purple80 = Color(0xFFA78BFA);
   static const Color purple40 = Color(0xFFDDD6FE);
   static const Color teal = Color(0xFF0D9488);
   static const Color teal80 = Color(0xFF3DA9A0);
   static const Color teal40 = Color(0xFF9ED4CF);
-  static const Color warning = Color(0xFFF59E0B);
-  // `btnColor` — saturated violet action gradient with light lilac border.
-  static const Color btnColor = Color(0xFF8B5CF6);
-  static const Color btnColor80 = Color(0xFF7C3AED);
-  static const Color btnColor40 = Color(0xFFC4B5FD);
+  static const Color warning = Color(0xFFA76500);
+  // `btnColor` — flat solid violet action fill with a faint lilac border.
+  static const Color btnColor = Color(0xFF6B38D4);
+  static const Color btnColor80 = Color(0xFF8455EF);
+  static const Color btnColor40 = Color(0xFFCBB8F0);
   static const Color btnBorder = Color(0xFFD8CEF8);
 
   static List<Color> get coralGradient => [coral, coral80];
   static List<Color> get goldGradient => [gold, gold80];
-  // Soft lilac plate — top-lit, for premium buttons and pills (violet-100→300).
-  static const List<Color> goldMetallic = [Color(0xFFEDE9FE), Color(0xFFDDD6FE), Color(0xFFC4B5FD)];
+  // Flattened — near-solid violet plate (metallic sheen removed).
+  static const List<Color> goldMetallic = [Color(0xFF7C4DE0), Color(0xFF6B38D4), Color(0xFF6B38D4)];
   // Saturated violet gradient for premium/hero surfaces (stat cards) — white text.
-  static const List<Color> royalMetallic = [Color(0xFF8B5CF6), Color(0xFF7C3AED), Color(0xFF6D28D9)];
+  static const List<Color> royalMetallic = [Color(0xFF8455EF), Color(0xFF6B38D4), Color(0xFF5A2BB5)];
   static List<Color> get successGradient => [success, success80];
   static List<Color> get errorGradient => [error, error80];
-  static List<Color> get bluePurpleGradient => [const Color(0xFF8B5CF6), const Color(0xFFA78BFA)];
+  static List<Color> get bluePurpleGradient => [const Color(0xFF6B38D4), const Color(0xFF8A4CFC)];
   static List<Color> get darkGradient => [surface, surfaceAlt];
   static List<Color> get bgGradient => _isDark
       ? [bg, const Color(0xFF0F0B1E)]
@@ -144,7 +144,32 @@ class AppColors {
   static List<Color> get cardGradient => [surface, surfaceRaised];
   static List<Color> get navGradient => _isDark
       ? [const Color(0xFF221B3D), const Color(0xFF17132A)]
-      : [const Color(0xFFFFFFFF), const Color(0xFFF6F3FD)];
+      : [const Color(0xFFFFFFFF), const Color(0xFFFEF7FF)];
+  // Nav active-pill fill — the Dristi violet signature (tokenized, was hardcoded).
+  static const List<Color> navActiveGradient = [Color(0xFF8455EF), Color(0xFF6B38D4)];
+
+  // ── Radius scale (matches the reference: rounded-lg/xl/2xl/3xl) ──────────────
+  static const double rInput = 10;   // inputs / small controls
+  static const double rButton = 12;  // buttons  (rounded-xl)
+  static const double rCard = 16;    // cards    (rounded-2xl)
+  static const double rCardLg = 24;  // large cards (rounded-3xl)
+  static const double rPill = 999;   // pills / chips
+
+  // Montserrat display helper — headings, stat values, and the tiny uppercase
+  // labels use this; body/inputs inherit Inter via the base textTheme.
+  static TextStyle heading({
+    double? size,
+    FontWeight? weight,
+    double? letterSpacing,
+    Color? color,
+    double? height,
+  }) => GoogleFonts.montserrat(
+    fontSize: size,
+    fontWeight: weight,
+    letterSpacing: letterSpacing,
+    color: color,
+    height: height,
+  );
 
   // Soft, minimal elevation (Haze/shadcn-style) — barely-there in light mode.
   static List<BoxShadow> get shadowSm => [
@@ -162,11 +187,11 @@ class AppColors {
     BoxShadow(color: c.withValues(alpha: 0.2), blurRadius: 12, offset: const Offset(0, 4)),
     BoxShadow(color: c.withValues(alpha: 0.1), blurRadius: 28, offset: const Offset(0, 8)),
   ];
-  // Warm, layered glow for gold surfaces — richer and softer than shadowGlow.
+  // Flattened: primary-action glow is now the soft violet-tinted "luxury" shadow
+  // (0 10px 30px -10px #6b38d4) rather than a warm metallic gold glow.
   static List<BoxShadow> get shadowGold => [
-    BoxShadow(color: gold.withValues(alpha: 0.35), blurRadius: 14, offset: const Offset(0, 5)),
-    BoxShadow(color: goldDeep.withValues(alpha: 0.18), blurRadius: 30, offset: const Offset(0, 12)),
-    BoxShadow(color: (_isDark ? Colors.black : goldShadow).withValues(alpha: 0.12), blurRadius: 2, offset: const Offset(0, 1)),
+    BoxShadow(color: coral.withValues(alpha: _isDark ? 0.30 : 0.16), blurRadius: 20, offset: const Offset(0, 10)),
+    BoxShadow(color: (_isDark ? Colors.black : coral).withValues(alpha: 0.06), blurRadius: 3, offset: const Offset(0, 1)),
   ];
   static List<BoxShadow> get shadowInset => [
     BoxShadow(color: (_isDark ? Colors.white : Colors.black).withValues(alpha: _isDark ? 0.04 : 0.06), blurRadius: 2, offset: const Offset(0, 1)),
@@ -174,7 +199,7 @@ class AppColors {
 
   static BoxDecoration get cardDeco => BoxDecoration(
     gradient: LinearGradient(colors: cardGradient, begin: Alignment.topLeft, end: Alignment.bottomRight),
-    borderRadius: BorderRadius.circular(16),
+    borderRadius: BorderRadius.circular(rCard),
     border: Border.all(color: borderLight, width: 1),
     boxShadow: shadowMd,
   );
@@ -218,7 +243,7 @@ class AppColors {
   );
 
   static Decoration get cornerAccent => BoxDecoration(
-    gradient: const LinearGradient(colors: [Color(0xFF8B5CF6), Color(0xFFA78BFA)], begin: Alignment.topLeft, end: Alignment.bottomRight),
+    gradient: const LinearGradient(colors: [Color(0xFF8455EF), Color(0xFF6B38D4)], begin: Alignment.topLeft, end: Alignment.bottomRight),
     borderRadius: const BorderRadius.only(topLeft: Radius.circular(10), bottomRight: Radius.circular(10)),
   );
 
@@ -234,58 +259,56 @@ class AppColors {
     boxShadow: shadowSm,
   );
 
-  // ── Premium building blocks ───────────────────────────────────────────────
-  // Polished metallic-gold surface for primary actions. `radius` lets callers
-  // match pills, buttons, and chips. Top-lit gradient + warm glow read as a
-  // solid, expensive gold plate rather than a flat fill.
-  static BoxDecoration premiumGoldDeco({double radius = 10}) => BoxDecoration(
-    gradient: const LinearGradient(
-      colors: goldMetallic,
-      stops: [0.0, 0.55, 1.0],
-      begin: Alignment.topCenter,
-      end: Alignment.bottomCenter,
-    ),
+  // ── Premium building blocks (flattened to the Dristi flat-violet look) ───────
+  // Primary-action surface: a flat solid-violet plate (no metallic gradient),
+  // hairline violet border, soft violet shadow. `radius` lets callers match
+  // pills, buttons, and chips. All former "gold plate" call sites pick this up.
+  static BoxDecoration premiumGoldDeco({double radius = 12}) => BoxDecoration(
+    color: btnColor,
     borderRadius: BorderRadius.circular(radius),
-    border: Border.all(color: goldDeep, width: 1),
+    border: Border.all(color: coralDark.withValues(alpha: 0.35), width: 1),
     boxShadow: shadowGold,
   );
 
-  // Thin top sheen — a highlight line where light catches the metal edge.
-  // Layer this above a gold surface with a Positioned/DecoratedBox.
-  static BoxDecoration goldSheen({double radius = 10}) => BoxDecoration(
+  // Flattened — no metal edge sheen anymore. Kept as a no-op so existing
+  // call sites (FashionButton) compile without a structural change.
+  static BoxDecoration goldSheen({double radius = 12}) => BoxDecoration(
     borderRadius: BorderRadius.circular(radius),
-    gradient: LinearGradient(
-      colors: [goldHighlight.withValues(alpha: 0.9), Colors.white.withValues(alpha: 0.0)],
-      begin: Alignment.topCenter,
-      end: Alignment.bottomCenter,
-      stops: const [0.0, 0.5],
-    ),
+    color: Colors.transparent,
   );
 
-  // Premium card: soft surface gradient with a hairline gold-tinted border and
-  // a whisper of gold glow. Used for luxury content containers.
-  static BoxDecoration premiumCardDeco({double radius = 14}) => BoxDecoration(
+  // Premium card: soft surface gradient with a hairline violet-tinted border and
+  // a whisper of violet glow. Used for luxury content containers.
+  static BoxDecoration premiumCardDeco({double radius = rCard}) => BoxDecoration(
     gradient: LinearGradient(colors: cardGradient, begin: Alignment.topLeft, end: Alignment.bottomRight),
     borderRadius: BorderRadius.circular(radius),
-    border: Border.all(color: gold.withValues(alpha: _isDark ? 0.28 : 0.35), width: 1),
+    border: Border.all(color: coral.withValues(alpha: _isDark ? 0.26 : 0.20), width: 1),
     boxShadow: [
       ...shadowMd,
-      BoxShadow(color: gold.withValues(alpha: 0.06), blurRadius: 24, offset: const Offset(0, 8)),
+      BoxShadow(color: coral.withValues(alpha: 0.06), blurRadius: 24, offset: const Offset(0, 8)),
     ],
   );
 
-  // A 1px horizontal gold rule that fades at both ends — a refined divider.
+  // A 1px horizontal violet rule that fades at both ends — a refined divider.
   static BoxDecoration get goldHairline => BoxDecoration(
     gradient: LinearGradient(
       colors: [
-        gold.withValues(alpha: 0.0),
-        gold.withValues(alpha: 0.6),
-        goldHighlight.withValues(alpha: 0.9),
-        gold.withValues(alpha: 0.6),
-        gold.withValues(alpha: 0.0),
+        coral.withValues(alpha: 0.0),
+        coral.withValues(alpha: 0.5),
+        coral80.withValues(alpha: 0.8),
+        coral.withValues(alpha: 0.5),
+        coral.withValues(alpha: 0.0),
       ],
       begin: Alignment.centerLeft,
       end: Alignment.centerRight,
     ),
+  );
+
+  // Signature rainbow accent bar — violet → amber → light-violet. A thin strip
+  // placed atop hero cards / the brand header (from-#6b38d4 via-#a76500 to-#8a4cfc).
+  static const LinearGradient rainbowAccent = LinearGradient(
+    colors: [Color(0xFF6B38D4), Color(0xFFA76500), Color(0xFF8A4CFC)],
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
   );
 }

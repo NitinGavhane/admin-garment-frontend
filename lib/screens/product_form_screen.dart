@@ -156,7 +156,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
               setState(() => _images.add(_ImageItem(url: url, isPrimary: _images.isEmpty)));
             }
             Navigator.pop(ctx);
-          }, child: Container(padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8), decoration: AppColors.premiumGoldDeco(radius: 6), child: Text('ADD', style: TextStyle(color: AppColors.coralDark, letterSpacing: 2, fontSize: 10)))),
+          }, child: Container(padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8), decoration: AppColors.premiumGoldDeco(radius: 6), child: Text('ADD', style: TextStyle(color: Colors.white, letterSpacing: 2, fontSize: 10)))),
         ],
       ),
     );
@@ -355,7 +355,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                                             child: Container(
                                               width: 22, height: 22,
                                               decoration: AppColors.premiumGoldDeco(radius: 4),
-                                              child: Icon(Icons.close, color: AppColors.coralDark, size: 14),
+                                              child: Icon(Icons.close, color: Colors.white, size: 14),
                                             ),
                                         ),
                                       ),
@@ -370,7 +370,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                                               child: Container(
                                                 width: 22, height: 22,
                                                 decoration: AppColors.premiumGoldDeco(radius: 4),
-                                                child: Icon(Icons.star_border, color: AppColors.coralDark, size: 14),
+                                                child: Icon(Icons.star_border, color: Colors.white, size: 14),
                                               ),
                                           ),
                                         ),
@@ -387,9 +387,9 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                                 child: Ink(
                                   decoration: AppColors.premiumGoldDeco(radius: 8),
                                   child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                                    Icon(Icons.link, color: AppColors.coralDark, size: 18),
+                                    Icon(Icons.link, color: Colors.white, size: 18),
                                     const SizedBox(width: 8),
-                                    Text('ADD IMAGE URL', style: TextStyle(color: AppColors.coralDark, fontSize: 10, letterSpacing: 2, fontWeight: FontWeight.w700)),
+                                    Text('ADD IMAGE URL', style: TextStyle(color: Colors.white, fontSize: 10, letterSpacing: 2, fontWeight: FontWeight.w700)),
                                     ]),
                                   ),
                                 ),
@@ -465,7 +465,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                                       child: Container(
                                         width: 36, height: 36,
                                         decoration: AppColors.premiumGoldDeco(radius: 8),
-                                        child: Icon(Icons.close, color: AppColors.coralDark, size: 16),
+                                        child: Icon(Icons.close, color: Colors.white, size: 16),
                                       ),
                                     ),
                                   ]),
@@ -479,9 +479,9 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                                   padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                                   decoration: AppColors.premiumGoldDeco(radius: 8),
                                   child: Row(mainAxisSize: MainAxisSize.min, children: [
-                                    Icon(Icons.add, color: AppColors.coralDark, size: 16),
+                                    Icon(Icons.add, color: Colors.white, size: 16),
                                     const SizedBox(width: 8),
-                                    Text('ADD VARIANT', style: TextStyle(color: AppColors.coralDark, fontSize: 10, letterSpacing: 2, fontWeight: FontWeight.w700)),
+                                    Text('ADD VARIANT', style: TextStyle(color: Colors.white, fontSize: 10, letterSpacing: 2, fontWeight: FontWeight.w700)),
                                   ]),
                                 ),
                               ),

@@ -81,25 +81,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   }
 
   Future<void> _delete(AdminCategory cat) async {
-    final ok = await showDialog<bool>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        backgroundColor: AppColors.surface,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        title: Row(children: [
-          Container(width: 28, height: 28, decoration: BoxDecoration(color: AppColors.error.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(6)), child: const Icon(Icons.delete_outlined, color: AppColors.error, size: 16)),
-          const SizedBox(width: 10),
-          const Text('DELETE', style: TextStyle(color: AppColors.coral, letterSpacing: 3, fontSize: 14, fontWeight: FontWeight.w800)),
-        ]),
-        content: Text('Remove "${cat.name}"?${_childrenOf(cat.id).isNotEmpty ? '\nSubcategories will also be removed.' : ''}', style: TextStyle(color: AppColors.textSecondary)),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx, false), child: Container(padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8), decoration: BoxDecoration(gradient: LinearGradient(colors: [AppColors.btnColor40, AppColors.surface], begin: Alignment.topLeft, end: Alignment.bottomRight), border: Border.all(color: AppColors.btnBorder, width: 1), borderRadius: BorderRadius.circular(6), boxShadow: AppColors.shadowSm), child: Text('CANCEL', style: TextStyle(color: AppColors.btnColor, letterSpacing: 2, fontSize: 10)))),
-          const SizedBox(width: 8),
-          TextButton(onPressed: () => Navigator.pop(ctx, true), child: Container(padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8), decoration: BoxDecoration(gradient: LinearGradient(colors: [AppColors.error, AppColors.error80], begin: Alignment.topCenter, end: Alignment.bottomCenter), border: Border.all(color: AppColors.error, width: 1), borderRadius: BorderRadius.circular(6), boxShadow: AppColors.shadowGlow(AppColors.error)), child: const Text('DELETE', style: TextStyle(color: Colors.white, letterSpacing: 2, fontSize: 10)))),
-        ],
-      ),
-    );
-    if (ok == true) {
+    final ok = await confirmDeleteDialog(context, message: 'Remove "${cat.name}"?${_childrenOf(cat.id).isNotEmpty ? '\nSubcategories will also be removed.' : ''}');
+    if (ok) {
       try {
         await _admin.deleteCategory(cat.id);
         _load();
@@ -135,7 +118,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
             label,
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: active ? AppColors.coralDark : AppColors.textSecondary,
+              color: active ? Colors.white : AppColors.textSecondary,
               fontSize: 12,
               fontWeight: active ? FontWeight.w800 : FontWeight.w700,
               letterSpacing: 1,
@@ -154,7 +137,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         width: 52, height: 52,
         decoration: AppColors.premiumGoldDeco(radius: 14),
         child: IconButton(
-          icon: Icon(Icons.add, color: AppColors.coralDark),
+          icon: Icon(Icons.add, color: Colors.white),
           onPressed: () => _navigate('/category-form'),
         ),
       ),
@@ -305,7 +288,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
               child: Container(
                 width: 36, height: 36,
                 decoration: AppColors.premiumGoldDeco(radius: 8),
-                child: Icon(Icons.edit_outlined, color: AppColors.coralDark, size: 14),
+                child: Icon(Icons.edit_outlined, color: Colors.white, size: 14),
               ),
             ),
             const SizedBox(height: 6),

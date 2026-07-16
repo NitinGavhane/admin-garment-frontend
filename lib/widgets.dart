@@ -78,10 +78,10 @@ class BrandHeader extends StatelessWidget {
                         alignment: Alignment.centerLeft,
                         child: Text(
                           title.toUpperCase(),
-                          style: TextStyle(
+                          style: AppColors.heading(
                             color: AppColors.textPrimary,
-                            fontSize: 24,
-                            fontWeight: FontWeight.w800,
+                            size: 24,
+                            weight: FontWeight.w800,
                             letterSpacing: 3,
                             height: 1,
                           ),
@@ -98,11 +98,11 @@ class BrandHeader extends StatelessWidget {
                             const SizedBox(width: 8),
                             Text(
                               subtitle!,
-                                  style: TextStyle(
+                                  style: AppColors.heading(
                                 color: AppColors.textMuted,
-                                fontSize: 10,
+                                size: 10,
                                 letterSpacing: 3,
-                                fontWeight: FontWeight.w600,
+                                weight: FontWeight.w600,
                               ),
                             ),
                           ],
@@ -119,8 +119,8 @@ class BrandHeader extends StatelessWidget {
             ),
           ),
           Container(
-            height: 1.5,
-            decoration: AppColors.goldHairline,
+            height: 2,
+            decoration: const BoxDecoration(gradient: AppColors.rainbowAccent),
           ),
         ],
       ),
@@ -270,21 +270,21 @@ class StatTile extends StatelessWidget {
                           children: [
                             Text(
                               value,
-                              style: TextStyle(
+                              style: AppColors.heading(
                                 color: accent,
-                                fontSize: 26,
-                                fontWeight: FontWeight.w900,
+                                size: 26,
+                                weight: FontWeight.w900,
                                 letterSpacing: 1,
                               ),
                             ),
                             const SizedBox(height: 2),
                             Text(
                               label.toUpperCase(),
-                                  style: TextStyle(
+                                  style: AppColors.heading(
                                 color: AppColors.textMuted,
-                                fontSize: 10,
+                                size: 10,
                                 letterSpacing: 2.5,
-                                fontWeight: FontWeight.w700,
+                                weight: FontWeight.w700,
                               ),
                             ),
                           ],
@@ -348,10 +348,10 @@ class Tag extends StatelessWidget {
           const SizedBox(width: 6),
           Text(
             text.toUpperCase(),
-            style: TextStyle(
+            style: AppColors.heading(
               color: color,
-              fontSize: 9,
-              fontWeight: FontWeight.w800,
+              size: 9,
+              weight: FontWeight.w800,
               letterSpacing: 1.3,
             ),
           ),
@@ -410,15 +410,15 @@ class ActionGrid extends StatelessWidget {
                     Container(
                       width: 44, height: 44,
                       decoration: AppColors.premiumGoldDeco(radius: 10),
-                      child: Icon(item.icon, color: AppColors.coralDark, size: 20),
+                      child: Icon(item.icon, color: Colors.white, size: 20),
                     ),
                     const SizedBox(height: 16),
                     Text(
                       item.label.toUpperCase(),
-                      style: TextStyle(
+                      style: AppColors.heading(
                       color: AppColors.textSecondary,
-                      fontSize: 11,
-                      fontWeight: FontWeight.w700,
+                      size: 11,
+                      weight: FontWeight.w700,
                       letterSpacing: 2,
                     ),
                     ),
@@ -545,7 +545,7 @@ class AdminNavPanel extends StatelessWidget {
                     width: 56, height: 56,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: AppColors.gold.withValues(alpha: 0.5), width: 1.2),
+                      border: Border.all(color: AppColors.coral.withValues(alpha: 0.4), width: 1.2),
                       boxShadow: AppColors.shadowGlow(AppColors.coral),
                     ),
                     child: ClipRRect(
@@ -554,7 +554,7 @@ class AdminNavPanel extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 18),
-                  Text('DRISTI FASHIONS', style: TextStyle(color: AppColors.textPrimary, fontSize: 17, fontWeight: FontWeight.w900, letterSpacing: 2)),
+                  Text('DRISTI FASHIONS', style: AppColors.heading(color: AppColors.textPrimary, size: 17, weight: FontWeight.w900, letterSpacing: 2)),
                   const SizedBox(height: 4),
                   Row(
                     children: [
@@ -563,7 +563,7 @@ class AdminNavPanel extends StatelessWidget {
                         borderRadius: BorderRadius.circular(1),
                       )),
                       const SizedBox(width: 8),
-                      Text('ADMIN PANEL', style: TextStyle(color: AppColors.gold, fontSize: 9, letterSpacing: 4, fontWeight: FontWeight.w700)),
+                      Text('ADMIN PANEL', style: AppColors.heading(color: AppColors.gold, size: 9, letterSpacing: 4, weight: FontWeight.w700)),
                     ],
                   ),
                 ],
@@ -612,22 +612,22 @@ class AdminNavPanel extends StatelessWidget {
                           Container(
                             width: 32, height: 32,
                             decoration: BoxDecoration(
-                              color: AppColors.coralDark.withValues(alpha: 0.16),
+                              color: (dark ? Colors.white : AppColors.coralDark).withValues(alpha: dark ? 0.20 : 0.16),
                               borderRadius: BorderRadius.circular(6),
                             ),
                             child: Icon(
                               dark ? Icons.dark_mode : Icons.light_mode,
-                              color: AppColors.coralDark,
+                              color: dark ? Colors.white : AppColors.coralDark,
                               size: 16,
                             ),
                           ),
                           const SizedBox(width: 12),
                           Text(
                             dark ? 'DARK MODE' : 'LIGHT MODE',
-                            style: TextStyle(
-                              color: AppColors.coralDark,
-                              fontSize: 11,
-                              fontWeight: FontWeight.w800,
+                            style: AppColors.heading(
+                              color: dark ? Colors.white : AppColors.coralDark,
+                              size: 11,
+                              weight: FontWeight.w800,
                               letterSpacing: 2.5,
                             ),
                           ),
@@ -651,13 +651,13 @@ class AdminNavPanel extends StatelessWidget {
                       Container(
                         width: 32, height: 32,
                         decoration: BoxDecoration(
-                          color: AppColors.coralDark.withValues(alpha: 0.16),
+                          color: Colors.white.withValues(alpha: 0.20),
                           borderRadius: BorderRadius.circular(6),
                         ),
-                        child: Icon(Icons.logout, color: AppColors.coralDark, size: 16),
+                        child: const Icon(Icons.logout, color: Colors.white, size: 16),
                       ),
                       const SizedBox(width: 12),
-                      Text('SIGN OUT', style: TextStyle(color: AppColors.coralDark, fontSize: 11, fontWeight: FontWeight.w800, letterSpacing: 2.5)),
+                      Text('SIGN OUT', style: AppColors.heading(color: Colors.white, size: 11, weight: FontWeight.w800, letterSpacing: 2.5)),
                     ],
                   ),
                 ),
@@ -685,7 +685,7 @@ class AdminNavPanel extends StatelessWidget {
               child: const Icon(Icons.logout, color: AppColors.error, size: 16),
             ),
             const SizedBox(width: 12),
-            Text('Sign Out', style: TextStyle(color: AppColors.textPrimary, fontSize: 16, fontWeight: FontWeight.w700)),
+            Text('Sign Out', style: AppColors.heading(color: AppColors.textPrimary, size: 16, weight: FontWeight.w700)),
           ],
         ),
         content: Text('Are you sure you want to sign out?', style: TextStyle(color: AppColors.textSecondary)),
@@ -700,7 +700,7 @@ class AdminNavPanel extends StatelessWidget {
                   borderRadius: BorderRadius.circular(6),
                   boxShadow: AppColors.shadowSm,
                 ),
-                child: Text('CANCEL', style: TextStyle(color: AppColors.textSecondary, letterSpacing: 1, fontSize: 10, fontWeight: FontWeight.w700)),
+                child: Text('CANCEL', style: AppColors.heading(color: AppColors.textSecondary, letterSpacing: 1, size: 10, weight: FontWeight.w700)),
               ),
           ),
           const SizedBox(width: 8),
@@ -714,7 +714,7 @@ class AdminNavPanel extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
               decoration: AppColors.premiumGoldDeco(radius: 7),
-              child: Text('SIGN OUT', style: TextStyle(color: AppColors.coralDark, letterSpacing: 1.5, fontSize: 10, fontWeight: FontWeight.w800)),
+              child: Text('SIGN OUT', style: AppColors.heading(color: Colors.white, letterSpacing: 1.5, size: 10, weight: FontWeight.w800)),
             ),
           ),
         ],
@@ -743,7 +743,7 @@ class AdminNavPanel extends StatelessWidget {
               // pill with white content; inactive items are transparent.
               gradient: active
                   ? const LinearGradient(
-                      colors: [Color(0xFF9B7DF6), Color(0xFF7C4DEC)],
+                      colors: AppColors.navActiveGradient,
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     )
@@ -765,10 +765,10 @@ class AdminNavPanel extends StatelessWidget {
                 const SizedBox(width: 12),
                 Text(
                   label,
-                  style: TextStyle(
+                  style: AppColors.heading(
                     color: active ? Colors.white : AppColors.textSecondary,
-                    fontSize: 13,
-                    fontWeight: active ? FontWeight.w700 : FontWeight.w600,
+                    size: 13,
+                    weight: active ? FontWeight.w700 : FontWeight.w600,
                     letterSpacing: 0.2,
                   ),
                 ),
@@ -800,7 +800,7 @@ class EmptyBox extends StatelessWidget {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(AppColors.rCard),
             border: Border.all(color: AppColors.borderLight, width: 1),
             boxShadow: AppColors.shadowSm,
           ),
@@ -816,7 +816,7 @@ class EmptyBox extends StatelessWidget {
                     end: Alignment.bottomRight,
                   ),
                   borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: AppColors.gold.withValues(alpha: 0.35), width: 1),
+                  border: Border.all(color: AppColors.coral.withValues(alpha: 0.25), width: 1),
                 ),
                 child: Icon(icon, color: AppColors.coral, size: 30),
               ),
@@ -824,7 +824,7 @@ class EmptyBox extends StatelessWidget {
               Text(
                 message.toUpperCase(),
                 textAlign: TextAlign.center,
-                style: TextStyle(color: AppColors.textSecondary, fontSize: 11.5, letterSpacing: 2.5, fontWeight: FontWeight.w700),
+                style: AppColors.heading(color: AppColors.textSecondary, size: 11.5, letterSpacing: 2.5, weight: FontWeight.w700),
               ),
               const SizedBox(height: 14),
               Container(width: 40, height: 2, decoration: AppColors.goldHairline),
@@ -860,7 +860,7 @@ class BrandLoader extends StatelessWidget {
               padding: const EdgeInsets.all(12),
               child: CircularProgressIndicator(
                 strokeWidth: 2.6,
-                valueColor: AlwaysStoppedAnimation(AppColors.gold),
+                valueColor: AlwaysStoppedAnimation(AppColors.coral),
                 backgroundColor: AppColors.coral.withValues(alpha: 0.12),
               ),
             ),
@@ -869,7 +869,7 @@ class BrandLoader extends StatelessWidget {
             const SizedBox(height: 16),
             Text(
               label!.toUpperCase(),
-              style: TextStyle(color: AppColors.textMuted, fontSize: 10, letterSpacing: 3, fontWeight: FontWeight.w700),
+              style: AppColors.heading(color: AppColors.textMuted, size: 10, letterSpacing: 3, weight: FontWeight.w700),
             ),
           ],
         ],
@@ -922,11 +922,11 @@ class SectionLabel extends StatelessWidget {
           const SizedBox(width: 12),
           Text(
             title.toUpperCase(),
-            style: TextStyle(
+            style: AppColors.heading(
               color: AppColors.textSecondary,
-              fontSize: 11,
+              size: 11,
               letterSpacing: 1.5,
-              fontWeight: FontWeight.w700,
+              weight: FontWeight.w700,
             ),
           ),
           const Spacer(),
@@ -1007,10 +1007,9 @@ extension ButtonVariantColors on ButtonVariant {
   }
 }
 
-/// A polished, tactile metallic-gold action button. A top sheen highlight and
-/// warm layered glow give it an "expensive gold plate" feel. When [color] is
-/// supplied the button renders in that tone (still with the sheen treatment),
-/// otherwise it uses the premium gold surface.
+/// A flat solid-violet action button (Dristi Fashions). When [color] is supplied
+/// the button renders in that tone, otherwise it uses the primary violet surface.
+/// Text/icons sit in white for contrast against the fill.
 class FashionButton extends StatefulWidget {
   final String label;
   final VoidCallback? onPressed;
@@ -1040,7 +1039,7 @@ class _FashionButtonState extends State<FashionButton> {
   Widget build(BuildContext context) {
     final enabled = widget.onPressed != null && !widget.loading;
     final custom = widget.color;
-    final onColor = custom == null ? AppColors.coralDark : Colors.white;
+    const onColor = Colors.white;
 
     final BoxDecoration deco = custom == null
         ? AppColors.premiumGoldDeco(radius: 12)
@@ -1094,7 +1093,7 @@ class _FashionButtonState extends State<FashionButton> {
                             ],
                             Text(
                               widget.label.toUpperCase(),
-                              style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w800, letterSpacing: 3.5, color: onColor),
+                              style: AppColors.heading(size: 12.5, weight: FontWeight.w800, letterSpacing: 3.5, color: onColor),
                             ),
                           ],
                         ),
@@ -1126,11 +1125,11 @@ class InfoBlock extends StatelessWidget {
             width: 90,
             padding: const EdgeInsets.symmetric(vertical: 2),
             child: Text(label.toUpperCase(),
-              style: TextStyle(
+              style: AppColors.heading(
                 color: AppColors.textMuted,
-                fontSize: 9,
+                size: 9,
                 letterSpacing: 2,
-                fontWeight: FontWeight.w700,
+                weight: FontWeight.w700,
               ),
             ),
           ),
@@ -1181,11 +1180,11 @@ class FormSection extends StatelessWidget {
               ),
               const SizedBox(width: 12),
               Text(title.toUpperCase(),
-                style: TextStyle(
+                style: AppColors.heading(
                   color: AppColors.textSecondary,
-                  fontSize: 11,
+                  size: 11,
                   letterSpacing: 1.5,
-                  fontWeight: FontWeight.w700,
+                  weight: FontWeight.w700,
                 ),
               ),
             ],
@@ -1370,15 +1369,114 @@ class ToggleRow extends StatelessWidget {
           ),
           const SizedBox(width: 8),
           Text(label.toUpperCase(),
-            style: TextStyle(
+            style: AppColors.heading(
               color: value ? AppColors.coral : AppColors.textMuted,
-              fontSize: 9,
+              size: 9,
               letterSpacing: 1.5,
-              fontWeight: FontWeight.w700,
+              weight: FontWeight.w700,
             ),
           ),
         ],
       ),
     );
   }
+}
+
+/// Shared list-row card shell — the white surface, hairline border, 16px radius
+/// and soft shadow used by every list screen (products, orders, categories,
+/// coupons, banners, users). Replaces the copy-pasted double-nested Container.
+class ListCardShell extends StatelessWidget {
+  final Widget child;
+  final EdgeInsets? padding;
+  final EdgeInsets? margin;
+  final VoidCallback? onTap;
+
+  const ListCardShell({
+    super.key,
+    required this.child,
+    this.padding,
+    this.margin,
+    this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final card = Container(
+      margin: margin ?? const EdgeInsets.only(bottom: 10),
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        border: Border.all(color: AppColors.borderLight, width: 1),
+        borderRadius: BorderRadius.circular(AppColors.rCard),
+        boxShadow: AppColors.shadowMd,
+      ),
+      child: Padding(
+        padding: padding ?? const EdgeInsets.all(16),
+        child: child,
+      ),
+    );
+    if (onTap == null) return card;
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(AppColors.rCard),
+        onTap: onTap,
+        child: card,
+      ),
+    );
+  }
+}
+
+/// Shared confirm-delete dialog — the tokenized replacement for the inline
+/// AlertDialog duplicated across products / categories / coupons / banners.
+/// Returns true when the user confirms.
+Future<bool> confirmDeleteDialog(
+  BuildContext context, {
+  required String message,
+  String title = 'DELETE',
+  String confirmLabel = 'DELETE',
+}) async {
+  final ok = await showDialog<bool>(
+    context: context,
+    builder: (ctx) => AlertDialog(
+      backgroundColor: AppColors.surface,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppColors.rButton)),
+      title: Row(children: [
+        Container(
+          width: 28, height: 28,
+          decoration: BoxDecoration(color: AppColors.error.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(6)),
+          child: const Icon(Icons.delete_outlined, color: AppColors.error, size: 16),
+        ),
+        const SizedBox(width: 10),
+        Text(title, style: AppColors.heading(color: AppColors.error, letterSpacing: 3, size: 14, weight: FontWeight.w800)),
+      ]),
+      content: Text(message, style: TextStyle(color: AppColors.textSecondary)),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(ctx, false),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
+            decoration: BoxDecoration(
+              color: AppColors.surfaceAlt,
+              border: Border.all(color: AppColors.borderLight, width: 1),
+              borderRadius: BorderRadius.circular(AppColors.rInput),
+            ),
+            child: Text('CANCEL', style: AppColors.heading(color: AppColors.textSecondary, letterSpacing: 2, size: 10, weight: FontWeight.w800)),
+          ),
+        ),
+        const SizedBox(width: 8),
+        TextButton(
+          onPressed: () => Navigator.pop(ctx, true),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
+            decoration: BoxDecoration(
+              color: AppColors.error,
+              borderRadius: BorderRadius.circular(AppColors.rInput),
+            ),
+            child: Text(confirmLabel, style: AppColors.heading(color: Colors.white, letterSpacing: 2, size: 10, weight: FontWeight.w800)),
+          ),
+        ),
+      ],
+    ),
+  );
+  return ok == true;
 }
