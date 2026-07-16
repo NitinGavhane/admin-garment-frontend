@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import '../config/api_config.dart';
 import '../models/dashboard.dart';
 import '../models/user.dart';
@@ -216,5 +218,9 @@ class AdminService {
 
   Future<String> uploadImage(String filePath) async {
     return _api.uploadFile(filePath);
+  }
+
+  Future<String> uploadImageBytes(Uint8List bytes, String filename) async {
+    return _api.uploadBytes(bytes, filename);
   }
 }

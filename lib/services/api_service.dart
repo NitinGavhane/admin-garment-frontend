@@ -145,4 +145,14 @@ class ApiService {
     final response = await _dio.post(ApiConfig.upload, data: formData);
     return response.data['url'] as String;
   }
+
+  // Web-safe upload: the admin app runs on Flutter web where file paths are not
+  // available, so images are sent as raw bytes from the image picker.
+  Future<String> uploadBytes(Uint8List bytes, String filename) async {
+    final formData = FormData.fromMap({
+      'file': MultipartFile.fromBytes(bytes, filename: filename),
+    });
+    final response = await _dio.post(ApiConfig.upload, data: formData);
+    return response.data['url'] as String;
+  }
 }
