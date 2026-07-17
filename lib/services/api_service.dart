@@ -138,9 +138,12 @@ class ApiService {
 
   Future<String?> getAccessToken() => _getAccessToken();
 
-  Future<String> uploadFile(String filePath) async {
+  // `folder` selects the S3 prefix the image is stored under (banners,
+  // products, categories) and is validated server-side.
+  Future<String> uploadFile(String filePath, {String folder = 'banners'}) async {
     final formData = FormData.fromMap({
       'file': await MultipartFile.fromFile(filePath, filename: filePath.split(r'\').last.split('/').last),
+      'folder': folder,
     });
     final response = await _dio.post(ApiConfig.upload, data: formData);
     return response.data['url'] as String;
@@ -148,9 +151,10 @@ class ApiService {
 
   // Web-safe upload: the admin app runs on Flutter web where file paths are not
   // available, so images are sent as raw bytes from the image picker.
-  Future<String> uploadBytes(Uint8List bytes, String filename) async {
+  Future<String> uploadBytes(Uint8List bytes, String filename, {String folder = 'banners'}) async {
     final formData = FormData.fromMap({
       'file': MultipartFile.fromBytes(bytes, filename: filename),
+      'folder': folder,
     });
     final response = await _dio.post(ApiConfig.upload, data: formData);
     return response.data['url'] as String;

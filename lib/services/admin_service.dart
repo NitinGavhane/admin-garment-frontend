@@ -8,6 +8,7 @@ import '../models/category.dart';
 import '../models/order.dart';
 import '../models/coupon.dart';
 import '../models/banner.dart';
+import '../models/payment_method.dart';
 import 'api_service.dart';
 
 class AdminService {
@@ -216,11 +217,35 @@ class AdminService {
     await _api.delete(ApiConfig.adminBanner(id));
   }
 
-  Future<String> uploadImage(String filePath) async {
-    return _api.uploadFile(filePath);
+  Future<List<AdminPaymentMethod>> getPaymentMethods() async {
+    final response = await _api.get(ApiConfig.adminPaymentMethods);
+    return (response.data as List).map((e) => AdminPaymentMethod.fromJson(e)).toList();
   }
 
-  Future<String> uploadImageBytes(Uint8List bytes, String filename) async {
-    return _api.uploadBytes(bytes, filename);
+  Future<AdminPaymentMethod> getPaymentMethod(String id) async {
+    final response = await _api.get(ApiConfig.adminPaymentMethod(id));
+    return AdminPaymentMethod.fromJson(response.data);
+  }
+
+  Future<AdminPaymentMethod> createPaymentMethod(Map<String, dynamic> data) async {
+    final response = await _api.post(ApiConfig.adminPaymentMethods, data: data);
+    return AdminPaymentMethod.fromJson(response.data);
+  }
+
+  Future<AdminPaymentMethod> updatePaymentMethod(String id, Map<String, dynamic> data) async {
+    final response = await _api.put(ApiConfig.adminPaymentMethod(id), data: data);
+    return AdminPaymentMethod.fromJson(response.data);
+  }
+
+  Future<void> deletePaymentMethod(String id) async {
+    await _api.delete(ApiConfig.adminPaymentMethod(id));
+  }
+
+  Future<String> uploadImage(String filePath, {String folder = 'banners'}) async {
+    return _api.uploadFile(filePath, folder: folder);
+  }
+
+  Future<String> uploadImageBytes(Uint8List bytes, String filename, {String folder = 'banners'}) async {
+    return _api.uploadBytes(bytes, filename, folder: folder);
   }
 }

@@ -1,21 +1,10 @@
-import 'dart:ui' as ui;
-
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:image_picker/image_picker.dart';
 import '../config/theme.dart';
 import '../services/api_service.dart';
 import '../services/admin_service.dart';
+import '../services/image_upload_service.dart';
 import '../widgets.dart';
-
-// Banner image requirements — shown to the admin and enforced before upload.
-// The backend re-validates the same rules on the server.
-const int _kMaxBytes = 5 * 1024 * 1024; // 5 MB
-const Set<String> _kAllowedExts = {'jpg', 'jpeg', 'png', 'webp'};
-const int _kMinWidth = 600;
-const int _kMinHeight = 400;
-const int _kRecWidth = 1536;
-const int _kRecHeight = 1024;
 
 class BannerFormScreen extends StatefulWidget {
   const BannerFormScreen({super.key});
@@ -125,42 +114,16 @@ class _BannerFormScreenState extends State<BannerFormScreen> {
     );
   }
 
-  // Pick an image, validate format/size/dimensions, then upload it and put the
-  // returned URL into the image field. Validation mirrors the backend rules.
+  // Pick, validate and upload an image, then put the returned URL into the
+  // image field. Uploading and saving stay decoupled: the admin can still paste
+  // an external URL instead, and the form only ever submits image_url.
   Future<void> _pickAndUpload() async {
+    setState(() => _uploading = true);
     try {
-      final XFile? file =
-          await ImagePicker().pickImage(source: ImageSource.gallery, imageQuality: 100);
-      if (file == null) return;
-
-      final name = file.name;
-      final ext = name.contains('.') ? name.split('.').last.toLowerCase() : '';
-      if (!_kAllowedExts.contains(ext)) {
-        _showError('Unsupported format. Allowed: JPG, PNG, WebP.');
-        return;
-      }
-
-      final bytes = await file.readAsBytes();
-      if (bytes.lengthInBytes > _kMaxBytes) {
-        final mb = (bytes.lengthInBytes / (1024 * 1024)).toStringAsFixed(1);
-        _showError('Image is too large ($mb MB). Maximum size is 5 MB.');
-        return;
-      }
-
-      final codec = await ui.instantiateImageCodec(bytes);
-      final frame = await codec.getNextFrame();
-      final w = frame.image.width, h = frame.image.height;
-      frame.image.dispose();
-      if (w < _kMinWidth || h < _kMinHeight) {
-        _showError('Image too small ($w×$h). Minimum is $_kMinWidth×$_kMinHeight px.');
-        return;
-      }
-
-      setState(() => _uploading = true);
-      final url = await _admin.uploadImageBytes(bytes, name);
-      if (mounted) _imageC.text = url;
-    } catch (e) {
-      _showError('Upload failed: $e');
+      final url = await pickValidateAndUploadImage(admin: _admin, specs: ImageSpecs.banner);
+      if (url != null && mounted) _imageC.text = url;
+    } on ImageUploadException catch (e) {
+      _showError(e.message);
     } finally {
       if (mounted) setState(() => _uploading = false);
     }
@@ -178,25 +141,9 @@ class _BannerFormScreenState extends State<BannerFormScreen> {
                 padding: const EdgeInsets.all(16),
                 child: Form(key: _fk, child: Column(children: [
                   FormSection(title: 'Banner Image', children: [
-                    _SpecsBox(),
+                    const ImageSpecsBox(specs: ImageSpecs.banner),
                     const SizedBox(height: 12),
-                    SizedBox(
-                      width: double.infinity,
-                      child: OutlinedButton.icon(
-                        onPressed: _uploading ? null : _pickAndUpload,
-                        icon: _uploading
-                            ? const SizedBox(
-                                width: 16, height: 16,
-                                child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.coral))
-                            : const Icon(Icons.upload_file, size: 18),
-                        label: Text(_uploading ? 'Uploading…' : 'Upload Image'),
-                        style: OutlinedButton.styleFrom(
-                          foregroundColor: AppColors.coral,
-                          side: const BorderSide(color: AppColors.coral),
-                          padding: const EdgeInsets.symmetric(vertical: 14),
-                        ),
-                      ),
-                    ),
+                    ImageUploadButton(uploading: _uploading, onPressed: _pickAndUpload),
                     const SizedBox(height: 12),
                     StyledInput(
                       controller: _imageC,
@@ -254,38 +201,6 @@ class _BannerFormScreenState extends State<BannerFormScreen> {
                 ])),
               )),
             ]),
-    );
-  }
-}
-
-class _SpecsBox extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    Widget row(IconData icon, String text) => Padding(
-          padding: const EdgeInsets.only(bottom: 4),
-          child: Row(children: [
-            Icon(icon, size: 15, color: AppColors.textMuted),
-            const SizedBox(width: 8),
-            Expanded(child: Text(text, style: TextStyle(fontSize: 12.5, color: AppColors.textMuted))),
-          ]),
-        );
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: AppColors.coral.withOpacity(0.06),
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: AppColors.coral.withOpacity(0.25)),
-      ),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text('Image requirements',
-            style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: AppColors.textPrimary)),
-        const SizedBox(height: 8),
-        row(Icons.aspect_ratio, 'Recommended: $_kRecWidth × $_kRecHeight px (3:2)'),
-        row(Icons.photo_size_select_large, 'Minimum: $_kMinWidth × $_kMinHeight px'),
-        row(Icons.sd_storage_outlined, 'Max file size: 5 MB'),
-        row(Icons.image_outlined, 'Formats: JPG, PNG, WebP'),
-      ]),
     );
   }
 }

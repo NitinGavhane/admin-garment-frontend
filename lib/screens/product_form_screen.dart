@@ -5,6 +5,7 @@ import '../config/theme.dart';
 import '../models/category.dart';
 import '../services/api_service.dart';
 import '../services/admin_service.dart';
+import '../services/image_upload_service.dart';
 import '../widgets.dart';
 
 class ProductFormScreen extends StatefulWidget {
@@ -27,7 +28,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
   final _urlCtrl = TextEditingController();
 
   String? _editId;
-  bool _loading = false, _saving = false, _featured = false, _active = true, _replaceable = false, _returnable = false;
+  bool _loading = false, _saving = false, _featured = false, _active = true, _replaceable = false, _returnable = false, _uploading = false;
   String? _catId;
   String? _gender;
   List<Map<String, dynamic>> _cats = [];
@@ -122,6 +123,44 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
     return items;
   }
 
+  void _showError(String msg) {
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(msg), backgroundColor: AppColors.error),
+    );
+  }
+
+  /// Add an image to the list. The first image added becomes the primary one,
+  /// so a product always has a primary image to show in listings.
+  void _addImage(String url) {
+    setState(() => _images.add(_ImageItem(url: url, isPrimary: _images.isEmpty)));
+  }
+
+  /// Remove an image, promoting the first remaining one when the primary goes,
+  /// so the product never ends up with images but no primary.
+  void _removeImage(int i) {
+    setState(() {
+      _images.removeAt(i);
+      if (_images.isNotEmpty && !_images.any((img) => img.isPrimary)) {
+        _images.first.isPrimary = true;
+      }
+    });
+  }
+
+  // Pick, validate and upload an image, then append it to the product's image
+  // list. Uploading happens immediately; the URL is only persisted on save.
+  Future<void> _pickAndUpload() async {
+    setState(() => _uploading = true);
+    try {
+      final url = await pickValidateAndUploadImage(admin: _admin, specs: ImageSpecs.product);
+      if (url != null && mounted) _addImage(url);
+    } on ImageUploadException catch (e) {
+      _showError(e.message);
+    } finally {
+      if (mounted) setState(() => _uploading = false);
+    }
+  }
+
   void _addImageUrl() {
     _urlCtrl.clear();
     showDialog(
@@ -152,9 +191,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
           const SizedBox(width: 8),
           TextButton(onPressed: () {
             final url = _urlCtrl.text.trim();
-            if (url.isNotEmpty) {
-              setState(() => _images.add(_ImageItem(url: url, isPrimary: _images.isEmpty)));
-            }
+            if (url.isNotEmpty) _addImage(url);
             Navigator.pop(ctx);
           }, child: Container(padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8), decoration: AppColors.premiumGoldDeco(radius: 6), child: Text('ADD', style: TextStyle(color: Colors.white, letterSpacing: 2, fontSize: 10)))),
         ],
@@ -315,6 +352,10 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                           ]),
                           const SizedBox(height: 16),
                           FormSection(title: 'Images', children: [
+                            const ImageSpecsBox(specs: ImageSpecs.product),
+                            const SizedBox(height: 12),
+                            ImageUploadButton(uploading: _uploading, onPressed: _pickAndUpload),
+                            const SizedBox(height: 12),
                             if (_images.isNotEmpty)
                               Wrap(
                                 spacing: 8, runSpacing: 8,
@@ -351,7 +392,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                                       Positioned(
                                         top: 4, right: 4,
                                         child: GestureDetector(
-                                          onTap: () => setState(() => _images.removeAt(i)),
+                                          onTap: () => _removeImage(i),
                                             child: Container(
                                               width: 22, height: 22,
                                               decoration: AppColors.premiumGoldDeco(radius: 4),

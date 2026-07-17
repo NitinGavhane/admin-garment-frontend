@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'config/theme.dart';
 import 'providers/theme_provider.dart';
 import 'services/api_service.dart';
+import 'services/image_upload_service.dart';
 
 class BrandHeader extends StatelessWidget {
   final String title;
@@ -580,6 +581,7 @@ class AdminNavPanel extends StatelessWidget {
                   _navItem(Icons.category, 'Categories', '/categories', context),
                   _navItem(Icons.view_carousel, 'Banners', '/banners', context),
                   _navItem(Icons.card_giftcard, 'Coupons', '/coupons', context),
+                  _navItem(Icons.account_balance_wallet, 'Payment Methods', '/payment-methods', context),
                 ],
               ),
             ),
@@ -1479,4 +1481,78 @@ Future<bool> confirmDeleteDialog(
     ),
   );
   return ok == true;
+}
+
+/// Upload guidelines for an image field. Shown next to every image picker so
+/// the admin sees the rules before hitting a validation error.
+class ImageSpecsBox extends StatelessWidget {
+  final ImageSpecs specs;
+
+  const ImageSpecsBox({super.key, required this.specs});
+
+  @override
+  Widget build(BuildContext context) {
+    Widget row(IconData icon, String text) => Padding(
+          padding: const EdgeInsets.only(bottom: 4),
+          child: Row(children: [
+            Icon(icon, size: 15, color: AppColors.textMuted),
+            const SizedBox(width: 8),
+            Expanded(child: Text(text, style: TextStyle(fontSize: 12.5, color: AppColors.textMuted))),
+          ]),
+        );
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: AppColors.coral.withValues(alpha: 0.06),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: AppColors.coral.withValues(alpha: 0.25)),
+      ),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text('Image requirements',
+            style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: AppColors.textPrimary)),
+        const SizedBox(height: 8),
+        row(Icons.aspect_ratio,
+            'Recommended: ${specs.recWidth} × ${specs.recHeight} px (${specs.ratioLabel})'),
+        row(Icons.photo_size_select_large, 'Minimum: $kImageMinWidth × $kImageMinHeight px'),
+        row(Icons.sd_storage_outlined, 'Max file size: 5 MB'),
+        row(Icons.image_outlined, 'Formats: JPG, PNG, WebP'),
+      ]),
+    );
+  }
+}
+
+/// The "Upload Image" button used by every image field, with a busy state.
+class ImageUploadButton extends StatelessWidget {
+  final bool uploading;
+  final VoidCallback? onPressed;
+  final String label;
+
+  const ImageUploadButton({
+    super.key,
+    required this.uploading,
+    required this.onPressed,
+    this.label = 'Upload Image',
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: OutlinedButton.icon(
+        onPressed: uploading ? null : onPressed,
+        icon: uploading
+            ? const SizedBox(
+                width: 16, height: 16,
+                child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.coral))
+            : const Icon(Icons.upload_file, size: 18),
+        label: Text(uploading ? 'Uploading…' : label),
+        style: OutlinedButton.styleFrom(
+          foregroundColor: AppColors.coral,
+          side: const BorderSide(color: AppColors.coral),
+          padding: const EdgeInsets.symmetric(vertical: 14),
+        ),
+      ),
+    );
+  }
 }

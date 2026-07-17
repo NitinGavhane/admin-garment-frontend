@@ -4,6 +4,7 @@ import '../config/theme.dart';
 import '../models/category.dart';
 import '../services/api_service.dart';
 import '../services/admin_service.dart';
+import '../services/image_upload_service.dart';
 import '../widgets.dart';
 
 class CategoryFormScreen extends StatefulWidget {
@@ -21,7 +22,7 @@ class _CategoryFormScreenState extends State<CategoryFormScreen> {
   final _ic = TextEditingController();
 
   String? _editId;
-  bool _loading = false, _saving = false, _active = true;
+  bool _loading = false, _saving = false, _active = true, _uploading = false;
   String _imageUrl = '';
 
   @override
@@ -111,6 +112,27 @@ class _CategoryFormScreenState extends State<CategoryFormScreen> {
 
   @override void dispose() { _nc.dispose(); _dc.dispose(); _ic.dispose(); super.dispose(); }
 
+  void _showError(String msg) {
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(msg), backgroundColor: AppColors.error),
+    );
+  }
+
+  // Pick, validate and upload an image, then put the returned URL into the
+  // image field. The admin can still paste an external URL instead.
+  Future<void> _pickAndUpload() async {
+    setState(() => _uploading = true);
+    try {
+      final url = await pickValidateAndUploadImage(admin: _admin, specs: ImageSpecs.category);
+      if (url != null && mounted) _ic.text = url;
+    } on ImageUploadException catch (e) {
+      _showError(e.message);
+    } finally {
+      if (mounted) setState(() => _uploading = false);
+    }
+  }
+
   Future<void> _save() async {
     if (!_fk.currentState!.validate()) return;
     setState(() => _saving = true);
@@ -121,7 +143,9 @@ class _CategoryFormScreenState extends State<CategoryFormScreen> {
           'name': _nc.text.trim(),
           if (_slug.isNotEmpty) 'slug': _slug,
           if (_dc.text.trim().isNotEmpty) 'description': _dc.text.trim(),
-          if (_ic.text.trim().isNotEmpty) 'image_url': _ic.text.trim(),
+          // Sent even when empty (as null) so clearing the image actually
+          // removes it — and lets the backend delete the S3 object.
+          'image_url': _ic.text.trim().isEmpty ? null : _ic.text.trim(),
           'is_active': _active,
           'gender': resolvedGender,
           if (_parentId != null) 'parent_id': _parentId,
@@ -178,7 +202,11 @@ class _CategoryFormScreenState extends State<CategoryFormScreen> {
               FormSection(title: 'Category Info', children: [
                 StyledInput(controller: _nc, label: 'Category Name *', validator: (v) => v?.trim().isEmpty == true ? 'Required' : null),
                 StyledInput(controller: _dc, label: 'Description', maxLines: 3, hint: 'Optional'),
-                StyledInput(controller: _ic, label: 'Image URL', hint: 'https://...'),
+                const ImageSpecsBox(specs: ImageSpecs.category),
+                const SizedBox(height: 12),
+                ImageUploadButton(uploading: _uploading, onPressed: _pickAndUpload),
+                const SizedBox(height: 12),
+                StyledInput(controller: _ic, label: 'Image URL', hint: 'Upload above, or paste a URL'),
                 if (_imageUrl.isNotEmpty)
                   Padding(
                     padding: const EdgeInsets.only(bottom: 14),
