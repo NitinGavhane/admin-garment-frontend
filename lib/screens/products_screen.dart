@@ -180,11 +180,11 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                           const SizedBox(height: 8),
                                           Row(children: [
                                             if (p.discountPrice != null) ...[
-                                              Text('₹${p.discountPrice!.toStringAsFixed(2)}', style: const TextStyle(color: AppColors.coral, fontWeight: FontWeight.w900, fontSize: 16)),
+                                              Flexible(child: Text('₹${p.discountPrice!.toStringAsFixed(2)}', maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(color: AppColors.coral, fontWeight: FontWeight.w900, fontSize: 16))),
                                               const SizedBox(width: 8),
-                                              Text('₹${p.price.toStringAsFixed(2)}', style: TextStyle(color: AppColors.textMuted, fontSize: 12, decoration: TextDecoration.lineThrough)),
+                                              Flexible(child: Text('₹${p.price.toStringAsFixed(2)}', maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: AppColors.textMuted, fontSize: 12, decoration: TextDecoration.lineThrough))),
                                             ] else
-                                              Text('₹${p.price.toStringAsFixed(2)}', style: const TextStyle(color: AppColors.coral, fontWeight: FontWeight.w900, fontSize: 16)),
+                                              Flexible(child: Text('₹${p.price.toStringAsFixed(2)}', maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(color: AppColors.coral, fontWeight: FontWeight.w900, fontSize: 16))),
                                           ]),
                                           const SizedBox(height: 8),
                                           Wrap(spacing: 4, runSpacing: 4, children: [

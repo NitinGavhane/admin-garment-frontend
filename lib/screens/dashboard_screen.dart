@@ -98,13 +98,17 @@ class _StatCard extends StatelessWidget {
                           borderRadius: BorderRadius.circular(1),
                         )),
                         const SizedBox(width: 7),
-                        Text(
-                          label.toUpperCase(),
-                          style: AppColors.heading(
-                            color: Colors.white.withValues(alpha: 0.85),
-                            size: 9,
-                            letterSpacing: 1.8,
-                            weight: FontWeight.w700,
+                        Expanded(
+                          child: Text(
+                            label.toUpperCase(),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: AppColors.heading(
+                              color: Colors.white.withValues(alpha: 0.85),
+                              size: 9,
+                              letterSpacing: 1.8,
+                              weight: FontWeight.w700,
+                            ),
                           ),
                         ),
                       ],

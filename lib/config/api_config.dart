@@ -18,6 +18,7 @@ class ApiConfig {
   static String adminBanner(String id) => '$apiPrefix/admin/banners/$id';
   static const String adminPaymentMethods = '$apiPrefix/admin/payment-methods';
   static String adminPaymentMethod(String id) => '$apiPrefix/admin/payment-methods/$id';
+  static const String adminDeliverySettings = '$apiPrefix/admin/delivery-settings';
 
   // Public endpoints (used for admin list/detail views)
   static const String products = '$apiPrefix/products';

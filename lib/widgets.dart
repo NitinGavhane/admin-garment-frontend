@@ -347,13 +347,17 @@ class Tag extends StatelessWidget {
             decoration: BoxDecoration(color: color, shape: BoxShape.circle),
           ),
           const SizedBox(width: 6),
-          Text(
-            text.toUpperCase(),
-            style: AppColors.heading(
-              color: color,
-              size: 9,
-              weight: FontWeight.w800,
-              letterSpacing: 1.3,
+          Flexible(
+            child: Text(
+              text.toUpperCase(),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: AppColors.heading(
+                color: color,
+                size: 9,
+                weight: FontWeight.w800,
+                letterSpacing: 1.3,
+              ),
             ),
           ),
         ],
@@ -582,6 +586,7 @@ class AdminNavPanel extends StatelessWidget {
                   _navItem(Icons.view_carousel, 'Banners', '/banners', context),
                   _navItem(Icons.card_giftcard, 'Coupons', '/coupons', context),
                   _navItem(Icons.account_balance_wallet, 'Payment Methods', '/payment-methods', context),
+                  _navItem(Icons.local_shipping, 'Delivery', '/delivery-settings', context),
                 ],
               ),
             ),

@@ -453,30 +453,44 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                               }),
                             ),
                             const SizedBox(height: 4),
-                            StyledDropdown(
-                              label: 'Gender', value: _gender,
-                              items: [
-                                DropdownMenuItem<String>(value: null, child: Text('None', style: TextStyle(color: AppColors.textMuted))),
-                                ...AdminCategory.genderOptions.map((g) => DropdownMenuItem<String>(
-                                  value: g,
-                                  child: Text(g[0].toUpperCase() + g.substring(1), style: TextStyle(color: AppColors.textPrimary)),
-                                )),
-                              ],
-                              onChanged: (v) => setState(() => _gender = v),
+                            // Gender is inherited from the selected category
+                            // (categories are gendered), so there is nothing to
+                            // pick here — a men category can never hold a "women"
+                            // product. This only shows what will be saved.
+                            Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                              decoration: BoxDecoration(
+                                color: AppColors.bgAlt,
+                                border: Border.all(color: AppColors.border, width: 1),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Row(children: [
+                                Icon(Icons.wc, size: 16, color: AppColors.textMuted),
+                                const SizedBox(width: 10),
+                                Text('Gender (from category)', style: TextStyle(color: AppColors.textMuted, fontSize: 12)),
+                                const Spacer(),
+                                Text(
+                                  (_gender == null || _gender!.isEmpty)
+                                      ? 'Select a category'
+                                      : _gender![0].toUpperCase() + _gender!.substring(1),
+                                  style: TextStyle(color: AppColors.textPrimary, fontSize: 13, fontWeight: FontWeight.w700),
+                                ),
+                              ]),
                             ),
                           ]),
                           const SizedBox(height: 16),
                           FormSection(title: 'Status', children: [
                             Row(children: [
-                              ToggleRow(label: 'Featured', value: _featured, onChanged: (v) => setState(() => _featured = v)),
-                              const SizedBox(width: 32),
-                              ToggleRow(label: 'Active', value: _active, onChanged: (v) => setState(() => _active = v)),
+                              Expanded(child: ToggleRow(label: 'Featured', value: _featured, onChanged: (v) => setState(() => _featured = v))),
+                              const SizedBox(width: 12),
+                              Expanded(child: ToggleRow(label: 'Active', value: _active, onChanged: (v) => setState(() => _active = v))),
                             ]),
                             const SizedBox(height: 12),
                             Row(children: [
-                              ToggleRow(label: 'Replace', value: _replaceable, onChanged: (v) => setState(() => _replaceable = v)),
-                              const SizedBox(width: 32),
-                              ToggleRow(label: 'Return', value: _returnable, onChanged: (v) => setState(() => _returnable = v)),
+                              Expanded(child: ToggleRow(label: 'Replace', value: _replaceable, onChanged: (v) => setState(() => _replaceable = v))),
+                              const SizedBox(width: 12),
+                              Expanded(child: ToggleRow(label: 'Return', value: _returnable, onChanged: (v) => setState(() => _returnable = v))),
                             ]),
                           ]),
                           const SizedBox(height: 16),
