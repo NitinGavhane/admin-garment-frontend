@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 
-const String baseUrl =
-    'https://backend-1u38kak5s-gavhanenitin911gmailcoms-projects.vercel.app/api/v1';
+// The live AWS-hosted API (CloudFront in front of the EC2 backend). Must stay
+// in step with ApiConfig.baseUrl.
+const String baseUrl = 'https://d100c6f2kgsym4.cloudfront.net/api/v1';
 
 Future<void> main(List<String> args) async {
   if (args.length < 2) {

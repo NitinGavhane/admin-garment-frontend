@@ -10,6 +10,7 @@ import '../models/coupon.dart';
 import '../models/banner.dart';
 import '../models/payment_method.dart';
 import '../models/delivery_settings.dart';
+import '../models/referral.dart';
 import 'api_service.dart';
 
 class AdminService {
@@ -91,6 +92,48 @@ class AdminService {
   Future<DeliverySettings> updateDeliverySettings(Map<String, dynamic> data) async {
     final response = await _api.put(ApiConfig.adminDeliverySettings, data: data);
     return DeliverySettings.fromJson(response.data);
+  }
+
+  // Refer & earn: programme settings, the approval queue, and per-referrer totals.
+  Future<ReferralSettings> getReferralSettings() async {
+    final response = await _api.get(ApiConfig.adminReferralSettings);
+    return ReferralSettings.fromJson(response.data);
+  }
+
+  Future<ReferralSettings> updateReferralSettings(Map<String, dynamic> data) async {
+    final response = await _api.put(ApiConfig.adminReferralSettings, data: data);
+    return ReferralSettings.fromJson(response.data);
+  }
+
+  Future<List<ReferralPurchase>> getReferralPurchases({String? status}) async {
+    final response = await _api.get(
+      ApiConfig.adminReferralPurchases,
+      queryParams: status != null ? {'status': status} : null,
+    );
+    return (response.data as List)
+        .map((e) => ReferralPurchase.fromJson(e as Map<String, dynamic>))
+        .toList();
+  }
+
+  /// Approve a commission. Sending [rewardAmount] pays exactly that; otherwise
+  /// the backend works it out from [rewardPercentage] of the purchase.
+  Future<void> approveReferral(String id,
+      {required double rewardPercentage, double? rewardAmount}) async {
+    await _api.put(ApiConfig.adminReferralApprove(id), data: {
+      'reward_percentage': rewardPercentage,
+      if (rewardAmount != null) 'reward_amount': rewardAmount,
+    });
+  }
+
+  Future<void> rejectReferral(String id) async {
+    await _api.put(ApiConfig.adminReferralReject(id));
+  }
+
+  Future<List<ReferralUserReport>> getReferralUserReport() async {
+    final response = await _api.get(ApiConfig.adminReferralUserReport);
+    return (response.data as List)
+        .map((e) => ReferralUserReport.fromJson(e as Map<String, dynamic>))
+        .toList();
   }
 
   Future<void> deleteProduct(String id) async {

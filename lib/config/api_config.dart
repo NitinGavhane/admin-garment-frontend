@@ -19,6 +19,13 @@ class ApiConfig {
   static const String adminPaymentMethods = '$apiPrefix/admin/payment-methods';
   static String adminPaymentMethod(String id) => '$apiPrefix/admin/payment-methods/$id';
   static const String adminDeliverySettings = '$apiPrefix/admin/delivery-settings';
+  static const String adminReferralSettings = '$apiPrefix/admin/referral-settings';
+  static const String adminReferralPurchases = '$apiPrefix/admin/referral-purchases';
+  static String adminReferralApprove(String id) =>
+      '$apiPrefix/admin/referral-purchases/$id/approve';
+  static String adminReferralReject(String id) =>
+      '$apiPrefix/admin/referral-purchases/$id/reject';
+  static const String adminReferralUserReport = '$apiPrefix/admin/referral-reports/user';
 
   // Public endpoints (used for admin list/detail views)
   static const String products = '$apiPrefix/products';

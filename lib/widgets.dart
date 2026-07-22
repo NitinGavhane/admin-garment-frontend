@@ -587,6 +587,7 @@ class AdminNavPanel extends StatelessWidget {
                   _navItem(Icons.card_giftcard, 'Coupons', '/coupons', context),
                   _navItem(Icons.account_balance_wallet, 'Payment Methods', '/payment-methods', context),
                   _navItem(Icons.local_shipping, 'Delivery', '/delivery-settings', context),
+                  _navItem(Icons.share_outlined, 'Referrals', '/referrals', context),
                 ],
               ),
             ),
@@ -1224,6 +1225,8 @@ class StyledInput extends StatelessWidget {
   final String? hint;
   final IconData? icon;
   final String? Function(String?)? validator;
+  /// Lets a caller react as the value is typed (e.g. a live total preview).
+  final void Function(String)? onChanged;
 
   const StyledInput({
     super.key,
@@ -1234,6 +1237,7 @@ class StyledInput extends StatelessWidget {
     this.hint,
     this.icon,
     this.validator,
+    this.onChanged,
   });
 
   @override
@@ -1245,6 +1249,7 @@ class StyledInput extends StatelessWidget {
         maxLines: maxLines ?? 1,
         keyboardType: number ? TextInputType.number : TextInputType.text,
         validator: validator,
+        onChanged: onChanged,
         cursorColor: AppColors.coral,
         style: TextStyle(color: AppColors.textPrimary, fontSize: 13, fontWeight: FontWeight.w600),
         decoration: InputDecoration(
